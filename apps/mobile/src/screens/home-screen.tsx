@@ -3,7 +3,6 @@ import { Card, Chip, Spinner } from "heroui-native";
 import { View } from "react-native";
 import { tv } from "tailwind-variants";
 
-import { BrandHeroIcon } from "@/components/brand-hero-icon/brand-hero-icon";
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { useRefreshOnFocus } from "@/hooks/use-refresh-on-focus";
@@ -30,13 +29,12 @@ export function HomeScreen() {
     <StandardScrollView className="flex-1" contentContainerClassName="items-center gap-10 pb-8 pt-12">
       {/* Branding */}
       <View className="items-center gap-6">
-        <BrandHeroIcon />
         <View className="items-center gap-2">
           <Typography variant="display" align="center">
-            Expo Uniwind{"\n"}Starter
+            Zen Meditation
           </Typography>
           <Typography variant="small" tone="muted" align="center">
-            A production-ready foundation for cross-platform apps.
+            Find stillness, one moment at a time.
           </Typography>
         </View>
       </View>
@@ -72,10 +70,6 @@ export function HomeScreen() {
           )}
         </Card.Body>
       </Card>
-
-      <Typography variant="caption" tone="muted" align="center">
-        Edit apps/mobile/src/screens/home-screen.tsx to customize this screen
-      </Typography>
     </StandardScrollView>
   );
 }

@@ -29,7 +29,7 @@ describe("<TasksScreen />", () => {
       ),
     });
 
-    await findByText("Keep the starter testable");
+    await findByText("Practice mindful breathing");
 
     fireEvent.changeText(getByPlaceholderText("What needs to be done?"), "Write a focused test");
     fireEvent.press(getByText("Add Task"));

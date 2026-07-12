@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "expo-uniwind-starter",
-    "slug": "expo-uniwind-starter",
+    "name": "Zen Meditation",
+    "slug": "zen-meditation",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "expouniwindstarter",
+    "scheme": "zenmeditation",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.arishi.expouniwindstarter"
+      "bundleIdentifier": "com.arishi.zenmeditation"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
       "softwareKeyboardLayoutMode": "resize",
       "predictiveBackGestureEnabled": false,
       "blockedPermissions": ["com.google.android.gms.permission.AD_ID"],
-      "package": "com.arishi.expouniwindstarter"
+      "package": "com.arishi.zenmeditation"
     },
     "web": {
       "output": "single",

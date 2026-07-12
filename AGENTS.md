@@ -37,7 +37,6 @@ pnpm ios                  # Start the iOS app server / simulator
 pnpm android              # Start the Android app server / emulator
 pnpm web                  # Start Expo web
 
-pnpm run rename           # Rename project and bundle IDs
 pnpm run prebuild         # Compile packages and regenerate native projects
 ```
 

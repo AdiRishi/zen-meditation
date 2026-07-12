@@ -6,7 +6,7 @@ import type { Task } from "@/schemas/task";
 export function createTaskMock(overrides: Partial<Task> = {}): Task {
   return {
     id: "task-1",
-    title: "Keep the starter testable",
+    title: "Practice mindful breathing",
     completed: false,
     createdAt: "2026-05-01T00:00:00.000Z",
     ...overrides,

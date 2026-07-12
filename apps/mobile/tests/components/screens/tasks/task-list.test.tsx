@@ -18,7 +18,7 @@ describe("<TaskList />", () => {
       <TaskList
         tasks={[
           createTaskMock({ id: "task-1", title: "Set up tests", completed: false }),
-          createTaskMock({ id: "task-2", title: "Ship starter", completed: true }),
+          createTaskMock({ id: "task-2", title: "Evening meditation", completed: true }),
         ]}
         onToggle={onToggle}
         onDelete={onDelete}
@@ -26,7 +26,7 @@ describe("<TaskList />", () => {
     );
 
     getByText("Set up tests");
-    getByText("Ship starter");
+    getByText("Evening meditation");
 
     fireEvent.press(getByLabelText("Mark Set up tests complete"));
     fireEvent.press(getByLabelText("Delete Set up tests"));

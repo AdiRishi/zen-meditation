@@ -1,17 +1,11 @@
-# Expo Uniwind Starter
+# Zen Meditation
 
-**Ship cross-platform apps with Tailwind CSS v4 styling, ready-made components, and zero config pain.**
+Cross-platform meditation app built with Expo and React Native.
 
 [![Expo SDK](https://img.shields.io/badge/Expo_SDK-57-blue?logo=expo)](https://expo.dev)
 [![Platforms](https://img.shields.io/badge/Platforms-iOS_%7C_Android_%7C_Web-lightgrey?logo=react)](https://reactnative.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Uses pnpm](https://img.shields.io/badge/pnpm-11.x-orange?logo=pnpm)](https://pnpm.io/)
-
-<p align="left">
-  <img src="apps/mobile/assets/readme/ios-home.png" alt="iOS" height="500" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="apps/mobile/assets/readme/android-home.png" alt="Android" height="500" />
-</p>
 
 ## What's included
 
@@ -35,27 +29,19 @@
 
 ## Quick start
 
-**1. Clone the template:**
+**1. Install dependencies:**
 
 ```bash
-npx degit AdiRishi/expo-uniwind-starter acme-mobile
-cd acme-mobile
 pnpm install
 ```
 
-**2. Rename the project** — updates the root `package.json`, the mobile `app.json`, and bundle identifiers:
-
-```bash
-pnpm run rename acme-mobile com.mycompany
-```
-
-**3. Start the API server:**
+**2. Start the API server:**
 
 ```bash
 pnpm run server:dev   # Nitro dev server on localhost:3000
 ```
 
-**4. Build and run** (in a separate terminal):
+**3. Build and run** (in a separate terminal):
 
 ```bash
 pnpm run prebuild     # Regenerate native projects when needed
@@ -139,7 +125,7 @@ packages/
 
 ## Agent validation
 
-This starter includes a Codex harness for validating native changes end-to-end. Agents can launch the app, drive the iOS simulator through the Browser Use plugin, verify the result, run checks, and clean up.
+This repository includes a Codex harness for validating native changes end-to-end. Agents can launch the app, drive the iOS simulator through the Browser Use plugin, verify the result, run checks, and clean up.
 
 https://github.com/user-attachments/assets/0b875e4d-f8d2-4b47-bb69-2270725f9c9e
 
