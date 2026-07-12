@@ -52,11 +52,7 @@ function TimePickerControl({
         display="compact"
         minuteInterval={5}
         mode="time"
-        onChange={(_, date) => {
-          if (date) {
-            onChange(date);
-          }
-        }}
+        onValueChange={(_, date) => onChange(date)}
         style={{ opacity: disabled ? 0.5 : 1, width }}
         testID={testID}
         value={value}
@@ -84,11 +80,10 @@ function TimePickerControl({
           display="default"
           minuteInterval={5}
           mode="time"
-          onChange={(_, date) => {
+          onDismiss={() => setIsAndroidPickerOpen(false)}
+          onValueChange={(_, date) => {
             setIsAndroidPickerOpen(false);
-            if (date) {
-              onChange(date);
-            }
+            onChange(date);
           }}
           testID={testID}
           value={value}

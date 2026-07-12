@@ -33,7 +33,7 @@ describe("<RemindersScreen />", () => {
     fireEvent.press(getByLabelText("Evening, 15 min before"));
     fireEvent(
       getByTestId("reminders.quiet-hours.start"),
-      "onChange",
+      "onValueChange",
       { nativeEvent: { timestamp: 0 } },
       new Date(2026, 0, 1, 22, 30),
     );

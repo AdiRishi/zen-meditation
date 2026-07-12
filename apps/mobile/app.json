@@ -61,7 +61,7 @@
       [
         "expo-notifications",
         {
-          "sounds": ["./assets/sounds/soft-chime.wav", "./assets/sounds/low-bowl.wav", "./assets/sounds/wood-tone.wav"]
+          "sounds": ["./assets/sounds/soft_chime.wav", "./assets/sounds/low_bowl.wav", "./assets/sounds/wood_tone.wav"]
         }
       ],
       "expo-sqlite",

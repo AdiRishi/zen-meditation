@@ -13,9 +13,9 @@ const SESSION_COMPLETION_CHANNEL_PREFIX = "zen-session-completion";
 const MINUTES_PER_DAY = 24 * 60;
 
 const COMPLETION_SOUND_FILENAMES = {
-  "soft-chime": "soft-chime.wav",
-  "low-bowl": "low-bowl.wav",
-  "wood-tone": "wood-tone.wav",
+  "soft-chime": "soft_chime.wav",
+  "low-bowl": "low_bowl.wav",
+  "wood-tone": "wood_tone.wav",
 } as const satisfies Record<CompletionSound, string>;
 
 export type ZenNotificationKind = typeof WEEKLY_REMINDER_KIND | typeof SESSION_COMPLETION_KIND;

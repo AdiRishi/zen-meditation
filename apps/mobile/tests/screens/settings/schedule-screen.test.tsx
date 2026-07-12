@@ -31,7 +31,7 @@ describe("<ScheduleScreen />", () => {
     fireEvent.press(getByLabelText("Increase sessions per day"));
     fireEvent(
       getByTestId("schedule.morning.time"),
-      "onChange",
+      "onValueChange",
       { nativeEvent: { timestamp: 0 } },
       new Date(2026, 0, 1, 8, 15),
     );

@@ -281,7 +281,7 @@ describe("LocalNotifications", () => {
         input: {
           name: "Session completion",
           importance: 5,
-          sound: "low-bowl.wav",
+          sound: "low_bowl.wav",
           enableVibrate: false,
         },
       },
@@ -292,7 +292,7 @@ describe("LocalNotifications", () => {
         content: {
           title: "Zen",
           body: "Your quiet pause is complete.",
-          sound: "low-bowl.wav",
+          sound: "low_bowl.wav",
           data: { zenNotificationKind: "session-completion", sessionId: "session-42" },
         },
         trigger: {

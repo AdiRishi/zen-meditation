@@ -3,9 +3,9 @@ import { useCallback, useEffect, useState } from "react";
 
 import type { CompletionSound } from "@/domain/meditation";
 
-const SOFT_CHIME = require("../../assets/sounds/soft-chime.wav");
-const LOW_BOWL = require("../../assets/sounds/low-bowl.wav");
-const WOOD_TONE = require("../../assets/sounds/wood-tone.wav");
+const SOFT_CHIME = require("../../assets/sounds/soft_chime.wav");
+const LOW_BOWL = require("../../assets/sounds/low_bowl.wav");
+const WOOD_TONE = require("../../assets/sounds/wood_tone.wav");
 
 export function useCompletionSounds() {
   const softChime = useAudioPlayer(SOFT_CHIME);

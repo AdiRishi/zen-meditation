@@ -30,11 +30,9 @@ export function TimePickerSheet({ practiceTime, onChange, onClose }: TimePickerS
             mode="time"
             display="spinner"
             minuteInterval={5}
-            onChange={(_, date) => {
-              if (date) {
-                onChange({ ...practiceTime, hour: date.getHours(), minute: date.getMinutes(), enabled: true });
-              }
-            }}
+            onValueChange={(_, date) =>
+              onChange({ ...practiceTime, hour: date.getHours(), minute: date.getMinutes(), enabled: true })
+            }
           />
         </View>
         <View className="gap-3">
