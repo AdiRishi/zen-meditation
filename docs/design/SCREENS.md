@@ -1,6 +1,6 @@
 # Zen Screen System
 
-> **Draft:** This is a proposed surface inventory derived from the current product documents and prior screen boards. Navigation, scheduling, sound selection, and individual surfaces remain open to review.
+> **Current specification.** The [five screen boards](./screens/README.md) are the canonical visual reference for these surfaces. Copy may tighten during implementation, but the product structure and behaviours below should remain stable.
 
 Zen uses three primary destinations: **Today**, **Progress**, and **Settings**. Meditation runs as a focused flow above that navigation.
 
@@ -34,7 +34,7 @@ Show the next planned practice, a prominent **Begin** action, today’s complete
 
 ### 07 — Session setup
 
-Choose 5, 10, 15, 20, or 30 minutes, with a custom-duration option. Show the selected completion sound as a quiet secondary row.
+Choose 5, 10, 15, 20, or 30 minutes. Show the selected completion sound as a quiet secondary row.
 
 ### 08 — Completion sound
 

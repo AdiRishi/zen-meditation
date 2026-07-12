@@ -1,11 +1,11 @@
 # Screen Designs
 
-These five high-fidelity boards cover the full surface inventory in [`SCREENS.md`](../SCREENS.md):
+These five high-fidelity boards are the canonical visual reference for the surface inventory in [`SCREENS.md`](../SCREENS.md):
 
-- `01-onboarding.png` — splash, welcome, practice goal, schedule, and reminder permission.
-- `02-daily-practice.png` — Today, session setup, and completion-sound selection.
-- `03-meditation-flow.png` — active session, gentle ending, and session complete.
-- `04-progress-and-settings.png` — rhythm, history, schedule, reminders, and settings.
-- `05-component-and-states.png` — controls, cards, navigation, sheets, progress, and system states.
+- [`01-onboarding.png`](./01-onboarding.png) — splash, welcome, practice goal, schedule, and reminder permission.
+- [`02-daily-practice.png`](./02-daily-practice.png) — Today, session setup, and completion-sound selection.
+- [`03-meditation-flow.png`](./03-meditation-flow.png) — active session, gentle ending, and session complete.
+- [`04-progress-and-settings.png`](./04-progress-and-settings.png) — rhythm, history, schedule, reminders, and settings.
+- [`05-component-and-states.png`](./05-component-and-states.png) — controls, cards, navigation, sheets, progress, and system states.
 
-They were generated with ImageGen using the prior Still work as the selected visual source, renamed and reshaped around Zen's product definition. They are review assets rather than implementation screenshots; exact copy and interaction details remain subject to product-owner approval.
+They define visual hierarchy and product intent rather than pixel-perfect runtime screenshots. Preserve their structure, tone, and component language while accounting for native behaviour, accessibility, and device size during implementation.

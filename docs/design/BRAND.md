@@ -1,6 +1,6 @@
 # Zen Brand System
 
-> **Draft:** This document preserves the approved prior-art direction and adds proposed product-handoff details. Those additions require review before implementation.
+> **Current specification.** See the [brand foundation](./brand/01-brand-foundation.png), [visual identity system](./brand/02-visual-identity-system.png), and [motion and sound system](./brand/03-motion-and-sound-system.png) for the canonical visual expression of this system.
 
 ## Foundation
 
@@ -36,14 +36,14 @@ The ensō is the primary symbol. Its open circle represents a practice that is a
 
 ## Colour
 
-| Token | Hex | Role |
-| --- | --- | --- |
-| Mist | `#F5F2EB` | Primary canvas and inverse foreground |
-| Sand | `#E6DFD2` | Elevated surfaces and quiet fills |
+| Token | Hex       | Role                                       |
+| ----- | --------- | ------------------------------------------ |
+| Mist  | `#F5F2EB` | Primary canvas and inverse foreground      |
+| Sand  | `#E6DFD2` | Elevated surfaces and quiet fills          |
 | Stone | `#CFC6B8` | Borders, separators, and inactive controls |
-| Moss | `#7B866E` | Brand accent and positive completion |
-| Slate | `#4B5154` | Secondary text and dark surfaces |
-| Ink | `#1E2326` | Primary text, emphasis, and dark canvas |
+| Moss  | `#7B866E` | Brand accent and positive completion       |
+| Slate | `#4B5154` | Secondary text and dark surfaces           |
+| Ink   | `#1E2326` | Primary text, emphasis, and dark canvas    |
 
 Light mode uses Mist as the canvas, warm white for raised surfaces, Ink for primary text, Slate for secondary text, and Moss for selected or affirmative actions.
 
@@ -61,16 +61,16 @@ Use **Canela** where licensed and **Iowan Old Style** as the platform fallback. 
 
 ### Scale
 
-| Style | Size / line height | Weight | Use |
-| --- | --- | --- | --- |
-| Display | 48 / 52 | Regular serif | Brand and hero moments |
-| H1 | 36 / 42 | Regular serif | Primary screen statement |
-| H2 | 28 / 34 | Regular serif | Section heading |
-| H3 | 20 / 26 | Medium sans | Card and modal heading |
-| Body | 16 / 24 | Regular sans | Primary reading text |
-| Small | 14 / 20 | Regular sans | Supporting content |
-| Label | 12 / 16 | Medium sans | Controls and metadata |
-| Caption | 11 / 15 | Regular sans | Timestamps and tertiary detail |
+| Style   | Size / line height | Weight        | Use                            |
+| ------- | ------------------ | ------------- | ------------------------------ |
+| Display | 48 / 52            | Regular serif | Brand and hero moments         |
+| H1      | 36 / 42            | Regular serif | Primary screen statement       |
+| H2      | 28 / 34            | Regular serif | Section heading                |
+| H3      | 20 / 26            | Medium sans   | Card and modal heading         |
+| Body    | 16 / 24            | Regular sans  | Primary reading text           |
+| Small   | 14 / 20            | Regular sans  | Supporting content             |
+| Label   | 12 / 16            | Medium sans   | Controls and metadata          |
+| Caption | 11 / 15            | Regular sans  | Timestamps and tertiary detail |
 
 Use tabular numerals for timers, durations, streaks, and charts. Avoid bold display typography and dense all-caps copy. Short labels may use modest tracking.
 

@@ -1,28 +1,33 @@
 # Zen Design
 
-> **Status: design-review package.** High-fidelity brand and product boards are ready for product-owner review. The package remains unapproved until that review is complete.
+> **Status: approved design foundation.** These documents and boards are the current source of truth for app implementation.
 
-This directory is the future canonical design handoff for Zen. It translates the product intent in [`VISION.md`](../VISION.md) and [`PRODUCT.md`](../PRODUCT.md) into a visual system and screen set.
+This directory translates the product intent in [`VISION.md`](../VISION.md) and [`PRODUCT.md`](../PRODUCT.md) into Zen’s brand system, product surfaces, and implementation tokens.
 
-## Provenance
+## Source of truth
 
-| Artifact | Source | Current status |
-| --- | --- | --- |
-| `VISION.md` and `PRODUCT.md` | The product direction described by the project owner | Committed product source |
-| `BRAND.md` | Prior brand deck, product documents, and editorial synthesis | Complete proposal; awaiting approval |
-| `SCREENS.md` | Product documents, prior screen boards, and product-design synthesis | Complete surface inventory; awaiting approval |
-| `tokens.json` | Prior deck values translated into machine-readable tokens | Complete handoff proposal; awaiting approval |
-| `assets/zen-enso.png` and `assets/zen-app-icon.png` | Approved production app assets | Existing source assets copied for handoff |
-| `brand/` | ImageGen remakes grounded directly in the selected prior-art boards | Four native 16:9 brand-system boards; awaiting approval |
-| `screens/` | ImageGen outputs based on the selected prior-art direction | Five complete high-fidelity product boards; awaiting approval |
+| Artifact                       | Purpose                                                                                   | Status                     |
+| ------------------------------ | ----------------------------------------------------------------------------------------- | -------------------------- |
+| [`BRAND.md`](./BRAND.md)       | Identity, colour, typography, layout, components, motion, sound, voice, and accessibility | Current specification      |
+| [`SCREENS.md`](./SCREENS.md)   | Product surfaces and interaction intent                                                   | Current specification      |
+| [`tokens.json`](./tokens.json) | Machine-readable brand values                                                             | Current specification      |
+| `assets/`                      | Production ensō and app icon                                                              | Production assets          |
+| `brand/`                       | Brand foundation, visual identity, motion/sound, and product architecture                 | Canonical visual reference |
+| `screens/`                     | Product screens, components, and system states                                            | Canonical visual reference |
+| [`PROMPTS.md`](./PROMPTS.md)   | Historical generation record                                                              | Supporting documentation   |
 
-## Contents
+## Board coverage
 
-- [`BRAND.md`](./BRAND.md) — draft identity, colour, typography, layout, motion, sound, voice, and accessibility specifications.
-- [`SCREENS.md`](./SCREENS.md) — proposed product-surface inventory and interaction intent.
-- `assets/` — production-ready identity and visual assets used by the design system.
-- `brand/` — standalone brand identity, visual system, motion/sound, and product architecture boards.
-- `screens/` — high-fidelity UI boards covering every planned app surface.
-- [`PROMPTS.md`](./PROMPTS.md) — generation prompts, references, and provenance for the visual boards.
+| Design area                                                                 | Board                                                                                          |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Foundation, personality, identity forms, and usage                          | [`brand/01-brand-foundation.png`](./brand/01-brand-foundation.png)                             |
+| Colour, typography, spacing, materials, accessibility, and timer components | [`brand/02-visual-identity-system.png`](./brand/02-visual-identity-system.png)                 |
+| Motion timing, silent sessions, completion sound, and reduced motion        | [`brand/03-motion-and-sound-system.png`](./brand/03-motion-and-sound-system.png)               |
+| Navigation, information architecture, and core experience flows             | [`brand/04-product-architecture-and-flows.png`](./brand/04-product-architecture-and-flows.png) |
+| Splash, welcome, practice goal, schedule, and reminder permission           | [`screens/01-onboarding.png`](./screens/01-onboarding.png)                                     |
+| Today, duration, and completion sound                                       | [`screens/02-daily-practice.png`](./screens/02-daily-practice.png)                             |
+| Active session, gentle ending, and completion                               | [`screens/03-meditation-flow.png`](./screens/03-meditation-flow.png)                           |
+| Progress, history, schedule, reminders, and settings                        | [`screens/04-progress-and-settings.png`](./screens/04-progress-and-settings.png)               |
+| Components, navigation, bottom sheet, and system states                     | [`screens/05-component-and-states.png`](./screens/05-component-and-states.png)                 |
 
-The assets in `previous-design-work/` remain the selected visual references until this package is explicitly approved. They have descriptive filenames so each source board can be identified without opening it. App theming should not be changed and the prior folder should not be removed before approval.
+`previous-design-work/` is historical source material, not a dependency of this package. Keep it until the implemented app has received final visual approval; after that, it can be removed.
