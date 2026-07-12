@@ -33,13 +33,13 @@
     --opacity-disabled: 0.48;
 
     /* Zen typography: Geist for interface text, Newsreader for reflective moments. */
-    --font-sans: Geist_400Regular, ui-sans-serif, system-ui, sans-serif;
-    --font-sans-medium: Geist_500Medium, ui-sans-serif, system-ui, sans-serif;
-    --font-sans-semibold: Geist_600SemiBold, ui-sans-serif, system-ui, sans-serif;
-    --font-display: Newsreader_400Regular, ui-serif, Georgia, serif;
-    --font-serif: Newsreader_400Regular, ui-serif, Georgia, serif;
-    --font-serif-medium: Newsreader_500Medium, ui-serif, Georgia, serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    --font-sans: Geist_400Regular;
+    --font-sans-medium: Geist_500Medium;
+    --font-sans-semibold: Geist_600SemiBold;
+    --font-display: Newsreader_400Regular;
+    --font-serif: Newsreader_400Regular;
+    --font-serif-medium: Newsreader_500Medium;
+    --font-mono: Menlo;
 }
 
 @layer theme {

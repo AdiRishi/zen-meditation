@@ -50,7 +50,7 @@ export function ProgressScreen() {
           onAction={() => void refresh()}
         />
       ) : (
-        <View className="gap-7">
+        <View className="gap-12">
           <PracticeRhythm buckets={summary.buckets} mode={mode} />
           <ProgressStats sessions={summary.sessions} minutes={summary.minutes} dayRhythm={summary.dayRhythm} />
           {summary.sessions > 0 ? (

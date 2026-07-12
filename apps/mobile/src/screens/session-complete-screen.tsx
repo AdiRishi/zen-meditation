@@ -70,8 +70,8 @@ export function SessionCompleteScreen() {
   };
 
   return (
-    <StandardScrollView contentContainerClassName="min-h-full justify-between gap-8 pb-6 pt-14">
-      <View className="items-center gap-6">
+    <StandardScrollView contentContainerClassName="grow justify-between gap-8 pb-6 pt-14">
+      <View className="items-center gap-14">
         <View className="size-14 items-center justify-center rounded-full border-2 border-accent">
           <ZenIcon name="check" size={25} tintColor={colors.accent} />
         </View>

@@ -9,7 +9,7 @@ import type { ProgressBucket, ProgressMode } from "@/domain/progress";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
 const DEFAULT_PLOT_WIDTH = 276;
-const PLOT_HEIGHT = 164;
+const PLOT_HEIGHT = 212;
 const PLOT_PADDING = 7;
 
 function chartScaleMax(buckets: ProgressBucket[]) {

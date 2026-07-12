@@ -23,7 +23,7 @@ export function WelcomeScreen() {
 
   return (
     <StandardScrollView contentContainerClassName="min-h-full justify-between gap-8 pb-6 pt-10">
-      <Animated.View entering={reducedMotion ? undefined : FadeIn.duration(450)} className="gap-3 pt-8">
+      <Animated.View entering={reducedMotion ? undefined : FadeIn.duration(450)} className="gap-3 pt-24">
         <Typography accessibilityRole="header" variant="h1">
           Welcome.
         </Typography>
@@ -32,9 +32,9 @@ export function WelcomeScreen() {
         </Typography>
       </Animated.View>
 
-      <LandscapeArtwork height={360} className="-mx-6" />
+      <LandscapeArtwork height={384} className="-mx-6" />
 
-      <View className="gap-7">
+      <View className="-mt-12 -translate-y-8 gap-12">
         <View className="flex-row justify-center gap-2" accessibilityLabel="Onboarding step 1 of 4">
           <View className="size-2 rounded-full bg-accent" />
           <View className="size-2 rounded-full bg-stone" />

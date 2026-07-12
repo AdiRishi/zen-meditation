@@ -59,13 +59,15 @@ export function TodayScreen() {
         Today
       </Typography>
       <Typography variant="h1">A quiet rhythm{"\n"}carries you home.</Typography>
-      <LandscapeArtwork height={235} className="-mx-6" />
+      <LandscapeArtwork height={180} className="-mx-6" />
 
       {nextPractice ? (
         <GroupedList>
           <PracticeTimeRow
             time={nextPractice.practiceTime}
+            detail={`${preferences.lastDurationMinutes} min`}
             value={formatScheduledPractice(nextPractice.scheduledAtMs, nowMs)}
+            prominent
             onPress={() => router.push("/session-setup")}
           />
         </GroupedList>
@@ -80,7 +82,7 @@ export function TodayScreen() {
           <Typography variant="small" tone="muted" tabularNums>
             {todaySessions.length === 0
               ? "No sessions yet today"
-              : preferences.sessionsPerDay > 1
+              : preferences.sessionsPerDay > 1 && todaySessions.length <= preferences.sessionsPerDay
                 ? `${todaySessions.length} of ${preferences.sessionsPerDay} sessions today`
                 : `${todaySessions.length} ${todaySessions.length === 1 ? "session" : "sessions"} today`}
           </Typography>

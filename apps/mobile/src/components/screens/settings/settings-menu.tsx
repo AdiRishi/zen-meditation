@@ -18,6 +18,7 @@ export function SettingsMenu({ onNavigate }: { onNavigate: (href: (typeof SETTIN
         <ZenListRow
           key={item.label}
           accessibilityHint={`Opens ${item.label.toLowerCase()} settings`}
+          className="min-h-20"
           icon={item.icon}
           label={item.label}
           onPress={() => onNavigate(item.href)}

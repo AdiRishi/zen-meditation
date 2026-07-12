@@ -12,7 +12,7 @@ export function ZenPrimaryButton({ children, className, ...props }: ZenButtonPro
       variant="primary"
       feedbackVariant="scale-highlight"
       size="lg"
-      className={`min-h-14 w-full rounded-xl py-3 ${className ?? ""}`}
+      className={`min-h-14 w-full rounded-md py-3 ${className ?? ""}`}
       accessibilityRole="button"
       {...props}
     >
@@ -27,7 +27,7 @@ export function ZenSecondaryButton({ children, className, ...props }: ZenButtonP
       variant="outline"
       feedbackVariant="scale-highlight"
       size="lg"
-      className={`min-h-14 w-full rounded-xl border-border py-3 ${className ?? ""}`}
+      className={`min-h-14 w-full rounded-md border-border py-3 ${className ?? ""}`}
       accessibilityRole="button"
       {...props}
     >

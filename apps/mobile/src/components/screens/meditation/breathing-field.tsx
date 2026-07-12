@@ -49,7 +49,11 @@ export function BreathingField({ reducedMotion, ending }: BreathingFieldProps) {
   }));
 
   return (
-    <Animated.View style={animatedStyle} accessibilityElementsHidden>
+    <Animated.View
+      className="size-[330px] items-center justify-center overflow-hidden"
+      style={animatedStyle}
+      accessibilityElementsHidden
+    >
       <Image
         source={
           theme === "dark"
@@ -57,7 +61,7 @@ export function BreathingField({ reducedMotion, ending }: BreathingFieldProps) {
             : require("../../../../assets/images/zen-breathing-field.png")
         }
         contentFit="contain"
-        style={{ height: 330, width: 330 }}
+        style={{ height: 350, width: 350 }}
       />
     </Animated.View>
   );
