@@ -1,9 +1,3 @@
-import { Geist_400Regular } from "@expo-google-fonts/geist/400Regular";
-import { Geist_500Medium } from "@expo-google-fonts/geist/500Medium";
-import { Geist_600SemiBold } from "@expo-google-fonts/geist/600SemiBold";
-import { Newsreader_400Regular } from "@expo-google-fonts/newsreader/400Regular";
-import { Newsreader_500Medium } from "@expo-google-fonts/newsreader/500Medium";
-import { useFonts } from "expo-font";
 import type { ErrorBoundaryProps } from "expo-router";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -13,6 +7,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { AppProviders } from "@/components/app-providers";
+import { AppThemeProvider } from "@/components/app-theme-provider";
 import "@/global.css";
 import { useMeditation } from "@/providers/meditation-provider";
 import { GenericErrorScreen } from "@/screens/error/generic-error-screen";
@@ -30,12 +25,14 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <HeroUINativeProvider>
-          <GenericErrorScreen
-            title="Something went wrong"
-            message="Zen ran into an unexpected issue. Your practice data remains on this device."
-            errorDetails={{ status: error.message }}
-            onRetry={retry}
-          />
+          <AppThemeProvider>
+            <GenericErrorScreen
+              title="Something went wrong"
+              message="Zen ran into an unexpected issue. Your practice data remains on this device."
+              errorDetails={{ status: error.message }}
+              onRetry={retry}
+            />
+          </AppThemeProvider>
         </HeroUINativeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
@@ -60,18 +57,6 @@ function RootNavigator() {
 }
 
 export default function RootLayout() {
-  const [fontsLoaded, fontError] = useFonts({
-    Geist_400Regular,
-    Geist_500Medium,
-    Geist_600SemiBold,
-    Newsreader_400Regular,
-    Newsreader_500Medium,
-  });
-
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AppProviders>

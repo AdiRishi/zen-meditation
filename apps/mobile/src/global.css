@@ -33,12 +33,9 @@
     --opacity-disabled: 0.48;
 
     /* Zen typography: Geist for interface text, Newsreader for reflective moments. */
-    --font-sans: Geist_400Regular;
-    --font-sans-medium: Geist_500Medium;
-    --font-sans-semibold: Geist_600SemiBold;
-    --font-display: Newsreader_400Regular;
-    --font-serif: Newsreader_400Regular;
-    --font-serif-medium: Newsreader_500Medium;
+    --font-sans: "Geist";
+    --font-display: "Newsreader";
+    --font-serif: "Newsreader";
     --font-mono: Menlo;
 }
 

@@ -8,6 +8,7 @@ import { SQLiteMeditationProvider } from "@/providers/meditation-provider";
 import { LocalDataErrorScreen } from "@/screens/error/local-data-error-screen";
 import { localNotifications } from "@/services/local-notifications";
 
+import { AppThemeProvider } from "./app-theme-provider";
 import { NotificationResponseNavigator } from "./notification-response-navigator";
 
 const heroUINativeConfig: HeroUINativeConfig = {
@@ -58,7 +59,9 @@ export function AppProviders({ children }: AppProvidersProps) {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <HeroUINativeProvider config={heroUINativeConfig}>
-        <LocalDataProvider>{runtime}</LocalDataProvider>
+        <AppThemeProvider>
+          <LocalDataProvider>{runtime}</LocalDataProvider>
+        </AppThemeProvider>
       </HeroUINativeProvider>
     </SafeAreaProvider>
   );

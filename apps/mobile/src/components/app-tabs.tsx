@@ -10,9 +10,10 @@ export function AppTabs() {
       backgroundColor={colors.surface}
       indicatorColor={colors.accentSoft}
       tintColor={colors.accent}
+      labelVisibilityMode="labeled"
       labelStyle={{
         default: { color: colors.muted },
-        selected: { color: colors.foreground },
+        selected: { color: colors.accent },
       }}
     >
       <NativeTabs.Trigger name="today">
