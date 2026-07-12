@@ -1,72 +1,58 @@
-import { QueryClient, QueryClientProvider, focusManager, onlineManager } from "@tanstack/react-query";
-import { createTRPCClient, httpBatchLink } from "@trpc/client";
-import * as Network from "expo-network";
+import { deleteDatabaseAsync, SQLiteProvider } from "expo-sqlite";
 import { HeroUINativeConfig, HeroUINativeProvider } from "heroui-native";
-import { useEffect, useState } from "react";
-import { AppState, Platform } from "react-native";
-import type { AppStateStatus } from "react-native";
+import { useState } from "react";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
 
-import type { AppRouter } from "@repo/api";
-import { superjsonTransformer } from "@repo/rpc";
+import { initializeDatabase } from "@/data/database";
+import type { MeditationStore } from "@/data/meditation-store";
+import { MeditationProvider, SQLiteMeditationProvider } from "@/providers/meditation-provider";
+import { LocalDataErrorScreen } from "@/screens/error/local-data-error-screen";
 
-import { ENV } from "@/lib/env";
-import { TRPCProvider } from "@/lib/trpc";
-
-// ── HeroUI Native ────────────────────────────────────────────────
 const heroUINativeConfig: HeroUINativeConfig = {
   devInfo: { stylingPrinciples: false },
 };
 
-// ── TanStack Query ------------------------------------------------
-export const queryClient = new QueryClient();
+type AppProvidersProps = {
+  children: React.ReactNode;
+  meditationStore?: MeditationStore;
+};
 
-onlineManager.setEventListener((setOnline) => {
-  const eventSubscription = Network.addNetworkStateListener((state) => {
-    setOnline(!!state.isConnected);
-  });
-  return () => eventSubscription.remove();
-});
+function LocalDataProvider({ children }: { children: React.ReactNode }) {
+  const [databaseError, setDatabaseError] = useState<Error | null>(null);
+  const [databaseKey, setDatabaseKey] = useState(0);
 
-function onAppStateChange(status: AppStateStatus) {
-  if (Platform.OS !== "web") {
-    focusManager.setFocused(status === "active");
+  const retry = () => {
+    setDatabaseError(null);
+    setDatabaseKey((value) => value + 1);
+  };
+
+  const reset = () => {
+    void deleteDatabaseAsync("zen.db").then(retry).catch(setDatabaseError);
+  };
+
+  if (databaseError) {
+    return <LocalDataErrorScreen onRetry={retry} onReset={reset} />;
   }
+
+  return (
+    <SQLiteProvider key={databaseKey} databaseName="zen.db" onError={setDatabaseError} onInit={initializeDatabase}>
+      <SQLiteMeditationProvider>{children}</SQLiteMeditationProvider>
+    </SQLiteProvider>
+  );
 }
 
-function subscribeToAppStateFocus() {
-  const subscription = AppState.addEventListener("change", onAppStateChange);
-
-  return () => subscription.remove();
-}
-
-// --- Providers Setup -----------------------------------------------
-
-export function AppProviders({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    return subscribeToAppStateFocus();
-  }, []);
-
-  const [trpcClient] = useState(() =>
-    createTRPCClient<AppRouter>({
-      links: [
-        httpBatchLink({
-          url: `${ENV.API_URL}/api/trpc`,
-          transformer: superjsonTransformer,
-        }),
-      ],
-    }),
+export function AppProviders({ children, meditationStore }: AppProvidersProps) {
+  const content = meditationStore ? (
+    <MeditationProvider store={meditationStore}>{children}</MeditationProvider>
+  ) : (
+    <LocalDataProvider>{children}</LocalDataProvider>
   );
 
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <KeyboardProvider>
-        <QueryClientProvider client={queryClient}>
-          <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-            <HeroUINativeProvider config={heroUINativeConfig}>{children}</HeroUINativeProvider>
-          </TRPCProvider>
-        </QueryClientProvider>
+        <HeroUINativeProvider config={heroUINativeConfig}>{content}</HeroUINativeProvider>
       </KeyboardProvider>
     </SafeAreaProvider>
   );

@@ -1,0 +1,38 @@
+import type { CompletedSession } from "@/domain/meditation";
+import { buildProgressSummary } from "@/domain/progress";
+
+function buildSession(day: number, durationMinutes: number): CompletedSession {
+  const completedAtMs = new Date(2026, 6, day, 7, 0).getTime();
+  return {
+    id: `session-${day}`,
+    startedAtMs: completedAtMs - durationMinutes * 60_000,
+    completedAtMs,
+    localDate: `2026-07-${String(day).padStart(2, "0")}`,
+    timezoneOffsetMinutes: new Date(completedAtMs).getTimezoneOffset(),
+    durationMs: durationMinutes * 60_000,
+    completionSound: "soft-chime",
+    feeling: null,
+    acknowledgedAtMs: completedAtMs,
+  };
+}
+
+describe("progress summary", () => {
+  it("derives weekly totals and rhythm from independently known completed practices", () => {
+    const sessions = [buildSession(6, 5), buildSession(7, 10), buildSession(8, 15), buildSession(9, 20)];
+    const nowMs = new Date(2026, 6, 10, 6, 0).getTime();
+
+    const summary = buildProgressSummary(sessions, [1, 2, 3, 4, 5], nowMs, "week");
+
+    expect(summary).toMatchObject({ sessions: 4, minutes: 50, dayRhythm: 4 });
+    expect(summary.buckets.map((bucket) => bucket.minutes)).toEqual([5, 10, 15, 20, 0, 0, 0]);
+  });
+
+  it("keeps non-practice days neutral when calculating the current rhythm", () => {
+    const sessions = [buildSession(9, 10), buildSession(10, 10)];
+    const nowMs = new Date(2026, 6, 13, 8, 0).getTime();
+
+    const summary = buildProgressSummary(sessions, [1, 2, 3, 4, 5], nowMs, "week");
+
+    expect(summary.dayRhythm).toBe(2);
+  });
+});
