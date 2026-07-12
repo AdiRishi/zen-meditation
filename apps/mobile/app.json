@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Zen Meditation",
+    "name": "Zen",
     "slug": "zen-meditation",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#F5F2EB",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
@@ -32,10 +32,12 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
-          "android": {
-            "image": "./assets/images/splash-icon.png",
-            "imageWidth": 76
+          "backgroundColor": "#F5F2EB",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 104,
+          "dark": {
+            "backgroundColor": "#1E2326",
+            "image": "./assets/images/splash-icon-dark.png"
           }
         }
       ],
