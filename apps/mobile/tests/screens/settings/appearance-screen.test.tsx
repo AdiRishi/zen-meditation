@@ -1,8 +1,7 @@
 import { fireEvent, waitFor } from "@testing-library/react-native";
+import { renderMeditationScreen } from "@tests/testing-utils/render-meditation-screen";
 
 import { AppearanceScreen } from "@/screens/appearance-screen";
-
-import { renderMeditationScreen } from "./test-utils";
 
 jest.mock("expo-router", () => ({
   useRouter: () => ({ back: jest.fn() }),

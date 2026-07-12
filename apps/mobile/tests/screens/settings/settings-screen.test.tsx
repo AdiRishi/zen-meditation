@@ -1,8 +1,7 @@
 import { fireEvent } from "@testing-library/react-native";
+import { renderWithSafeArea } from "@tests/testing-utils/render-meditation-screen";
 
 import { SettingsScreen } from "@/screens/settings-screen";
-
-import { renderWithSafeArea } from "./test-utils";
 
 const mockPush = jest.fn();
 

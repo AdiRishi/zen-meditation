@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 import { fireEvent, waitFor } from "@testing-library/react-native";
+import { InMemoryMeditationStore } from "@tests/testing-utils/in-memory-meditation-store";
+import { createNotifications, renderMeditationScreen } from "@tests/testing-utils/render-meditation-screen";
 
-import { InMemoryMeditationStore } from "@/data/in-memory-meditation-store";
 import { DEFAULT_PREFERENCES } from "@/domain/meditation";
 import { RemindersScreen } from "@/screens/reminders-screen";
-
-import { createNotifications, renderMeditationScreen } from "./test-utils";
 
 jest.mock("expo-router", () => ({
   useRouter: () => ({ back: jest.fn() }),

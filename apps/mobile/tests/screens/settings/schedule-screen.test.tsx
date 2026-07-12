@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 import { fireEvent, waitFor } from "@testing-library/react-native";
+import { createNotifications, renderMeditationScreen } from "@tests/testing-utils/render-meditation-screen";
 
 import { ScheduleScreen } from "@/screens/schedule-screen";
-
-import { createNotifications, renderMeditationScreen } from "./test-utils";
 
 jest.mock("expo-router", () => ({
   useRouter: () => ({ back: jest.fn() }),

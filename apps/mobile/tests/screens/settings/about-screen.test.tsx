@@ -1,6 +1,6 @@
-import { AboutScreen } from "@/screens/about-screen";
+import { renderWithSafeArea } from "@tests/testing-utils/render-meditation-screen";
 
-import { renderWithSafeArea } from "./test-utils";
+import { AboutScreen } from "@/screens/about-screen";
 
 jest.mock("expo-router", () => ({
   useRouter: () => ({ back: jest.fn() }),

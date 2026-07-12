@@ -1,8 +1,8 @@
 import { render } from "@testing-library/react-native";
+import { InMemoryMeditationStore } from "@tests/testing-utils/in-memory-meditation-store";
 import type { ReactElement } from "react";
 import { type Metrics, SafeAreaProvider } from "react-native-safe-area-context";
 
-import { InMemoryMeditationStore } from "@/data/in-memory-meditation-store";
 import type { MeditationStore } from "@/data/meditation-store";
 import { MeditationProvider } from "@/providers/meditation-provider";
 import type {

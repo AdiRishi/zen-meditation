@@ -1,10 +1,8 @@
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
-import type { ReactNode } from "react";
-import { SafeAreaProvider, type Metrics } from "react-native-safe-area-context";
+import { fireEvent, waitFor } from "@testing-library/react-native";
+import { InMemoryMeditationStore } from "@tests/testing-utils/in-memory-meditation-store";
+import { renderMeditationScreen } from "@tests/testing-utils/render-meditation-screen";
 
-import { InMemoryMeditationStore } from "@/data/in-memory-meditation-store";
 import type { CompletedSession } from "@/domain/meditation";
-import { MeditationProvider } from "@/providers/meditation-provider";
 import { PracticeHistoryScreen } from "@/screens/practice-history-screen";
 
 const mockBack = jest.fn();
@@ -16,19 +14,6 @@ jest.mock("expo-router", () => ({
 }));
 
 jest.mock("@/services/local-notifications", () => ({ localNotifications: undefined }));
-
-const SAFE_AREA_METRICS: Metrics = {
-  frame: { x: 0, y: 0, width: 390, height: 844 },
-  insets: { top: 47, right: 0, bottom: 34, left: 0 },
-};
-
-function TestProviders({ children, store }: { children: ReactNode; store: InMemoryMeditationStore }) {
-  return (
-    <SafeAreaProvider initialMetrics={SAFE_AREA_METRICS}>
-      <MeditationProvider store={store}>{children}</MeditationProvider>
-    </SafeAreaProvider>
-  );
-}
 
 function createCompletedSession({
   day,
@@ -78,11 +63,9 @@ describe("<PracticeHistoryScreen />", () => {
         createCompletedSession({ id: "today", day: 15, durationMinutes: 15 }),
       ],
     });
-    const { getAllByLabelText, getByLabelText, getByText } = render(
-      <TestProviders store={store}>
-        <PracticeHistoryScreen />
-      </TestProviders>,
-    );
+    const { getAllByLabelText, getByLabelText, getByText } = renderMeditationScreen(<PracticeHistoryScreen />, {
+      store,
+    });
 
     await waitFor(() => {
       expect(getByText("July 2026")).toBeOnTheScreen();
@@ -126,11 +109,7 @@ describe("<PracticeHistoryScreen />", () => {
       acknowledgedAtMs: completedAtMs,
     };
     const store = new InMemoryMeditationStore({ completedSessions: [overnightSession] });
-    const { getByLabelText } = render(
-      <TestProviders store={store}>
-        <PracticeHistoryScreen />
-      </TestProviders>,
-    );
+    const { getByLabelText } = renderMeditationScreen(<PracticeHistoryScreen />, { store });
 
     await waitFor(() => {
       expect(getByLabelText("Morning session, Today, 12:10 AM, 15 minutes")).toBeOnTheScreen();
@@ -141,11 +120,7 @@ describe("<PracticeHistoryScreen />", () => {
     const store = new InMemoryMeditationStore({
       completedSessions: [createCompletedSession({ id: "july", day: 15, durationMinutes: 15 })],
     });
-    const { getByRole, getByText } = render(
-      <TestProviders store={store}>
-        <PracticeHistoryScreen />
-      </TestProviders>,
-    );
+    const { getByRole, getByText } = renderMeditationScreen(<PracticeHistoryScreen />, { store });
 
     await waitFor(() => {
       expect(getByText("July 2026")).toBeOnTheScreen();

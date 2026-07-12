@@ -1,11 +1,10 @@
 import { act, fireEvent, waitFor } from "@testing-library/react-native";
+import { InMemoryMeditationStore } from "@tests/testing-utils/in-memory-meditation-store";
+import { createNotifications, renderMeditationScreen } from "@tests/testing-utils/render-meditation-screen";
 import { Alert } from "react-native";
 
-import { InMemoryMeditationStore } from "@/data/in-memory-meditation-store";
 import { DEFAULT_PREFERENCES } from "@/domain/meditation";
 import { PrivacyScreen } from "@/screens/privacy-screen";
-
-import { createNotifications, renderMeditationScreen } from "./test-utils";
 
 const mockReplace = jest.fn();
 

@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
-import { SafeAreaProvider, type Metrics } from "react-native-safe-area-context";
+import { fireEvent, waitFor } from "@testing-library/react-native";
+import { InMemoryMeditationStore } from "@tests/testing-utils/in-memory-meditation-store";
+import { renderMeditationScreen } from "@tests/testing-utils/render-meditation-screen";
 
-import { InMemoryMeditationStore } from "@/data/in-memory-meditation-store";
 import type { CompletedSession } from "@/domain/meditation";
-import { MeditationProvider } from "@/providers/meditation-provider";
 import { ProgressScreen } from "@/screens/progress-screen";
 
 const mockPush = jest.fn();
@@ -48,11 +47,6 @@ jest.mock("@react-native-segmented-control/segmented-control", () => ({
   },
 }));
 
-const SAFE_AREA_METRICS: Metrics = {
-  frame: { x: 0, y: 0, width: 390, height: 844 },
-  insets: { top: 47, right: 0, bottom: 34, left: 0 },
-};
-
 function createCompletedSession(
   id: string,
   year: number,
@@ -77,13 +71,7 @@ function createCompletedSession(
 
 function renderProgress(sessions: CompletedSession[]) {
   const store = new InMemoryMeditationStore({ completedSessions: sessions });
-  return render(
-    <SafeAreaProvider initialMetrics={SAFE_AREA_METRICS}>
-      <MeditationProvider store={store}>
-        <ProgressScreen />
-      </MeditationProvider>
-    </SafeAreaProvider>,
-  );
+  return renderMeditationScreen(<ProgressScreen />, { store });
 }
 
 describe("<ProgressScreen />", () => {

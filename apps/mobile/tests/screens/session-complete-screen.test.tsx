@@ -1,7 +1,7 @@
 import { fireEvent, waitFor } from "@testing-library/react-native";
-import { renderMeditationScreen } from "@tests/screens/settings/test-utils";
+import { InMemoryMeditationStore } from "@tests/testing-utils/in-memory-meditation-store";
+import { renderMeditationScreen } from "@tests/testing-utils/render-meditation-screen";
 
-import { InMemoryMeditationStore } from "@/data/in-memory-meditation-store";
 import type { CompletedSession } from "@/domain/meditation";
 import { SessionCompleteScreen } from "@/screens/session-complete-screen";
 

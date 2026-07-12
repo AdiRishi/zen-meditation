@@ -1,3 +1,4 @@
+import type { MeditationStore, StartSessionInput } from "@/data/meditation-store";
 import {
   DEFAULT_PREFERENCES,
   activeSessionSchema,
@@ -15,8 +16,6 @@ import {
   projectSession,
   resumeSession,
 } from "@/domain/session-timer";
-
-import type { MeditationStore, StartSessionInput } from "./meditation-store";
 
 type InMemoryMeditationStoreState = {
   preferences?: AppPreferences;

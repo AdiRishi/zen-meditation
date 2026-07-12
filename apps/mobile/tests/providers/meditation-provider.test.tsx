@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react-native";
+import { InMemoryMeditationStore } from "@tests/testing-utils/in-memory-meditation-store";
 import type { ReactNode } from "react";
 
-import { InMemoryMeditationStore } from "@/data/in-memory-meditation-store";
 import { DEFAULT_PREFERENCES, type ActiveSession } from "@/domain/meditation";
 import { MeditationProvider, useMeditation, type Clock } from "@/providers/meditation-provider";
 import type { LocalNotifications } from "@/services/local-notifications";

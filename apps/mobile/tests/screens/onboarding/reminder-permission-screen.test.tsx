@@ -1,5 +1,5 @@
 import { fireEvent, waitFor } from "@testing-library/react-native";
-import { createNotifications, renderMeditationScreen } from "@tests/screens/settings/test-utils";
+import { createNotifications, renderMeditationScreen } from "@tests/testing-utils/render-meditation-screen";
 
 import { ReminderPermissionScreen } from "@/screens/onboarding/reminder-permission-screen";
 

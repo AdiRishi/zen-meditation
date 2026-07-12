@@ -1,5 +1,5 @@
 import { fireEvent, waitFor } from "@testing-library/react-native";
-import { renderWithSafeArea } from "@tests/screens/settings/test-utils";
+import { renderWithSafeArea } from "@tests/testing-utils/render-meditation-screen";
 
 import { AndroidTimePickerControl } from "@/components/screens/onboarding/android-time-picker-control";
 import type { PracticeTime } from "@/domain/meditation";
