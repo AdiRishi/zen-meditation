@@ -11,10 +11,9 @@ This directory translates the product intent in [`VISION.md`](../VISION.md) and 
 | [`BRAND.md`](./BRAND.md)       | Identity, colour, typography, layout, components, motion, sound, voice, and accessibility | Current specification      |
 | [`SCREENS.md`](./SCREENS.md)   | Product surfaces and interaction intent                                                   | Current specification      |
 | [`tokens.json`](./tokens.json) | Machine-readable brand values                                                             | Current specification      |
-| `assets/`                      | Production ensō and app icon                                                              | Production assets          |
+| `assets/`                      | Transparent ensō master, light/dark presentations, and app icon                           | Production assets          |
 | `brand/`                       | Brand foundation, visual identity, motion/sound, and product architecture                 | Canonical visual reference |
 | `screens/`                     | Product screens, components, and system states                                            | Canonical visual reference |
-| [`PROMPTS.md`](./PROMPTS.md)   | Historical generation record                                                              | Supporting documentation   |
 
 ## Board coverage
 

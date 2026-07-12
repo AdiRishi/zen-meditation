@@ -1,6 +1,6 @@
 # Zen Brand System
 
-> **Current specification.** See the [brand foundation](./brand/01-brand-foundation.png), [visual identity system](./brand/02-visual-identity-system.png), and [motion and sound system](./brand/03-motion-and-sound-system.png) for the canonical visual expression of this system.
+> **Current specification.** See the [brand foundation](./brand/01-brand-foundation.png), [visual identity system](./brand/02-visual-identity-system.png), and [motion and sound system](./brand/03-motion-and-sound-system.png) for the canonical visual expression of this system. The written typography specification and `tokens.json` supersede the legacy family labels printed on the visual-identity board.
 
 ## Foundation
 
@@ -51,26 +51,32 @@ Dark mode uses Ink as the canvas, Slate-derived surfaces, Mist for primary text,
 
 ## Typography
 
-### Primary sans
+Zen pairs **Geist** with **Newsreader**. Both families are available through Google Fonts under the SIL Open Font License 1.1 and may be bundled in the product without a commercial font licence.
 
-Use **Söhne** where licensed and **Inter** as the product fallback. Use it for body copy, labels, controls, navigation, and data.
+### Primary sans — Geist
 
-### Serif accent
+Use Geist for body copy, labels, controls, navigation, and data. Its restrained neo-grotesque construction keeps the interface clear and contemporary without making it feel technological or demanding.
 
-Use **Canela** where licensed and **Iowan Old Style** as the platform fallback. Use it sparingly for emotional headlines, session time, and reflective moments.
+Use Regular for reading text, Medium for controls and labels, and Semibold only where hierarchy cannot be achieved through size, spacing, or colour.
+
+### Serif accent — Newsreader
+
+Use Newsreader sparingly for emotional headlines, session time, and reflective moments. Its screen-first editorial character adds warmth without becoming ornamental or precious.
+
+Use Regular for display text and Medium only when a smaller serif title needs additional presence.
 
 ### Scale
 
-| Style   | Size / line height | Weight        | Use                            |
-| ------- | ------------------ | ------------- | ------------------------------ |
-| Display | 48 / 52            | Regular serif | Brand and hero moments         |
-| H1      | 36 / 42            | Regular serif | Primary screen statement       |
-| H2      | 28 / 34            | Regular serif | Section heading                |
-| H3      | 20 / 26            | Medium sans   | Card and modal heading         |
-| Body    | 16 / 24            | Regular sans  | Primary reading text           |
-| Small   | 14 / 20            | Regular sans  | Supporting content             |
-| Label   | 12 / 16            | Medium sans   | Controls and metadata          |
-| Caption | 11 / 15            | Regular sans  | Timestamps and tertiary detail |
+| Style   | Size / line height | Face               | Use                            |
+| ------- | ------------------ | ------------------ | ------------------------------ |
+| Display | 48 / 52            | Newsreader Regular | Brand and hero moments         |
+| H1      | 36 / 42            | Newsreader Regular | Primary screen statement       |
+| H2      | 28 / 34            | Newsreader Regular | Section heading                |
+| H3      | 20 / 26            | Geist Medium       | Card and modal heading         |
+| Body    | 16 / 24            | Geist Regular      | Primary reading text           |
+| Small   | 14 / 20            | Geist Regular      | Supporting content             |
+| Label   | 12 / 16            | Geist Medium       | Controls and metadata          |
+| Caption | 11 / 15            | Geist Regular      | Timestamps and tertiary detail |
 
 Use tabular numerals for timers, durations, streaks, and charts. Avoid bold display typography and dense all-caps copy. Short labels may use modest tracking.
 

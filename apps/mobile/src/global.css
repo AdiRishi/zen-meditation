@@ -31,10 +31,13 @@
     --radius-full: 999px;
     --opacity-disabled: 0.48;
 
-    /* Licensed faces can be supplied later without changing component styles. */
-    --font-sans: Söhne, Inter, ui-sans-serif, system-ui, sans-serif;
-    --font-display: Canela, "Iowan Old Style", Georgia, serif;
-    --font-serif: Canela, "Iowan Old Style", Georgia, serif;
+    /* Zen typography: Geist for interface text, Newsreader for reflective moments. */
+    --font-sans: Geist_400Regular, ui-sans-serif, system-ui, sans-serif;
+    --font-sans-medium: Geist_500Medium, ui-sans-serif, system-ui, sans-serif;
+    --font-sans-semibold: Geist_600SemiBold, ui-sans-serif, system-ui, sans-serif;
+    --font-display: Newsreader_400Regular, ui-serif, Georgia, serif;
+    --font-serif: Newsreader_400Regular, ui-serif, Georgia, serif;
+    --font-serif-medium: Newsreader_500Medium, ui-serif, Georgia, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
