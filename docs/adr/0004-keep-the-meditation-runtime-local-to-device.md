@@ -1,0 +1,3 @@
+# Keep The Meditation Runtime Local To The Device
+
+Zen is a private, single-user meditation companion whose core flows must work without an account or network connection. The mobile app therefore uses an on-device SQLite database as its source of truth for preferences, the current session, and completed practice history; progress is derived from that stored history, and moving a completed session into history is transactional. Local notifications provide reminders and completion cues. The Nitro workspace is not part of the app runtime or local validation path, avoiding a remote-data dependency while leaving future server work isolated from the meditation domain.

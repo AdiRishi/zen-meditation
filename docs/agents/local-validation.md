@@ -4,30 +4,38 @@ Use the Build iOS Apps plugin for iOS validation, preferring its simulator-brows
 
 The Codex environment at `.codex/environments/environment.toml` owns dependency installation and native prebuild work for new worktrees.
 
-The API and Expo development processes need access to host file watchers, localhost ports, and Simulator services. In Codex, run both development commands with scoped host escalation rather than starting them in the filesystem sandbox.
+Zen is a local-only app. Its preferences, active session, and practice history are persisted on the device with SQLite, so the Nitro API is not part of the mobile runtime or validation harness. Do not start `pnpm run server:dev` when validating the app.
 
-Before starting them, make sure no stale development server is listening on ports `3000` or `8081`. Confirm that any listener belongs to this repository and is not owned by another task, then stop it gracefully. Port `3000` is used by the Nitro API and port `8081` is used by Metro. For example:
+Metro needs access to host file watchers and port `8081`, while the native build needs access to Simulator services. In Codex, run the iOS command with scoped host escalation rather than starting it in the filesystem sandbox.
+
+Before starting, make sure no stale development server is listening on port `8081`. Confirm that any listener belongs to this repository and is not owned by another task, then stop it gracefully. For example:
 
 ```sh
-lsof -nP -iTCP:3000 -sTCP:LISTEN
 lsof -nP -iTCP:8081 -sTCP:LISTEN
 kill <pid>
 ```
 
-Start the API and iOS app with scoped host escalation in separate terminals:
+Start the iOS app with scoped host escalation:
 
 ```sh
-pnpm run server:dev
 pnpm ios
 ```
 
-The API listens on `http://localhost:3000`. `pnpm ios` compiles the shared packages, starts the Expo development server on port `8081`, and builds and launches the app in Simulator. Use Build iOS Apps for the simulator validation workflow after launch.
+`pnpm ios` starts the Expo development server on port `8081`, builds the native app, and launches it in Simulator. Use Build iOS Apps for the simulator validation workflow after launch.
+
+SQLite state survives app relaunches. Include a terminated-app relaunch when validating onboarding, preferences, session recovery, or progress. Use the in-app reset control when a test needs true first-run state instead of treating Metro or Simulator restarts as data resets.
+
+Before the first `serve-sim` invocation in a validation session, run its prerequisite check:
+
+```sh
+./.agents/skills/serve-sim/scripts/check-prereqs.sh
+```
 
 When the simulator browser mirror remains on `Connecting...`, allow the device-scoped `serve-sim` helper time to initialize and refresh the existing browser page. A few refreshes after the helper reports that framebuffer capture is ready usually reconnect the stream; do not open duplicate tabs. Only treat the mirror as ready after a real simulator frame is visible.
 
 ## Cleanup
 
-Before the final response, stop the API, Metro, app/log sessions, and simulator mirror started for the validation unless the user explicitly asked to leave them running. Stop the long-running terminal sessions gracefully and wait for them to exit.
+Before the final response, stop Metro, app/log sessions, and the simulator mirror started for the validation unless the user explicitly asked to leave them running. Stop the long-running terminal sessions gracefully and wait for them to exit.
 
 Stop only the device-scoped simulator stream started for this validation:
 
@@ -38,11 +46,10 @@ npx --yes serve-sim@latest --kill <simulator-udid>
 
 Run `npx --yes serve-sim@latest --list` again and confirm that it no longer lists the simulator used for this validation. Other device-scoped streams may belong to another task and must be left running. Never use an unscoped `serve-sim --kill`.
 
-After stopping servers that you started, verify the standard harness ports are clear:
+After stopping Metro, verify its standard port is clear:
 
 ```bash
-lsof -iTCP:3000 -sTCP:LISTEN -n -P || true
 lsof -iTCP:8081 -sTCP:LISTEN -n -P || true
 ```
 
-Both commands should print no listening process for servers you started. If either port is still occupied by a process you started, stop it gracefully and check again. Do not stop a pre-existing process or a process owned by another task.
+The command should print no listening process for Metro instances you started. If the port is still occupied by a process you started, stop it gracefully and check again. Do not stop a pre-existing process or a process owned by another task.
