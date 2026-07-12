@@ -72,12 +72,12 @@ describe("<RemindersScreen />", () => {
 
   it("keeps saved choices when device scheduling needs to be retried", async () => {
     const notifications = createNotifications("granted");
-    notifications.rescheduleWeeklyReminders.mockRejectedValueOnce(new Error("Scheduling unavailable"));
     const { findByText, getByLabelText, getByText, store } = renderMeditationScreen(<RemindersScreen />, {
       notifications,
     });
 
     await findByText("Reminder timing");
+    notifications.rescheduleWeeklyReminders.mockRejectedValueOnce(new Error("Scheduling unavailable"));
     fireEvent(getByLabelText("Reminders"), "valueChange", true);
     fireEvent.press(getByText("Save"));
 

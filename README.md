@@ -41,18 +41,18 @@ The complete foundation lives in the repository:
 ## Project status
 
 > [!NOTE]
-> Zen is in active development. The product vision, brand system, core flows, and app theme are established; feature implementation is ongoing. The interfaces in this README show the high-fidelity product direction, not a released App Store build.
+> Zen is in active development. The complete local-first product flow is implemented; release packaging and store distribution remain future work.
 
 ## Engineering
 
-Zen is a TypeScript monorepo built for iOS, Android, and the web. The mobile app uses Expo and React Native; a Nitro server exposes a type-safe tRPC API that can be deployed to Cloudflare Workers.
+Zen is a TypeScript monorepo built for iOS, Android, and the web. The mobile app uses Expo and React Native, keeps preferences and practice history in on-device SQLite, and does not require an account or server connection. The repository’s Nitro workspace remains independently available for future or separate server work.
 
 | Layer     | Technology                                             |
 | --------- | ------------------------------------------------------ |
 | App       | Expo 57, React Native 0.86, React 19, Expo Router      |
 | Interface | HeroUI Native, Uniwind, Tailwind CSS v4, Reanimated    |
-| Data      | tRPC v11, TanStack Query, TanStack Form, Zod           |
-| Server    | Nitro 3, Cloudflare Workers                            |
+| Data      | Expo SQLite, Zod, local notifications                  |
+| Server    | Not required by the app runtime                        |
 | Quality   | Strict TypeScript, Jest, Vitest, ESLint, Oxlint, Oxfmt |
 | Workspace | pnpm, Turborepo                                        |
 
@@ -66,13 +66,7 @@ cd zen-meditation
 pnpm install
 ```
 
-Start the API server:
-
-```bash
-pnpm run server:dev
-```
-
-Then generate the native projects when needed and start the app in a second terminal:
+Generate the native projects when needed and start the app:
 
 ```bash
 pnpm run prebuild
@@ -97,8 +91,8 @@ pnpm web
 
 ```text
 apps/mobile/     Expo app, routes, screens, and interface components
-servers/api/     Nitro server and tRPC procedures
-packages/        Shared contracts and TypeScript configuration
+servers/api/     Independent Nitro and tRPC workspace
+packages/        Shared infrastructure and TypeScript configuration
 docs/            Product vision, design system, and architecture decisions
 ```
 

@@ -29,7 +29,7 @@ export function BreathingField({ reducedMotion, ending }: BreathingFieldProps) {
     breath.set(
       withRepeat(
         withTiming(1, {
-          duration: 2_800,
+          duration: 1_400,
           easing: Easing.inOut(Easing.ease),
         }),
         -1,

@@ -20,14 +20,21 @@ export function ReminderPermissionScreen() {
       const permission = requestPermission
         ? await requestReminderPermission().catch(() => "denied" as const)
         : "denied";
-      const nextPreferences = {
+      let nextPreferences = {
         ...preferences,
         remindersEnabled: requestPermission && permission === "granted",
         onboardingStep: "complete" as const,
         onboardingCompleted: true,
       };
       await savePreferences(nextPreferences);
-      void rescheduleReminders(nextPreferences).catch(() => undefined);
+      try {
+        await rescheduleReminders(nextPreferences);
+      } catch {
+        if (nextPreferences.remindersEnabled) {
+          nextPreferences = { ...nextPreferences, remindersEnabled: false };
+          await savePreferences(nextPreferences);
+        }
+      }
       router.replace("/(tabs)/today");
     } catch {
       setIsContinuing(false);
@@ -38,7 +45,9 @@ export function ReminderPermissionScreen() {
   return (
     <StandardScrollView contentContainerClassName="min-h-full justify-between gap-6 pb-6 pt-12">
       <View className="gap-7">
-        <Typography variant="h1">A gentle reminder,{"\n"}when you want one.</Typography>
+        <Typography accessibilityRole="header" variant="h1">
+          A gentle reminder,{"\n"}when you want one.
+        </Typography>
         <NotificationPreview message="Take a breath." />
       </View>
       <LandscapeArtwork height={300} className="-mx-6" />

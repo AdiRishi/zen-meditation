@@ -22,7 +22,7 @@ export function TimePickerSheet({ practiceTime, onChange, onClose }: TimePickerS
     <Modal visible animationType="slide" presentationStyle="formSheet" onRequestClose={onClose}>
       <View className="flex-1 justify-between gap-6 bg-background px-6 pt-8 pb-6">
         <View className="gap-6">
-          <Typography variant="h2" align="center">
+          <Typography accessibilityRole="header" variant="h2" align="center">
             {practiceTime.label}
           </Typography>
           <DateTimePicker

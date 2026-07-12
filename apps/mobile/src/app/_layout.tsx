@@ -61,6 +61,7 @@ export default function RootLayout() {
       <AppProviders>
         <Stack screenOptions={{ headerShown: false, animation: "fade" }}>
           <Stack.Screen name="meditation" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="session-complete" options={{ gestureEnabled: false }} />
         </Stack>
       </AppProviders>
     </GestureHandlerRootView>

@@ -20,7 +20,7 @@ export function DurationSelector({ value, onChange }: DurationSelectorProps) {
             accessibilityLabel={`${duration} minutes`}
             accessibilityRole="radio"
             accessibilityState={{ selected: isSelected }}
-            className={`size-[76px] items-center justify-center rounded-full border ${
+            className={`min-h-[76px] w-[76px] items-center justify-center rounded-full border px-1 py-2 ${
               isSelected ? "border-[3px] border-accent" : "border-stone"
             }`}
             onPress={() => onChange(duration)}

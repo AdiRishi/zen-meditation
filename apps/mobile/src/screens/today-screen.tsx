@@ -55,7 +55,7 @@ export function TodayScreen() {
 
   return (
     <StandardScrollView contentContainerClassName="gap-7 pb-8 pt-8">
-      <Typography variant="h3" align="center" className="font-serif font-normal">
+      <Typography accessibilityRole="header" variant="h3" align="center" className="font-serif font-normal">
         Today
       </Typography>
       <Typography variant="h1">A quiet rhythm{"\n"}carries you home.</Typography>

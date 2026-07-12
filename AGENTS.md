@@ -33,11 +33,11 @@ pnpm run typecheck        # App, frontend test, server, and server test TypeScri
 pnpm run format           # Oxfmt write
 
 pnpm run server:dev       # Start Nitro API server on localhost:3000
-pnpm ios                  # Start the iOS app server / simulator
+pnpm ios                  # Build and start the iOS app / simulator
 pnpm android              # Start the Android app server / emulator
 pnpm web                  # Start Expo web
 
-pnpm run prebuild         # Compile packages and regenerate native projects
+pnpm run prebuild         # Regenerate native projects
 ```
 
 ## Maintainability
@@ -58,12 +58,14 @@ Commit throughout development at meaningful, reviewable checkpoints instead of w
 
 This is a pnpm/Turbo monorepo with three TypeScript workspaces:
 
-- **App (`apps/mobile/`)** — Expo SDK 57 / React Native 0.86 / React 19 app using Expo Router, Uniwind, HeroUI Native, TanStack Form, TanStack Query, and a tRPC client.
+- **App (`apps/mobile/`)** — Expo SDK 57 / React Native 0.86 / React 19 app using Expo Router, Uniwind, HeroUI Native, SQLite, and Zod. Its product runtime is fully local to the device.
 - **Server (`servers/api/`)** — Nitro 3 API server with tRPC v11, deployable to Cloudflare Workers.
 - **Shared packages (`packages/`)** — compiled internal packages for cross-workspace contracts such as `@repo/rpc`.
 
-The main request path is:
+The mobile state path is:
 
 ```text
-Expo screen -> tRPC client -> server router -> procedure -> response
+Expo screen -> meditation provider -> SQLite store -> on-device database
 ```
+
+The server and shared RPC workspaces remain independently testable, but the Zen mobile app does not import or require them at runtime.

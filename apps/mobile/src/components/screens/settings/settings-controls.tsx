@@ -182,20 +182,36 @@ export function PracticeTimeControls({
               value={time.enabled}
             />
           </View>
+          {time.id === "morning" || time.id === "evening" ? null : (
+            <Pressable
+              accessibilityLabel={`Remove ${time.label}`}
+              accessibilityRole="button"
+              className="min-h-11 items-end justify-center px-4 pb-2"
+              onPress={() => onChange(times.filter((candidate) => candidate.id !== time.id))}
+            >
+              <Typography variant="small" tone="muted">
+                Remove
+              </Typography>
+            </Pressable>
+          )}
         </View>
       ))}
     </ZenCard>
   );
 }
 
-export function AddPracticeTimeButton({ onPress }: { onPress: () => void }) {
+export function AddPracticeTimeButton({ onPress, disabled = false }: { onPress: () => void; disabled?: boolean }) {
   const colors = useThemeColors();
 
   return (
     <Pressable
       accessibilityLabel="Add a practice time"
       accessibilityRole="button"
-      className="min-h-14 flex-row items-center justify-center gap-2 rounded-xl border border-dashed border-border"
+      accessibilityState={{ disabled }}
+      className={`min-h-14 flex-row items-center justify-center gap-2 rounded-xl border border-dashed border-border ${
+        disabled ? "opacity-50" : ""
+      }`}
+      disabled={disabled}
       onPress={onPress}
     >
       <ZenIcon name="plus" size={18} tintColor={colors.foreground} />

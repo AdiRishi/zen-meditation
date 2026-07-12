@@ -9,6 +9,7 @@ import { ScreenHeader } from "@/components/ui/zen/screen-header";
 import { WeekdaySelector } from "@/components/ui/zen/weekday-selector";
 import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
 import type { Weekday } from "@/domain/meditation";
+import { useAsyncAction } from "@/hooks/use-async-action";
 import { selectionHaptic } from "@/lib/haptics";
 import { useMeditation } from "@/providers/meditation-provider";
 
@@ -19,6 +20,7 @@ export function PracticeGoalScreen() {
   const { preferences, savePreferences } = useMeditation();
   const [selectedWeekdays, setSelectedWeekdays] = useState(preferences.selectedWeekdays);
   const [sessionsPerDay, setSessionsPerDay] = useState(preferences.sessionsPerDay);
+  const action = useAsyncAction();
 
   const setDayCount = (count: number) => {
     selectionHaptic();
@@ -35,20 +37,26 @@ export function PracticeGoalScreen() {
   };
 
   const continueOnboarding = async () => {
-    await savePreferences({
-      ...preferences,
-      selectedWeekdays,
-      sessionsPerDay,
-      onboardingStep: "schedule",
-    });
-    router.push("/onboarding/schedule");
+    const completed = await action.run(() =>
+      savePreferences({
+        ...preferences,
+        selectedWeekdays,
+        sessionsPerDay,
+        onboardingStep: "schedule",
+      }),
+    );
+    if (completed) {
+      router.push("/onboarding/schedule");
+    }
   };
 
   return (
     <StandardScrollView contentContainerClassName="min-h-full justify-between gap-8 pb-6">
       <View className="gap-8">
         <ScreenHeader onBack={() => router.back()} />
-        <Typography variant="h1">How often would{"\n"}you like to sit?</Typography>
+        <Typography accessibilityRole="header" variant="h1">
+          How often would you{"\n"}like to sit?
+        </Typography>
         <View className="gap-4">
           <WeekdaySelector
             selected={selectedWeekdays}
@@ -82,7 +90,16 @@ export function PracticeGoalScreen() {
           />
         </View>
       </View>
-      <ZenPrimaryButton onPress={() => void continueOnboarding()}>Continue</ZenPrimaryButton>
+      <View className="gap-3">
+        {action.error ? (
+          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite">
+            Your intention couldn’t be saved. Please try again.
+          </Typography>
+        ) : null}
+        <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void continueOnboarding()}>
+          {action.isPending ? "Saving…" : "Continue"}
+        </ZenPrimaryButton>
+      </View>
     </StandardScrollView>
   );
 }

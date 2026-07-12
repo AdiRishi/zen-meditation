@@ -4,6 +4,7 @@ export const completionSoundSchema = z.enum(["soft-chime", "low-bowl", "wood-ton
 export const feelingSchema = z.enum(["calm", "clear", "grounded", "other"]);
 export const appearanceSchema = z.enum(["system", "light", "dark"]);
 export const onboardingStepSchema = z.enum(["welcome", "goal", "schedule", "reminders", "complete"]);
+export const MAX_PRACTICE_TIMES = 4;
 export const weekdaySchema = z.union([
   z.literal(0),
   z.literal(1),
@@ -28,7 +29,7 @@ export const appPreferencesSchema = z.object({
   onboardingCompleted: z.boolean(),
   selectedWeekdays: z.array(weekdaySchema).min(1),
   sessionsPerDay: z.number().int().min(1).max(3),
-  practiceTimes: z.array(practiceTimeSchema),
+  practiceTimes: z.array(practiceTimeSchema).max(MAX_PRACTICE_TIMES),
   remindersEnabled: z.boolean(),
   quietHours: z.object({
     startMinute: z.number().int().min(0).max(1439),

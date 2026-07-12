@@ -22,7 +22,7 @@ function SettingsTitle({ title, showBack }: Pick<SettingsScreenLayoutProps, "tit
 
   return (
     <View className="h-14 items-center justify-center">
-      <Typography variant="h4" align="center" className="font-serif font-normal">
+      <Typography accessibilityRole="header" variant="h4" align="center" className="font-serif font-normal">
         {title}
       </Typography>
     </View>

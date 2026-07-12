@@ -9,6 +9,7 @@ import { CompletionSoundRow, GroupedList } from "@/components/ui/zen/list-row";
 import { ScreenHeader } from "@/components/ui/zen/screen-header";
 import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
 import type { SESSION_DURATIONS } from "@/domain/meditation";
+import { useAsyncAction } from "@/hooks/use-async-action";
 import { impactHaptic } from "@/lib/haptics";
 import { useMeditation } from "@/providers/meditation-provider";
 
@@ -16,7 +17,7 @@ export function SessionSetupScreen() {
   const router = useRouter();
   const { activeSession, notificationPermission, pendingCompletion, preferences, startSession } = useMeditation();
   const [duration, setDuration] = useState<(typeof SESSION_DURATIONS)[number]>(preferences.lastDurationMinutes);
-  const [isStarting, setIsStarting] = useState(false);
+  const action = useAsyncAction();
 
   if (pendingCompletion) {
     return <Redirect href={{ pathname: "/session-complete", params: { id: pendingCompletion.id } }} />;
@@ -26,17 +27,22 @@ export function SessionSetupScreen() {
   }
 
   const begin = async () => {
-    setIsStarting(true);
-    impactHaptic();
-    await startSession(duration, preferences.completionSound);
-    router.replace("/meditation");
+    const started = await action.run(async () => {
+      impactHaptic();
+      await startSession(duration, preferences.completionSound);
+    });
+    if (started) {
+      router.replace("/meditation");
+    }
   };
 
   return (
     <StandardScrollView contentContainerClassName="min-h-full justify-between gap-8 pb-6">
       <View className="gap-9">
         <ScreenHeader />
-        <Typography variant="h1">How long would{"\n"}you like to sit?</Typography>
+        <Typography accessibilityRole="header" variant="h1">
+          How long would{"\n"}you like to sit?
+        </Typography>
         <DurationSelector value={duration} onChange={setDuration} />
         <GroupedList>
           <CompletionSoundRow
@@ -50,9 +56,16 @@ export function SessionSetupScreen() {
           </Typography>
         )}
       </View>
-      <ZenPrimaryButton isDisabled={isStarting} onPress={() => void begin()}>
-        Begin
-      </ZenPrimaryButton>
+      <View className="gap-3">
+        {action.error ? (
+          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite">
+            Your session couldn’t begin. Please try again.
+          </Typography>
+        ) : null}
+        <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void begin()}>
+          {action.isPending ? "Starting…" : "Begin"}
+        </ZenPrimaryButton>
+      </View>
     </StandardScrollView>
   );
 }

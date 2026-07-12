@@ -38,7 +38,7 @@ export function GenericErrorScreen({
       </View>
 
       <View className="items-center gap-2">
-        <Typography variant="h2" align="center">
+        <Typography accessibilityRole="header" variant="h2" align="center">
           {title}
         </Typography>
         <Typography variant="small" tone="muted" align="center" className="max-w-75">

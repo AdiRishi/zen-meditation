@@ -29,7 +29,7 @@ export function ScreenHeader({ title, onBack, backLabel = "Back", trailing }: Sc
         <ZenIcon name="back" size={20} tintColor={colors.foreground} />
       </Pressable>
       {title ? (
-        <Typography variant="h4" align="center" className="flex-1 font-serif font-normal">
+        <Typography accessibilityRole="header" variant="h4" align="center" className="flex-1 font-serif font-normal">
           {title}
         </Typography>
       ) : (

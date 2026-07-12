@@ -39,7 +39,9 @@ export function CompletionSoundScreen() {
       <View className="gap-8">
         <ScreenHeader onBack={() => void done()} />
         <View className="gap-2">
-          <Typography variant="h1">Completion sound</Typography>
+          <Typography accessibilityRole="header" variant="h1">
+            Completion sound
+          </Typography>
           <Typography tone="accent">Played once, when your time is complete.</Typography>
         </View>
         <View className="gap-4">

@@ -127,7 +127,7 @@ describe("<PracticeHistoryScreen />", () => {
     fireEvent.press(getByRole("button", { name: "Show next month" }));
 
     expect(getByText("August 2026")).toBeOnTheScreen();
-    expect(getByText("No sessions yet")).toBeOnTheScreen();
+    expect(getByText("No sessions this month")).toBeOnTheScreen();
 
     fireEvent.press(getByRole("button", { name: "Begin" }));
     expect(mockPush).toHaveBeenCalledWith("/session-setup");

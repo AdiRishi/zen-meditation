@@ -1,6 +1,6 @@
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Pressable, View } from "react-native";
+import { BackHandler, Pressable, View } from "react-native";
 
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
@@ -9,6 +9,7 @@ import { ZenCard } from "@/components/ui/zen/zen-card";
 import { ZenIcon } from "@/components/ui/zen/zen-icon";
 import { shortTimeFormatter, toLocalDateKey } from "@/domain/date-time";
 import { type Feeling } from "@/domain/meditation";
+import { useAsyncAction } from "@/hooks/use-async-action";
 import { useCompletionSounds } from "@/hooks/use-completion-sounds";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { impactHaptic, selectionHaptic } from "@/lib/haptics";
@@ -28,6 +29,7 @@ export function SessionCompleteScreen() {
   const { acknowledgeSession, completedSessions, pendingCompletion, setSessionFeeling } = useMeditation();
   const completionSoundStarted = useRef(false);
   const { play, stop } = useCompletionSounds();
+  const action = useAsyncAction();
   const session = completedSessions.find((item) => item.id === id) ?? pendingCompletion;
   const [nowMs] = useState(() => Date.now());
   const sessionId = session?.id;
@@ -42,6 +44,14 @@ export function SessionCompleteScreen() {
     void play(sessionCompletionSound);
   }, [play, playSound, sessionCompletionSound, sessionId]);
 
+  useEffect(() => {
+    if (!sessionId) {
+      return;
+    }
+    const subscription = BackHandler.addEventListener("hardwareBackPress", () => true);
+    return () => subscription.remove();
+  }, [sessionId]);
+
   if (!session) {
     return <Redirect href="/(tabs)/today" />;
   }
@@ -50,9 +60,13 @@ export function SessionCompleteScreen() {
   const dateLabel = session.localDate === toLocalDateKey(nowMs) ? "Today" : session.localDate;
 
   const done = async () => {
-    await stop();
-    await acknowledgeSession(session.id);
-    router.replace("/(tabs)/today");
+    const completed = await action.run(async () => {
+      await stop();
+      await acknowledgeSession(session.id);
+    });
+    if (completed) {
+      router.replace("/(tabs)/today");
+    }
   };
 
   return (
@@ -62,7 +76,7 @@ export function SessionCompleteScreen() {
           <ZenIcon name="check" size={25} tintColor={colors.accent} />
         </View>
         <View className="items-center gap-2">
-          <Typography variant="h2" align="center">
+          <Typography accessibilityRole="header" variant="h2" align="center">
             Session complete.
           </Typography>
           <Typography tone="muted" align="center" selectable>
@@ -90,13 +104,16 @@ export function SessionCompleteScreen() {
               <Pressable
                 key={feeling.id}
                 accessibilityRole="radio"
-                accessibilityState={{ selected: isSelected }}
+                accessibilityState={{ disabled: action.isPending, selected: isSelected }}
                 className={`min-h-11 justify-center rounded-full border px-5 ${
                   isSelected ? "border-accent bg-accent-soft" : "border-stone"
                 }`}
+                disabled={action.isPending}
                 onPress={() => {
                   selectionHaptic();
-                  void setSessionFeeling(session.id, isSelected ? null : feeling.id);
+                  void action.run(async () => {
+                    await setSessionFeeling(session.id, isSelected ? null : feeling.id);
+                  });
                 }}
               >
                 <Typography variant="small">{feeling.label}</Typography>
@@ -105,7 +122,16 @@ export function SessionCompleteScreen() {
           })}
         </View>
       </View>
-      <ZenPrimaryButton onPress={() => void done()}>Done</ZenPrimaryButton>
+      <View className="gap-3">
+        {action.error ? (
+          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite" align="center">
+            That change couldn’t be saved. Please try again.
+          </Typography>
+        ) : null}
+        <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void done()}>
+          {action.isPending ? "Saving…" : "Done"}
+        </ZenPrimaryButton>
+      </View>
     </StandardScrollView>
   );
 }

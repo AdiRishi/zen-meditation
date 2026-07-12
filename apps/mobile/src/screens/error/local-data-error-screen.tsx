@@ -19,7 +19,9 @@ export function LocalDataErrorScreen({ onRetry, onReset }: LocalDataErrorScreenP
   return (
     <StandardView className="flex-1 justify-center gap-8">
       <View className="gap-3">
-        <Typography variant="h1">Your practice data needs a moment.</Typography>
+        <Typography accessibilityRole="header" variant="h1">
+          Your practice data needs a moment.
+        </Typography>
         <Typography tone="muted">
           Zen could not open its local storage. You can try again without changing anything.
         </Typography>

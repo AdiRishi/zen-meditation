@@ -105,4 +105,30 @@ describe("MeditationProvider", () => {
     });
     await expect(store.loadActiveSession()).resolves.toBeNull();
   });
+
+  it("does not let an older refresh overwrite a newer session transition", async () => {
+    const store = new InMemoryMeditationStore();
+    const notifications = createNotifications();
+    let resolvePermission: ((permission: "granted") => void) | undefined;
+    notifications.getPermissionStatus
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            resolvePermission = resolve;
+          }),
+      )
+      .mockResolvedValue("granted");
+    const wrapper = createWrapper({ store, clock: createClock(STARTED_AT_MS), notifications });
+    const { result } = renderHook(useMeditation, { wrapper });
+
+    await act(async () => {
+      await result.current.startSession(5);
+    });
+    expect(result.current.activeSession).toMatchObject({ status: "running" });
+
+    await act(async () => resolvePermission?.("granted"));
+    await waitFor(() => expect(result.current.isReady).toBe(true));
+    expect(result.current.activeSession).toMatchObject({ status: "running" });
+    await expect(store.loadActiveSession()).resolves.toMatchObject({ status: "running" });
+  });
 });

@@ -10,9 +10,8 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "test": "jest",
+    "test": "jest --watchman=false",
     "test:types": "tsc --noEmit -p tests/tsconfig.json",
-    "eas-build-post-install": "pnpm --dir ../.. compile",
     "pretypecheck": "expo customize tsconfig.json",
     "typecheck": "tsc --noEmit && pnpm run test:types"
   },

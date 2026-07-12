@@ -12,7 +12,7 @@ import {
   SettingsSection,
 } from "@/components/screens/settings/settings-layout";
 import { WeekdaySelector } from "@/components/ui/zen/weekday-selector";
-import { createPracticeTimeId, type AppPreferences } from "@/domain/meditation";
+import { createPracticeTimeId, MAX_PRACTICE_TIMES, type AppPreferences } from "@/domain/meditation";
 import { useMeditation } from "@/providers/meditation-provider";
 
 type SaveFeedback = { message: string; tone: "muted" | "success" | "danger" } | null;
@@ -103,6 +103,7 @@ function ScheduleEditor({ error, preferences, rescheduleReminders, savePreferenc
           onChange={(practiceTimes) => setDraft((current) => ({ ...current, practiceTimes }))}
         />
         <AddPracticeTimeButton
+          disabled={draft.practiceTimes.length >= MAX_PRACTICE_TIMES}
           onPress={() =>
             setDraft((current) => ({
               ...current,

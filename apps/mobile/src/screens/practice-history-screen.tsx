@@ -65,8 +65,12 @@ export function PracticeHistoryScreen() {
               <SessionHistoryList sessions={monthSessions} nowMs={nowMs} />
             ) : (
               <PracticeStateCard
-                title="No sessions yet"
-                message="Begin a session to see it here."
+                title={completedSessions.length > 0 ? "No sessions this month" : "No sessions yet"}
+                message={
+                  completedSessions.length > 0
+                    ? "Your practice from other months remains in your history."
+                    : "Begin a session to see it here."
+                }
                 actionLabel="Begin"
                 onAction={() => router.push("/session-setup")}
                 showArtwork
