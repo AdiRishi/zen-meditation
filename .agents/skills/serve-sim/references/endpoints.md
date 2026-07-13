@@ -60,7 +60,7 @@ For most agents, the CLI is the right entry point. Use the WebSocket directly on
 
 ## Preview middleware (default port 3200)
 
-This is a Node middleware that serves the preview UI and proxies state. It can be run standalone (`npx serve-sim`) or embedded in another dev server (`serve-sim/middleware`).
+This is a Node middleware that serves the preview UI and proxies state. It can be run standalone (`pnpm --filter @repo/mobile exec serve-sim`) or embedded in another dev server (`serve-sim/middleware`).
 
 | Method | Path | Returns / accepts |
 |---|---|---|
@@ -92,7 +92,7 @@ app.use(simMiddleware({ basePath: "/.sim" }));
 The simplest path is the CLI:
 
 ```sh
-npx serve-sim --list -q
+pnpm --filter @repo/mobile exec serve-sim --list -q
 ```
 
 Returns a JSON array of running streams, each with `url`, `streamUrl`, `wsUrl`, `device`, `pid`, `port`. An agent should call this once on entry to discover ports — they are not guaranteed to be 3200/3100 if other processes occupy those defaults.
