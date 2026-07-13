@@ -1,11 +1,12 @@
 import * as SplashScreen from "expo-splash-screen";
 import { Button } from "heroui-native";
 import { useEffect } from "react";
-import { Alert, View } from "react-native";
+import { View } from "react-native";
 
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { useAsyncAction } from "@/hooks/use-async-action";
+import { confirmLocalDataReset } from "@/lib/confirm-local-data-reset";
 
 type LocalDataErrorScreenProps = {
   onRetry(): void | Promise<void>;
@@ -20,20 +21,11 @@ export function LocalDataErrorScreen({ onRetry, onReset }: LocalDataErrorScreenP
   }, []);
 
   const confirmReset = () => {
-    Alert.alert(
-      "Reset local data?",
-      "Your practice history, schedule, reminders, and preferences will be removed from this device. This can’t be undone.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Reset Local Data",
-          style: "destructive",
-          onPress: () =>
-            void resetAction.run(async () => {
-              await onReset();
-            }),
-        },
-      ],
+    confirmLocalDataReset(
+      () =>
+        void resetAction.run(async () => {
+          await onReset();
+        }),
     );
   };
 

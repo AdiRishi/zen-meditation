@@ -1,9 +1,9 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert } from "react-native";
 
 import { PrivacySummary, ResetLocalDataButton } from "@/components/screens/settings/privacy-panel";
 import { SettingsFeedback, SettingsScreenLayout, SettingsSection } from "@/components/screens/settings/settings-layout";
+import { confirmLocalDataReset } from "@/lib/confirm-local-data-reset";
 import { useMeditation } from "@/providers/meditation-provider";
 
 type ResetFeedback = { message: string; tone: "success" | "danger" } | null;
@@ -29,14 +29,7 @@ export function PrivacyScreen() {
   };
 
   const confirmReset = () => {
-    Alert.alert(
-      "Reset local data?",
-      "Your practice history, schedule, reminders, and preferences will be removed from this device. This can’t be undone.",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Reset Local Data", style: "destructive", onPress: () => void reset() },
-      ],
-    );
+    confirmLocalDataReset(() => void reset());
   };
 
   return (
