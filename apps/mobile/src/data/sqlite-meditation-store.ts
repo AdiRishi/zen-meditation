@@ -89,6 +89,8 @@ function mapCompletedSession(row: CompletedSessionRow) {
 }
 
 export class SQLiteMeditationStore implements MeditationStore {
+  private writeQueue = Promise.resolve();
+
   constructor(private readonly db: SQLiteDatabase) {}
 
   async loadPreferences() {
@@ -101,11 +103,13 @@ export class SQLiteMeditationStore implements MeditationStore {
 
   async savePreferences(preferences: AppPreferences) {
     const value = appPreferencesSchema.parse(preferences);
-    await this.db.runAsync(
-      `INSERT INTO preferences (singleton_id, value) VALUES (1, ?)
-       ON CONFLICT(singleton_id) DO UPDATE SET value = excluded.value`,
-      JSON.stringify(value),
-    );
+    await this.enqueueWrite(async () => {
+      await this.db.runAsync(
+        `INSERT INTO preferences (singleton_id, value) VALUES (1, ?)
+         ON CONFLICT(singleton_id) DO UPDATE SET value = excluded.value`,
+        JSON.stringify(value),
+      );
+    });
   }
 
   async loadActiveSession() {
@@ -127,30 +131,32 @@ export class SQLiteMeditationStore implements MeditationStore {
     const preferences = appPreferencesSchema.parse(input.preferences);
     const session = createActiveSession(input);
 
-    await this.db.withExclusiveTransactionAsync(async (transaction) => {
-      await transaction.runAsync(
-        `INSERT INTO preferences (singleton_id, value) VALUES (1, ?)
-         ON CONFLICT(singleton_id) DO UPDATE SET value = excluded.value`,
-        JSON.stringify(preferences),
-      );
-      await transaction.runAsync(
-        `INSERT INTO active_session (
-           singleton_id, id, planned_duration_ms, started_at_ms,
-           accumulated_active_ms, resumed_at_ms, status, completion_sound,
-           completion_local_date, completion_timezone_offset_minutes
-         ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        session.id,
-        session.plannedDurationMs,
-        session.startedAtMs,
-        session.accumulatedActiveMs,
-        session.resumedAtMs,
-        session.status,
-        session.completionSound,
-        session.completionLocalDate,
-        session.completionTimezoneOffsetMinutes,
-      );
+    return this.enqueueWrite(async () => {
+      await this.db.withExclusiveTransactionAsync(async (transaction) => {
+        await transaction.runAsync(
+          `INSERT INTO preferences (singleton_id, value) VALUES (1, ?)
+           ON CONFLICT(singleton_id) DO UPDATE SET value = excluded.value`,
+          JSON.stringify(preferences),
+        );
+        await transaction.runAsync(
+          `INSERT INTO active_session (
+             singleton_id, id, planned_duration_ms, started_at_ms,
+             accumulated_active_ms, resumed_at_ms, status, completion_sound,
+             completion_local_date, completion_timezone_offset_minutes
+           ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          session.id,
+          session.plannedDurationMs,
+          session.startedAtMs,
+          session.accumulatedActiveMs,
+          session.resumedAtMs,
+          session.status,
+          session.completionSound,
+          session.completionLocalDate,
+          session.completionTimezoneOffsetMinutes,
+        );
+      });
+      return session;
     });
-    return session;
   }
 
   async pauseActiveSession(nowMs: number) {
@@ -161,107 +167,128 @@ export class SQLiteMeditationStore implements MeditationStore {
     return this.transitionActiveSession(nowMs, resumeSession);
   }
 
-  async completeActiveSession(nowMs: number): Promise<CompletedSession | null> {
-    let completed: CompletedSession | null = null;
+  completeActiveSession(nowMs: number): Promise<CompletedSession | null> {
+    return this.enqueueWrite(async () => {
+      let completed: CompletedSession | null = null;
 
-    await this.db.withExclusiveTransactionAsync(async (transaction) => {
-      const row = await loadActiveSessionRow(transaction);
-      if (!row) {
-        return;
-      }
+      await this.db.withExclusiveTransactionAsync(async (transaction) => {
+        const row = await loadActiveSessionRow(transaction);
+        if (!row) {
+          return;
+        }
 
-      const active = mapActiveSession(row);
-      if (!projectSession(active, nowMs).isComplete) {
-        throw new Error("A session cannot be completed while time remains.");
-      }
+        const active = mapActiveSession(row);
+        if (!projectSession(active, nowMs).isComplete) {
+          throw new Error("A session cannot be completed while time remains.");
+        }
 
-      completed = completeSession(active, nowMs);
-      await transaction.runAsync(
-        `INSERT INTO completed_sessions (
-           id, started_at_ms, completed_at_ms, local_date, timezone_offset_minutes,
-           duration_ms, completion_sound, feeling, acknowledged_at_ms
-         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-         ON CONFLICT(id) DO NOTHING`,
-        completed.id,
-        completed.startedAtMs,
-        completed.completedAtMs,
-        completed.localDate,
-        completed.timezoneOffsetMinutes,
-        completed.durationMs,
-        completed.completionSound,
-        completed.feeling,
-        completed.acknowledgedAtMs,
-      );
-      await transaction.runAsync("DELETE FROM active_session WHERE singleton_id = 1");
+        completed = completeSession(active, nowMs);
+        await transaction.runAsync(
+          `INSERT INTO completed_sessions (
+             id, started_at_ms, completed_at_ms, local_date, timezone_offset_minutes,
+             duration_ms, completion_sound, feeling, acknowledged_at_ms
+           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+           ON CONFLICT(id) DO NOTHING`,
+          completed.id,
+          completed.startedAtMs,
+          completed.completedAtMs,
+          completed.localDate,
+          completed.timezoneOffsetMinutes,
+          completed.durationMs,
+          completed.completionSound,
+          completed.feeling,
+          completed.acknowledgedAtMs,
+        );
+        await transaction.runAsync("DELETE FROM active_session WHERE singleton_id = 1");
+      });
+
+      return completed;
     });
-
-    return completed;
   }
 
   async abandonActiveSession() {
-    await this.db.runAsync("DELETE FROM active_session WHERE singleton_id = 1");
+    await this.enqueueWrite(async () => {
+      await this.db.runAsync("DELETE FROM active_session WHERE singleton_id = 1");
+    });
   }
 
   async updateSessionFeeling(id: string, feeling: Feeling | null) {
     const parsedFeeling = feeling === null ? null : completedSessionSchema.shape.feeling.parse(feeling);
-    await this.db.runAsync("UPDATE completed_sessions SET feeling = ? WHERE id = ?", parsedFeeling, id);
+    await this.enqueueWrite(async () => {
+      await this.db.runAsync("UPDATE completed_sessions SET feeling = ? WHERE id = ?", parsedFeeling, id);
+    });
   }
 
   async acknowledgeSession(id: string, acknowledgedAtMs: number) {
-    await this.db.runAsync(
-      `UPDATE completed_sessions
-       SET acknowledged_at_ms = MAX(completed_at_ms, ?)
-       WHERE id = ? AND acknowledged_at_ms IS NULL`,
-      acknowledgedAtMs,
-      id,
-    );
+    await this.enqueueWrite(async () => {
+      await this.db.runAsync(
+        `UPDATE completed_sessions
+         SET acknowledged_at_ms = MAX(completed_at_ms, ?)
+         WHERE id = ? AND acknowledged_at_ms IS NULL`,
+        acknowledgedAtMs,
+        id,
+      );
+    });
   }
 
   async resetAllData() {
-    await this.db.withExclusiveTransactionAsync(async (transaction) => {
-      await transaction.runAsync("DELETE FROM completed_sessions");
-      await transaction.runAsync("DELETE FROM active_session");
-      await transaction.runAsync("DELETE FROM preferences");
-      await transaction.runAsync(
-        "INSERT INTO preferences (singleton_id, value) VALUES (1, ?)",
-        JSON.stringify(DEFAULT_PREFERENCES),
-      );
+    await this.enqueueWrite(async () => {
+      await this.db.withExclusiveTransactionAsync(async (transaction) => {
+        await transaction.runAsync("DELETE FROM completed_sessions");
+        await transaction.runAsync("DELETE FROM active_session");
+        await transaction.runAsync("DELETE FROM preferences");
+        await transaction.runAsync(
+          "INSERT INTO preferences (singleton_id, value) VALUES (1, ?)",
+          JSON.stringify(DEFAULT_PREFERENCES),
+        );
+      });
     });
   }
 
-  private async transitionActiveSession(
+  private transitionActiveSession(
     nowMs: number,
     transition: (session: ActiveSession, transitionAtMs: number) => ActiveSession,
   ) {
-    let next: ActiveSession | null = null;
+    return this.enqueueWrite(async () => {
+      let next: ActiveSession | null = null;
 
-    await this.db.withExclusiveTransactionAsync(async (transaction) => {
-      const row = await loadActiveSessionRow(transaction);
-      if (!row) {
-        throw new Error("No meditation session is active.");
-      }
+      await this.db.withExclusiveTransactionAsync(async (transaction) => {
+        const row = await loadActiveSessionRow(transaction);
+        if (!row) {
+          throw new Error("No meditation session is active.");
+        }
 
-      next = activeSessionSchema.parse(transition(mapActiveSession(row), nowMs));
-      const result = await transaction.runAsync(
-        `UPDATE active_session
-         SET accumulated_active_ms = ?, resumed_at_ms = ?, status = ?,
-             completion_local_date = ?, completion_timezone_offset_minutes = ?
-         WHERE singleton_id = 1 AND id = ?`,
-        next.accumulatedActiveMs,
-        next.resumedAtMs,
-        next.status,
-        next.completionLocalDate,
-        next.completionTimezoneOffsetMinutes,
-        next.id,
-      );
-      if (result.changes !== 1) {
-        throw new Error("The active meditation session changed before it could be updated.");
+        next = activeSessionSchema.parse(transition(mapActiveSession(row), nowMs));
+        const result = await transaction.runAsync(
+          `UPDATE active_session
+           SET accumulated_active_ms = ?, resumed_at_ms = ?, status = ?,
+               completion_local_date = ?, completion_timezone_offset_minutes = ?
+           WHERE singleton_id = 1 AND id = ?`,
+          next.accumulatedActiveMs,
+          next.resumedAtMs,
+          next.status,
+          next.completionLocalDate,
+          next.completionTimezoneOffsetMinutes,
+          next.id,
+        );
+        if (result.changes !== 1) {
+          throw new Error("The active meditation session changed before it could be updated.");
+        }
+      });
+
+      if (!next) {
+        throw new Error("The active meditation session could not be updated.");
       }
+      return next;
     });
+  }
 
-    if (!next) {
-      throw new Error("The active meditation session could not be updated.");
-    }
-    return next;
+  private enqueueWrite<T>(write: () => Promise<T>) {
+    const result = this.writeQueue.then(write);
+    this.writeQueue = result.then(
+      () => undefined,
+      () => undefined,
+    );
+    return result;
   }
 }

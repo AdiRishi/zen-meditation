@@ -9,7 +9,6 @@ const STARTED_AT = new Date(2026, 6, 13, 7, 0).getTime();
 
 class NodeSQLiteTestDatabase {
   readonly native = new DatabaseSync(":memory:");
-  private transactionQueue = Promise.resolve();
 
   async execAsync(source: string) {
     this.native.exec(source);
@@ -29,18 +28,14 @@ class NodeSQLiteTestDatabase {
   }
 
   async withExclusiveTransactionAsync(task: (transaction: SQLiteDatabase) => Promise<void>) {
-    const operation = this.transactionQueue.then(async () => {
-      this.native.exec("BEGIN EXCLUSIVE");
-      try {
-        await task(this as unknown as SQLiteDatabase);
-        this.native.exec("COMMIT");
-      } catch (error) {
-        this.native.exec("ROLLBACK");
-        throw error;
-      }
-    });
-    this.transactionQueue = operation.catch(() => undefined);
-    return operation;
+    this.native.exec("BEGIN EXCLUSIVE");
+    try {
+      await task(this as unknown as SQLiteDatabase);
+      this.native.exec("COMMIT");
+    } catch (error) {
+      this.native.exec("ROLLBACK");
+      throw error;
+    }
   }
 
   asExpoDatabase() {
