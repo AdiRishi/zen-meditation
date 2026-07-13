@@ -9,6 +9,7 @@ const STARTED_AT = new Date(2026, 6, 13, 7, 0).getTime();
 
 class NodeSQLiteTestDatabase {
   readonly native = new DatabaseSync(":memory:");
+  private transactionQueue = Promise.resolve();
 
   async execAsync(source: string) {
     this.native.exec(source);
@@ -28,14 +29,18 @@ class NodeSQLiteTestDatabase {
   }
 
   async withExclusiveTransactionAsync(task: (transaction: SQLiteDatabase) => Promise<void>) {
-    this.native.exec("BEGIN EXCLUSIVE");
-    try {
-      await task(this as unknown as SQLiteDatabase);
-      this.native.exec("COMMIT");
-    } catch (error) {
-      this.native.exec("ROLLBACK");
-      throw error;
-    }
+    const operation = this.transactionQueue.then(async () => {
+      this.native.exec("BEGIN EXCLUSIVE");
+      try {
+        await task(this as unknown as SQLiteDatabase);
+        this.native.exec("COMMIT");
+      } catch (error) {
+        this.native.exec("ROLLBACK");
+        throw error;
+      }
+    });
+    this.transactionQueue = operation.catch(() => undefined);
+    return operation;
   }
 
   asExpoDatabase() {
@@ -103,6 +108,31 @@ describe("SQLiteMeditationStore", () => {
     await expect(store.loadActiveSession()).resolves.toBeNull();
     await expect(store.listCompletedSessions()).resolves.toEqual([]);
     await expect(store.loadPreferences()).resolves.toEqual(DEFAULT_PREFERENCES);
+  });
+
+  it("does not restore an active session when pausing races automatic completion", async () => {
+    const database = new NodeSQLiteTestDatabase();
+    await initializeDatabase(database.asExpoDatabase());
+    const store = new SQLiteMeditationStore(database.asExpoDatabase());
+    await store.startSession({
+      id: "racing-session",
+      durationMinutes: 5,
+      startedAtMs: STARTED_AT,
+      completionSound: "soft-chime",
+      preferences: DEFAULT_PREFERENCES,
+    });
+
+    const [completion, pause] = await Promise.allSettled([
+      store.completeActiveSession(STARTED_AT + 5 * 60_000),
+      store.pauseActiveSession(STARTED_AT + 5 * 60_000),
+    ]);
+
+    expect(completion.status).toBe("fulfilled");
+    expect(pause.status).toBe("rejected");
+    await expect(store.loadActiveSession()).resolves.toBeNull();
+    await expect(store.listCompletedSessions()).resolves.toEqual([
+      expect.objectContaining({ id: "racing-session" }),
+    ]);
   });
 
   it("migrates an existing active-session table to the current schema", async () => {

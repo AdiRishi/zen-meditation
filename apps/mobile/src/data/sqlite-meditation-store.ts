@@ -45,6 +45,15 @@ type CompletedSessionRow = {
   acknowledged_at_ms: number | null;
 };
 
+const ACTIVE_SESSION_QUERY = `SELECT id, planned_duration_ms, started_at_ms, accumulated_active_ms,
+                                     resumed_at_ms, status, completion_sound, completion_local_date,
+                                     completion_timezone_offset_minutes
+                              FROM active_session WHERE singleton_id = 1`;
+
+function loadActiveSessionRow(database: Pick<SQLiteDatabase, "getFirstAsync">) {
+  return database.getFirstAsync<ActiveSessionRow>(ACTIVE_SESSION_QUERY);
+}
+
 function mapActiveSession(row: ActiveSessionRow) {
   const remainingMs = Math.max(0, row.planned_duration_ms - row.accumulated_active_ms);
   const completionAtMs =
@@ -100,12 +109,7 @@ export class SQLiteMeditationStore implements MeditationStore {
   }
 
   async loadActiveSession() {
-    const row = await this.db.getFirstAsync<ActiveSessionRow>(
-      `SELECT id, planned_duration_ms, started_at_ms, accumulated_active_ms,
-              resumed_at_ms, status, completion_sound, completion_local_date,
-              completion_timezone_offset_minutes
-       FROM active_session WHERE singleton_id = 1`,
-    );
+    const row = await loadActiveSessionRow(this.db);
     return row ? mapActiveSession(row) : null;
   }
 
@@ -150,29 +154,18 @@ export class SQLiteMeditationStore implements MeditationStore {
   }
 
   async pauseActiveSession(nowMs: number) {
-    const current = await this.requireActiveSession();
-    const next = pauseSession(current, nowMs);
-    await this.saveActiveSession(next);
-    return next;
+    return this.transitionActiveSession(nowMs, pauseSession);
   }
 
   async resumeActiveSession(nowMs: number) {
-    const current = await this.requireActiveSession();
-    const next = resumeSession(current, nowMs);
-    await this.saveActiveSession(next);
-    return next;
+    return this.transitionActiveSession(nowMs, resumeSession);
   }
 
   async completeActiveSession(nowMs: number): Promise<CompletedSession | null> {
     let completed: CompletedSession | null = null;
 
     await this.db.withExclusiveTransactionAsync(async (transaction) => {
-      const row = await transaction.getFirstAsync<ActiveSessionRow>(
-        `SELECT id, planned_duration_ms, started_at_ms, accumulated_active_ms,
-                resumed_at_ms, status, completion_sound, completion_local_date,
-                completion_timezone_offset_minutes
-         FROM active_session WHERE singleton_id = 1`,
-      );
+      const row = await loadActiveSessionRow(transaction);
       if (!row) {
         return;
       }
@@ -236,26 +229,39 @@ export class SQLiteMeditationStore implements MeditationStore {
     });
   }
 
-  private async requireActiveSession() {
-    const session = await this.loadActiveSession();
-    if (!session) {
-      throw new Error("No meditation session is active.");
-    }
-    return session;
-  }
+  private async transitionActiveSession(
+    nowMs: number,
+    transition: (session: ActiveSession, transitionAtMs: number) => ActiveSession,
+  ) {
+    let next: ActiveSession | null = null;
 
-  private async saveActiveSession(session: ActiveSession) {
-    const value = activeSessionSchema.parse(session);
-    await this.db.runAsync(
-      `UPDATE active_session
-       SET accumulated_active_ms = ?, resumed_at_ms = ?, status = ?,
-           completion_local_date = ?, completion_timezone_offset_minutes = ?
-       WHERE singleton_id = 1`,
-      value.accumulatedActiveMs,
-      value.resumedAtMs,
-      value.status,
-      value.completionLocalDate,
-      value.completionTimezoneOffsetMinutes,
-    );
+    await this.db.withExclusiveTransactionAsync(async (transaction) => {
+      const row = await loadActiveSessionRow(transaction);
+      if (!row) {
+        throw new Error("No meditation session is active.");
+      }
+
+      next = activeSessionSchema.parse(transition(mapActiveSession(row), nowMs));
+      const result = await transaction.runAsync(
+        `UPDATE active_session
+         SET accumulated_active_ms = ?, resumed_at_ms = ?, status = ?,
+             completion_local_date = ?, completion_timezone_offset_minutes = ?
+         WHERE singleton_id = 1 AND id = ?`,
+        next.accumulatedActiveMs,
+        next.resumedAtMs,
+        next.status,
+        next.completionLocalDate,
+        next.completionTimezoneOffsetMinutes,
+        next.id,
+      );
+      if (result.changes !== 1) {
+        throw new Error("The active meditation session changed before it could be updated.");
+      }
+    });
+
+    if (!next) {
+      throw new Error("The active meditation session could not be updated.");
+    }
+    return next;
   }
 }
