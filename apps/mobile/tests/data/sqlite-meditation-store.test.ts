@@ -130,9 +130,7 @@ describe("SQLiteMeditationStore", () => {
     expect(completion.status).toBe("fulfilled");
     expect(pause.status).toBe("rejected");
     await expect(store.loadActiveSession()).resolves.toBeNull();
-    await expect(store.listCompletedSessions()).resolves.toEqual([
-      expect.objectContaining({ id: "racing-session" }),
-    ]);
+    await expect(store.listCompletedSessions()).resolves.toEqual([expect.objectContaining({ id: "racing-session" })]);
   });
 
   it("migrates an existing active-session table to the current schema", async () => {

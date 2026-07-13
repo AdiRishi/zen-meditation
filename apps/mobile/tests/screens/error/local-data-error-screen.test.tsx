@@ -18,9 +18,7 @@ describe("<LocalDataErrorScreen />", () => {
         }),
     );
     const alert = jest.spyOn(Alert, "alert").mockImplementation(() => undefined);
-    const { getByText } = renderWithTestProviders(
-      <LocalDataErrorScreen onRetry={jest.fn()} onReset={onReset} />,
-    );
+    const { getByText } = renderWithTestProviders(<LocalDataErrorScreen onRetry={jest.fn()} onReset={onReset} />);
 
     fireEvent.press(getByText("Reset local data"));
     expect(onReset).not.toHaveBeenCalled();
