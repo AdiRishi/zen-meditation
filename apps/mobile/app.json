@@ -128,15 +128,15 @@
               },
               "headerBackground": {
                 "light": "#68725F",
-                "dark": "#929D85"
+                "dark": "#41493F"
               },
               "numbersBackgroundColor": {
                 "light": "#FBF9F4",
                 "dark": "#292F31"
               },
               "numbersSelectorColor": {
-                "light": "#68725F",
-                "dark": "#929D85"
+                "light": "#E6DFD2",
+                "dark": "#41493F"
               },
               "numbersTextColor": {
                 "light": "#1E2326",
