@@ -82,12 +82,12 @@ export function GenericErrorScreen({
       <View className="mt-2 w-full max-w-[320px] gap-3">
         {onRetry && (
           <Button variant="primary" size="lg" onPress={onRetry}>
-            <Button.Label>Try again</Button.Label>
+            <Button.Label className="font-sans">Try again</Button.Label>
           </Button>
         )}
         {onGoHome && (
           <Button variant={onRetry ? "tertiary" : "primary"} size="lg" onPress={onGoHome}>
-            <Button.Label>Go home</Button.Label>
+            <Button.Label className="font-sans">Go home</Button.Label>
           </Button>
         )}
       </View>

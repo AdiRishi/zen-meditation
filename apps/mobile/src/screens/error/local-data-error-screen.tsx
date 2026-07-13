@@ -28,10 +28,10 @@ export function LocalDataErrorScreen({ onRetry, onReset }: LocalDataErrorScreenP
       </View>
       <View className="gap-3">
         <Button variant="primary" size="lg" onPress={onRetry}>
-          <Button.Label>Try again</Button.Label>
+          <Button.Label className="font-sans">Try again</Button.Label>
         </Button>
         <Button variant="outline" size="lg" onPress={onReset}>
-          <Button.Label>Reset local data</Button.Label>
+          <Button.Label className="font-sans">Reset local data</Button.Label>
         </Button>
         <Typography variant="caption" tone="muted" align="center">
           Reset removes settings and practice history stored on this device.

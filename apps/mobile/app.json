@@ -52,6 +52,12 @@
         }
       ],
       [
+        "expo-navigation-bar",
+        {
+          "enforceContrast": false
+        }
+      ],
+      [
         "expo-font",
         {
           "android": {
@@ -111,7 +117,35 @@
           "enableBackgroundPlayback": false
         }
       ],
-      "@react-native-community/datetimepicker"
+      [
+        "@react-native-community/datetimepicker",
+        {
+          "android": {
+            "timePicker": {
+              "background": {
+                "light": "#FBF9F4",
+                "dark": "#292F31"
+              },
+              "headerBackground": {
+                "light": "#68725F",
+                "dark": "#929D85"
+              },
+              "numbersBackgroundColor": {
+                "light": "#FBF9F4",
+                "dark": "#292F31"
+              },
+              "numbersSelectorColor": {
+                "light": "#68725F",
+                "dark": "#929D85"
+              },
+              "numbersTextColor": {
+                "light": "#1E2326",
+                "dark": "#F5F2EB"
+              }
+            }
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

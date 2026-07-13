@@ -14,8 +14,16 @@ export function ProgressPeriodControl({ mode, onChange }: ProgressPeriodControlP
       selectedIndex={mode === "week" ? 0 : 1}
       onChange={({ nativeEvent }) => onChange(nativeEvent.selectedSegmentIndex === 0 ? "week" : "month")}
       accessibilityLabel="Progress period"
-      fontStyle={{ fontFamily: "Geist", fontSize: 14, fontWeight: "400" }}
-      activeFontStyle={{ fontFamily: "Geist", fontSize: 14, fontWeight: "500" }}
+      fontStyle={
+        process.env.EXPO_OS === "ios"
+          ? { fontFamily: "Geist-Regular", fontSize: 14 }
+          : { fontFamily: "Geist", fontSize: 14, fontWeight: "400" }
+      }
+      activeFontStyle={
+        process.env.EXPO_OS === "ios"
+          ? { fontFamily: "Geist-Medium", fontSize: 14 }
+          : { fontFamily: "Geist", fontSize: 14, fontWeight: "500" }
+      }
       style={{ alignSelf: "center", height: 44, width: "72%" }}
     />
   );

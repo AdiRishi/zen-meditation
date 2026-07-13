@@ -16,7 +16,7 @@ export function ZenPrimaryButton({ children, className, ...props }: ZenButtonPro
       accessibilityRole="button"
       {...props}
     >
-      <Button.Label className="text-base font-medium">{children}</Button.Label>
+      <Button.Label className="font-sans text-base font-medium">{children}</Button.Label>
     </Button>
   );
 }
@@ -31,7 +31,7 @@ export function ZenSecondaryButton({ children, className, ...props }: ZenButtonP
       accessibilityRole="button"
       {...props}
     >
-      <Button.Label className="text-base font-medium">{children}</Button.Label>
+      <Button.Label className="font-sans text-base font-medium">{children}</Button.Label>
     </Button>
   );
 }
