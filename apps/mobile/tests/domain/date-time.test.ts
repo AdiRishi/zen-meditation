@@ -20,9 +20,7 @@ describe("date-time presentation", () => {
     expect(formatLocalDateLabel("2026-07-15", now)).toBe("Today");
     expect(formatLocalDateLabel("2026-07-14", now)).toBe("Yesterday");
     expect(formatLocalDateLabel("2026-07-01", now)).toBe(shortDateFormatter.format(new Date(2026, 6, 1)));
-    expect(formatLocalDateLabel("2025-12-31", now)).toBe(
-      shortDateWithYearFormatter.format(new Date(2025, 11, 31)),
-    );
+    expect(formatLocalDateLabel("2025-12-31", now)).toBe(shortDateWithYearFormatter.format(new Date(2025, 11, 31)));
   });
 
   it("classifies sessions using the wall-clock hour where they completed", () => {
@@ -37,9 +35,7 @@ describe("date-time presentation", () => {
     const upcoming = new Date(2026, 6, 18, 8, 0).getTime();
     const nextWeek = new Date(2026, 6, 22, 8, 0).getTime();
 
-    expect(formatScheduledPractice(tomorrow, now)).toBe(
-      `Tomorrow, ${shortTimeFormatter.format(new Date(tomorrow))}`,
-    );
+    expect(formatScheduledPractice(tomorrow, now)).toBe(`Tomorrow, ${shortTimeFormatter.format(new Date(tomorrow))}`);
     expect(formatScheduledPractice(upcoming, now)).toBe(
       `${weekdayFormatter.format(new Date(upcoming))}, ${shortTimeFormatter.format(new Date(upcoming))}`,
     );

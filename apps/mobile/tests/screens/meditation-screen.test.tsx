@@ -1,5 +1,5 @@
-import { renderWithSafeArea } from "@tests/testing-utils/render-meditation-screen";
 import { act, waitFor } from "@testing-library/react-native";
+import { renderWithSafeArea } from "@tests/testing-utils/render-meditation-screen";
 import { AppState } from "react-native";
 
 import type { ActiveSession, CompletedSession } from "@/domain/meditation";

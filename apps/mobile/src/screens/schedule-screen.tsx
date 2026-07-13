@@ -33,10 +33,7 @@ export function ScheduleScreen() {
   );
 }
 
-type ScheduleEditorProps = Pick<
-  ReturnType<typeof useMeditation>,
-  "error" | "preferences" | "saveReminderPreferences"
->;
+type ScheduleEditorProps = Pick<ReturnType<typeof useMeditation>, "error" | "preferences" | "saveReminderPreferences">;
 
 function ScheduleEditor({ error, preferences, saveReminderPreferences }: ScheduleEditorProps) {
   const [draft, setDraft] = useState<AppPreferences>(preferences);

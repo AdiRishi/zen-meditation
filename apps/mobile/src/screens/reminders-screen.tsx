@@ -36,10 +36,7 @@ export function RemindersScreen() {
 
 type RemindersEditorProps = Pick<
   ReturnType<typeof useMeditation>,
-  | "error"
-  | "notificationPermission"
-  | "preferences"
-  | "saveReminderPreferences"
+  "error" | "notificationPermission" | "preferences" | "saveReminderPreferences"
 >;
 
 function RemindersEditor({

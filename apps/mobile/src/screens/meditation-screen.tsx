@@ -31,9 +31,7 @@ export function MeditationScreen() {
   const [nowMs, setNowMs] = useState(() => Date.now());
   const [completionError, setCompletionError] = useState(false);
   const [observedSessionId] = useState(activeSession?.id);
-  const [mayHaveCompletedInBackground, setMayHaveCompletedInBackground] = useState(
-    AppState.currentState !== "active",
-  );
+  const [mayHaveCompletedInBackground, setMayHaveCompletedInBackground] = useState(AppState.currentState !== "active");
   const completionStarted = useRef(false);
   const { error: transitionError, isPending: transitionPending, run: runTransition } = useAsyncAction();
 
@@ -97,9 +95,7 @@ export function MeditationScreen() {
         const sessionId = completed?.id ?? pendingCompletion?.id ?? observedSessionId;
         router.replace({
           pathname: "/session-complete",
-          params: sessionId
-            ? { id: sessionId, ...(shouldPlayCompletionSound ? { playSound: "1" } : {}) }
-            : {},
+          params: sessionId ? { id: sessionId, ...(shouldPlayCompletionSound ? { playSound: "1" } : {}) } : {},
         });
       } catch {
         completionStarted.current = false;
@@ -119,8 +115,7 @@ export function MeditationScreen() {
 
   if (!activeSession || !projection) {
     if (pendingCompletion) {
-      const playSound =
-        pendingCompletion.id === observedSessionId && shouldPlayCompletionSound ? "1" : undefined;
+      const playSound = pendingCompletion.id === observedSessionId && shouldPlayCompletionSound ? "1" : undefined;
       return (
         <Redirect
           href={{
