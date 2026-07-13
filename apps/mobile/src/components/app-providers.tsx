@@ -28,13 +28,16 @@ function LocalDataProvider({ children }: { children: React.ReactNode }) {
     setDatabaseKey((value) => value + 1);
   };
 
-  const reset = () => {
-    void deleteDatabaseAsync("zen.db")
-      .then(async () => {
-        await localNotifications.clearAllManagedNotifications().catch(() => undefined);
-        retry();
-      })
-      .catch(setDatabaseError);
+  const reset = async () => {
+    try {
+      await deleteDatabaseAsync("zen.db");
+      await localNotifications.clearAllManagedNotifications().catch(() => undefined);
+      retry();
+    } catch (error) {
+      const databaseResetError = error instanceof Error ? error : new Error("Local data could not be reset.");
+      setDatabaseError(databaseResetError);
+      throw databaseResetError;
+    }
   };
 
   if (databaseError) {

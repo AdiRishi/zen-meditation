@@ -34,7 +34,14 @@ export function LaunchScreen() {
   }
 
   if (error) {
-    return <LocalDataErrorScreen onRetry={() => void refresh()} onReset={() => void resetAllData()} />;
+    return (
+      <LocalDataErrorScreen
+        onRetry={async () => {
+          await refresh();
+        }}
+        onReset={resetAllData}
+      />
+    );
   }
 
   if (!brandMomentComplete) {
