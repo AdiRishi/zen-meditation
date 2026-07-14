@@ -41,6 +41,8 @@ type MeditationState = {
   notificationPermission: LocalNotificationPermissionStatus;
 };
 
+type ProviderState = Omit<MeditationState, "reducedMotion">;
+
 type MeditationContextValue = MeditationState & {
   refresh(): Promise<boolean>;
   savePreferences(preferences: AppPreferences): Promise<void>;
@@ -111,8 +113,8 @@ async function loadMeditationSnapshot(
   clock: Clock,
   notifications: LocalNotifications | undefined,
 ) {
-  const preferences = await store.loadPreferences();
-  let activeSession = await store.loadActiveSession();
+  const [preferences, storedActiveSession] = await Promise.all([store.loadPreferences(), store.loadActiveSession()]);
+  let activeSession = storedActiveSession;
 
   if (activeSession && projectSession(activeSession, clock.now()).isComplete) {
     await store.completeActiveSession(clock.now());
@@ -131,7 +133,7 @@ async function loadMeditationSnapshot(
 export function MeditationProvider({ children, store, clock = systemClock, notifications }: MeditationProviderProps) {
   const stateRevision = useRef(0);
   const [systemReducedMotion, setSystemReducedMotion] = useState(false);
-  const [state, setState] = useState<Omit<MeditationState, "reducedMotion">>({
+  const [state, setState] = useState<ProviderState>({
     isReady: false,
     error: null,
     preferences: DEFAULT_PREFERENCES,
@@ -146,9 +148,9 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
   }, []);
 
   const commitState = useCallback(
-    (update: (current: Omit<MeditationState, "reducedMotion">) => Omit<MeditationState, "reducedMotion">) => {
+    (changes: Partial<ProviderState>) => {
       invalidatePendingRefresh();
-      setState(update);
+      setState((current) => ({ ...current, ...changes }));
     },
     [invalidatePendingRefresh],
   );
@@ -226,7 +228,7 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
   const savePreferences = useCallback(
     async (preferences: AppPreferences) => {
       await store.savePreferences(preferences);
-      commitState((current) => ({ ...current, preferences }));
+      commitState({ preferences });
     },
     [commitState, store],
   );
@@ -252,11 +254,10 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
           ? await notifications.rescheduleWeeklyReminders(effectivePreferences)
           : { permissionStatus: "denied" as const, scheduledCount: 0 };
       } catch {
-        commitState((current) => ({
-          ...current,
+        commitState({
           preferences: effectivePreferences,
           notificationPermission: permission,
-        }));
+        });
         return { preferences: effectivePreferences, scheduledCount: 0, status: "sync-failed" };
       }
 
@@ -267,20 +268,18 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
         try {
           await notifications?.rescheduleWeeklyReminders(effectivePreferences);
         } catch {
-          commitState((current) => ({
-            ...current,
+          commitState({
             preferences: effectivePreferences,
             notificationPermission: permission,
-          }));
+          });
           return { preferences: effectivePreferences, scheduledCount: 0, status: "sync-failed" };
         }
       }
 
-      commitState((current) => ({
-        ...current,
+      commitState({
         preferences: effectivePreferences,
         notificationPermission: permission,
-      }));
+      });
 
       const status = !effectivePreferences.remindersEnabled
         ? remindersRequested
@@ -314,7 +313,7 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
         completionSound: sound,
         preferences,
       });
-      commitState((current) => ({ ...current, preferences, activeSession: session }));
+      commitState({ preferences, activeSession: session });
       await syncCompletionNotification(session, nowMs);
       return session;
     },
@@ -323,7 +322,7 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
 
   const pauseActiveSession = useCallback(async () => {
     const session = await store.pauseActiveSession(clock.now());
-    commitState((current) => ({ ...current, activeSession: session }));
+    commitState({ activeSession: session });
     await syncCompletionNotification(null);
     return session;
   }, [clock, commitState, store, syncCompletionNotification]);
@@ -331,7 +330,7 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
   const resumeActiveSession = useCallback(async () => {
     const nowMs = clock.now();
     const session = await store.resumeActiveSession(nowMs);
-    commitState((current) => ({ ...current, activeSession: session }));
+    commitState({ activeSession: session });
     await syncCompletionNotification(session, nowMs);
     return session;
   }, [clock, commitState, store, syncCompletionNotification]);
@@ -341,25 +340,24 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
     const completed = await store.completeActiveSession(clock.now());
     await syncCompletionNotification(null);
     const completedSessions = await store.listCompletedSessions();
-    commitState((current) => ({
-      ...current,
+    commitState({
       activeSession: null,
       ...completedSessionState(completedSessions),
-    }));
+    });
     return completed ?? completedSessions.find((session) => session.id === activeSessionId) ?? null;
   }, [clock, commitState, state.activeSession?.id, store, syncCompletionNotification]);
 
   const abandonActiveSession = useCallback(async () => {
     await store.abandonActiveSession();
     await syncCompletionNotification(null);
-    commitState((current) => ({ ...current, activeSession: null }));
+    commitState({ activeSession: null });
   }, [commitState, store, syncCompletionNotification]);
 
   const setSessionFeeling = useCallback(
     async (id: string, feeling: Feeling | null) => {
       await store.updateSessionFeeling(id, feeling);
       const completedSessions = await store.listCompletedSessions();
-      commitState((current) => ({ ...current, ...completedSessionState(completedSessions) }));
+      commitState(completedSessionState(completedSessions));
     },
     [commitState, store],
   );
@@ -368,7 +366,7 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
     async (id: string) => {
       await store.acknowledgeSession(id, clock.now());
       const completedSessions = await store.listCompletedSessions();
-      commitState((current) => ({ ...current, ...completedSessionState(completedSessions) }));
+      commitState(completedSessionState(completedSessions));
     },
     [clock, commitState, store],
   );

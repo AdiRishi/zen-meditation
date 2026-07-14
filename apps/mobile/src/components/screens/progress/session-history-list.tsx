@@ -1,8 +1,7 @@
-import { Separator } from "heroui-native";
 import { View } from "react-native";
 
 import { Typography } from "@/components/ui/typography";
-import { ZenCard } from "@/components/ui/zen/zen-card";
+import { GroupedList } from "@/components/ui/zen/list-row";
 import { ZenIcon } from "@/components/ui/zen/zen-icon";
 import { formatLocalDateLabel, formatSessionDaypart, formatWallClockTime } from "@/domain/date-time";
 import type { CompletedSession } from "@/domain/meditation";
@@ -51,13 +50,10 @@ function SessionRow({ session, nowMs }: { session: CompletedSession; nowMs: numb
 
 export function SessionHistoryList({ sessions, nowMs }: { sessions: CompletedSession[]; nowMs: number }) {
   return (
-    <ZenCard>
-      {sessions.map((session, index) => (
-        <View key={session.id}>
-          {index > 0 ? <Separator /> : null}
-          <SessionRow session={session} nowMs={nowMs} />
-        </View>
+    <GroupedList>
+      {sessions.map((session) => (
+        <SessionRow key={session.id} session={session} nowMs={nowMs} />
       ))}
-    </ZenCard>
+    </GroupedList>
   );
 }

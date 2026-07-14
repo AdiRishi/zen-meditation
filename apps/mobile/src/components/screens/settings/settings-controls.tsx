@@ -1,9 +1,9 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Separator } from "heroui-native";
 import { useState } from "react";
 import { Pressable, Switch, useWindowDimensions, View } from "react-native";
 
 import { Typography } from "@/components/ui/typography";
+import { GroupedList } from "@/components/ui/zen/list-row";
 import { ZenCard } from "@/components/ui/zen/zen-card";
 import { ZenIcon, type ZenIconName } from "@/components/ui/zen/zen-icon";
 import { dateForPracticeTime, formatPracticeTime } from "@/domain/date-time";
@@ -111,45 +111,6 @@ function PracticeTimePicker({
   );
 }
 
-export function SessionsPerDayControl({ value, onChange }: { value: number; onChange: (value: number) => void }) {
-  const colors = useThemeColors();
-
-  return (
-    <ZenCard className="px-4 py-5">
-      <View className="flex-row items-center justify-between">
-        <Pressable
-          accessibilityLabel="Decrease sessions per day"
-          accessibilityRole="button"
-          accessibilityState={{ disabled: value <= 1 }}
-          className="size-11 items-center justify-center rounded-full border border-border"
-          disabled={value <= 1}
-          onPress={() => onChange(value - 1)}
-        >
-          <ZenIcon name="minus" size={18} tintColor={value <= 1 ? colors.muted : colors.foreground} />
-        </Pressable>
-        <View className="items-center gap-0.5">
-          <Typography variant="h2" tabularNums>
-            {value}
-          </Typography>
-          <Typography variant="small" tone="muted">
-            {value === 1 ? "session each day" : "sessions each day"}
-          </Typography>
-        </View>
-        <Pressable
-          accessibilityLabel="Increase sessions per day"
-          accessibilityRole="button"
-          accessibilityState={{ disabled: value >= 3 }}
-          className="size-11 items-center justify-center rounded-full border border-border"
-          disabled={value >= 3}
-          onPress={() => onChange(value + 1)}
-        >
-          <ZenIcon name="plus" size={18} tintColor={value >= 3 ? colors.muted : colors.foreground} />
-        </Pressable>
-      </View>
-    </ZenCard>
-  );
-}
-
 export function PracticeTimeControls({
   times,
   onChange,
@@ -166,10 +127,9 @@ export function PracticeTimeControls({
   };
 
   return (
-    <ZenCard>
-      {times.map((time, index) => (
+    <GroupedList>
+      {times.map((time) => (
         <View key={time.id}>
-          {index > 0 ? <Separator /> : null}
           <View className="min-h-20 gap-3 px-4 py-3">
             <View className="flex-row items-center gap-3">
               <View className="size-10 items-center justify-center rounded-full bg-surface-secondary">
@@ -222,7 +182,7 @@ export function PracticeTimeControls({
           )}
         </View>
       ))}
-    </ZenCard>
+    </GroupedList>
   );
 }
 
@@ -327,35 +287,32 @@ export function QuietHoursControl({
   ] as const;
 
   return (
-    <ZenCard className={enabled ? "" : "opacity-60"}>
-      {timeRows.map((row, index) => (
-        <View key={row.id}>
-          {index > 0 ? <Separator /> : null}
-          <View className="min-h-16 flex-row items-center gap-3 px-4 py-3">
-            <View className="size-10 items-center justify-center rounded-full bg-surface-secondary">
-              <ZenIcon name={row.id === "start" ? "moon" : "sun"} size={22} tintColor={colors.muted} />
-            </View>
-            <Typography variant="body" className="flex-1">
-              {row.label}
-            </Typography>
-            <TimePickerControl
-              accessibilityLabel={`Quiet hours ${row.label.toLowerCase()}`}
-              disabled={!enabled}
-              hour={Math.floor(row.value / 60)}
-              minute={row.value % 60}
-              onChange={(date) => {
-                onChange({
-                  startMinute: row.id === "start" ? minuteOfDay(date) : startMinute,
-                  endMinute: row.id === "end" ? minuteOfDay(date) : endMinute,
-                });
-              }}
-              testID={`reminders.quiet-hours.${row.id}`}
-              width={100}
-            />
+    <GroupedList className={enabled ? undefined : "opacity-60"}>
+      {timeRows.map((row) => (
+        <View key={row.id} className="min-h-16 flex-row items-center gap-3 px-4 py-3">
+          <View className="size-10 items-center justify-center rounded-full bg-surface-secondary">
+            <ZenIcon name={row.id === "start" ? "moon" : "sun"} size={22} tintColor={colors.muted} />
           </View>
+          <Typography variant="body" className="flex-1">
+            {row.label}
+          </Typography>
+          <TimePickerControl
+            accessibilityLabel={`Quiet hours ${row.label.toLowerCase()}`}
+            disabled={!enabled}
+            hour={Math.floor(row.value / 60)}
+            minute={row.value % 60}
+            onChange={(date) => {
+              onChange({
+                startMinute: row.id === "start" ? minuteOfDay(date) : startMinute,
+                endMinute: row.id === "end" ? minuteOfDay(date) : endMinute,
+              });
+            }}
+            testID={`reminders.quiet-hours.${row.id}`}
+            width={100}
+          />
         </View>
       ))}
-    </ZenCard>
+    </GroupedList>
   );
 }
 
@@ -422,37 +379,35 @@ export function AppearanceChoiceList({
   const colors = useThemeColors();
 
   return (
-    <ZenCard accessibilityRole="radiogroup">
-      {APPEARANCE_OPTIONS.map((option, index) => {
+    <GroupedList accessibilityRole="radiogroup">
+      {APPEARANCE_OPTIONS.map((option) => {
         const isSelected = option.value === value;
         return (
-          <View key={option.value}>
-            {index > 0 ? <Separator /> : null}
-            <Pressable
-              accessibilityLabel={`${option.label} appearance`}
-              accessibilityRole="radio"
-              accessibilityState={{ checked: isSelected, disabled }}
-              className="min-h-16 flex-row items-center gap-3 px-4 py-3"
-              disabled={disabled}
-              onPress={() => onChange(option.value)}
+          <Pressable
+            key={option.value}
+            accessibilityLabel={`${option.label} appearance`}
+            accessibilityRole="radio"
+            accessibilityState={{ checked: isSelected, disabled }}
+            className="min-h-16 flex-row items-center gap-3 px-4 py-3"
+            disabled={disabled}
+            onPress={() => onChange(option.value)}
+          >
+            <View className="flex-1 gap-0.5">
+              <Typography variant="body">{option.label}</Typography>
+              <Typography variant="small" tone="muted">
+                {option.description}
+              </Typography>
+            </View>
+            <View
+              className={`size-6 items-center justify-center rounded-full border ${
+                isSelected ? "border-accent bg-accent" : "border-stone"
+              }`}
             >
-              <View className="flex-1 gap-0.5">
-                <Typography variant="body">{option.label}</Typography>
-                <Typography variant="small" tone="muted">
-                  {option.description}
-                </Typography>
-              </View>
-              <View
-                className={`size-6 items-center justify-center rounded-full border ${
-                  isSelected ? "border-accent bg-accent" : "border-stone"
-                }`}
-              >
-                {isSelected ? <ZenIcon name="check" size={14} tintColor={colors.accentForeground} /> : null}
-              </View>
-            </Pressable>
-          </View>
+              {isSelected ? <ZenIcon name="check" size={14} tintColor={colors.accentForeground} /> : null}
+            </View>
+          </Pressable>
         );
       })}
-    </ZenCard>
+    </GroupedList>
   );
 }

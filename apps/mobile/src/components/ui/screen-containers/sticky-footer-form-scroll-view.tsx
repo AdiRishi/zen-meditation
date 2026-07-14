@@ -2,6 +2,8 @@ import React, { createContext, use } from "react";
 import type { LayoutChangeEvent, ViewProps } from "react-native";
 import { View } from "react-native";
 
+import { cn } from "@/lib/cn";
+
 import { FormScrollView } from "./form-scroll-view";
 
 type StickyFooterFormScrollViewContextValue = {
@@ -55,7 +57,7 @@ function Footer({ children, className, onLayout, ...props }: StickyFooterFormScr
   };
 
   return (
-    <View className={`absolute right-0 bottom-0 left-0 ${className ?? ""}`} onLayout={handleLayout} {...props}>
+    <View className={cn("absolute right-0 bottom-0 left-0", className)} onLayout={handleLayout} {...props}>
       {children}
     </View>
   );

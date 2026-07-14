@@ -2,9 +2,9 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 
-import { OnboardingCounter } from "@/components/screens/onboarding/onboarding-counter";
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
+import { CounterCard } from "@/components/ui/zen/counter-card";
 import { ScreenHeader } from "@/components/ui/zen/screen-header";
 import { WeekdaySelector } from "@/components/ui/zen/weekday-selector";
 import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
@@ -63,14 +63,14 @@ export function PracticeGoalScreen() {
         </View>
         <View className="h-px bg-separator" />
         <View className="gap-4">
-          <OnboardingCounter
+          <CounterCard
             value={selectedWeekdays.length}
             label={selectedWeekdays.length === 1 ? "day per week" : "days per week"}
             minimum={1}
             maximum={7}
             onChange={setDayCount}
           />
-          <OnboardingCounter
+          <CounterCard
             value={sessionsPerDay}
             label={sessionsPerDay === 1 ? "session on practice days" : "sessions on practice days"}
             minimum={1}

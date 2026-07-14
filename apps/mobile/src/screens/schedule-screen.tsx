@@ -1,10 +1,6 @@
 import { useState } from "react";
 
-import {
-  AddPracticeTimeButton,
-  PracticeTimeControls,
-  SessionsPerDayControl,
-} from "@/components/screens/settings/settings-controls";
+import { AddPracticeTimeButton, PracticeTimeControls } from "@/components/screens/settings/settings-controls";
 import {
   SettingsFeedback,
   SettingsFormLayout,
@@ -12,6 +8,7 @@ import {
   SettingsSection,
   type SettingsFeedbackState,
 } from "@/components/screens/settings/settings-layout";
+import { CounterCard } from "@/components/ui/zen/counter-card";
 import { WeekdaySelector } from "@/components/ui/zen/weekday-selector";
 import { createPracticeTimeId } from "@/domain/identifiers";
 import { MAX_PRACTICE_TIMES, type AppPreferences } from "@/domain/meditation";
@@ -78,8 +75,12 @@ function ScheduleEditor() {
         title="Sessions per chosen day"
         description="Keep the intention realistic and easy to return to."
       >
-        <SessionsPerDayControl
+        <CounterCard
           value={draft.sessionsPerDay}
+          label={draft.sessionsPerDay === 1 ? "session each day" : "sessions each day"}
+          accessibilityLabel="sessions per day"
+          minimum={1}
+          maximum={3}
           onChange={(sessionsPerDay) => setDraft((current) => ({ ...current, sessionsPerDay }))}
         />
       </SettingsSection>

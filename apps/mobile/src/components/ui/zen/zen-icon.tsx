@@ -3,9 +3,6 @@ import { SymbolView, type SymbolViewProps } from "expo-symbols";
 import type { CompletionSound } from "@/domain/meditation";
 
 export type ZenIconName =
-  | "home"
-  | "progress"
-  | "settings"
   | "sun"
   | "moon"
   | "bell"
@@ -22,15 +19,9 @@ export type ZenIconName =
   | "lock"
   | "info"
   | "plus"
-  | "minus"
-  | "clock"
-  | "history"
-  | "close";
+  | "minus";
 
 const ICONS = {
-  home: { ios: "house", android: "home", web: "home" },
-  progress: { ios: "chart.bar", android: "bar_chart", web: "bar_chart" },
-  settings: { ios: "gearshape", android: "settings", web: "settings" },
   sun: { ios: "sun.max", android: "light_mode", web: "light_mode" },
   moon: { ios: "moon", android: "dark_mode", web: "dark_mode" },
   bell: { ios: "bell", android: "notifications", web: "notifications" },
@@ -48,9 +39,6 @@ const ICONS = {
   info: { ios: "info.circle", android: "info", web: "info" },
   plus: { ios: "plus", android: "add", web: "add" },
   minus: { ios: "minus", android: "remove", web: "remove" },
-  clock: { ios: "clock", android: "schedule", web: "schedule" },
-  history: { ios: "calendar.badge.clock", android: "history", web: "history" },
-  close: { ios: "xmark", android: "close", web: "close" },
 } as const satisfies Record<ZenIconName, SymbolViewProps["name"]>;
 
 type ZenIconProps = Omit<SymbolViewProps, "name"> & {

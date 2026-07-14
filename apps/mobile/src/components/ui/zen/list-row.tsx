@@ -1,11 +1,12 @@
 import { Separator } from "heroui-native";
-import { Children } from "react";
+import { Children, isValidElement } from "react";
 import { Pressable, View } from "react-native";
 
 import { formatPracticeTime } from "@/domain/date-time";
 import type { CompletionSound, PracticeTime } from "@/domain/meditation";
 import { getCompletionSoundLabel } from "@/domain/meditation";
 import { useThemeColors } from "@/hooks/use-theme-colors";
+import { cn } from "@/lib/cn";
 
 import { Typography } from "../typography";
 import { ZenCard } from "./zen-card";
@@ -45,11 +46,11 @@ export function ZenListRow({
       accessibilityRole={onPress ? "button" : undefined}
       accessibilityLabel={[label, detail, value].filter(Boolean).join(", ")}
       accessibilityHint={accessibilityHint}
-      className={`min-h-16 flex-row items-center gap-4 px-4 py-3 ${className ?? ""}`}
+      className={cn("min-h-16 flex-row items-center gap-4 px-4 py-3", className)}
       disabled={!onPress}
       onPress={onPress}
     >
-      <View className={`size-10 items-center justify-center rounded-full bg-surface-secondary ${iconClassName ?? ""}`}>
+      <View className={cn("size-10 items-center justify-center rounded-full bg-surface-secondary", iconClassName)}>
         <ZenIcon name={icon} size={iconSize} tintColor={colors.muted} />
       </View>
       <View className="flex-1 gap-0.5">
@@ -123,12 +124,12 @@ export function CompletionSoundRow({
   );
 }
 
-export function GroupedList({ children }: { children: React.ReactNode | React.ReactNode[] }) {
+export function GroupedList({ children, ...props }: React.ComponentProps<typeof ZenCard>) {
   const items = Children.toArray(children);
   return (
-    <ZenCard>
+    <ZenCard {...props}>
       {items.map((child, index) => (
-        <View key={index}>
+        <View key={isValidElement(child) && child.key !== null ? child.key : index}>
           {index > 0 ? <Separator /> : null}
           {child}
         </View>

@@ -1,5 +1,7 @@
 import { Button, type ButtonRootProps } from "heroui-native";
 
+import { cn } from "@/lib/cn";
+
 type ScaleHighlightButtonProps = Extract<ButtonRootProps, { feedbackVariant?: "scale-highlight" }>;
 
 type ZenButtonProps = Omit<ScaleHighlightButtonProps, "children" | "feedbackVariant"> & {
@@ -12,7 +14,7 @@ export function ZenPrimaryButton({ children, className, ...props }: ZenButtonPro
       variant="primary"
       feedbackVariant="scale-highlight"
       size="lg"
-      className={`min-h-14 w-full rounded-md py-3 ${className ?? ""}`}
+      className={cn("min-h-14 w-full rounded-md py-3", className)}
       accessibilityRole="button"
       {...props}
     >
@@ -27,7 +29,7 @@ export function ZenSecondaryButton({ children, className, ...props }: ZenButtonP
       variant="outline"
       feedbackVariant="scale-highlight"
       size="lg"
-      className={`min-h-14 w-full rounded-md border-border py-3 ${className ?? ""}`}
+      className={cn("min-h-14 w-full rounded-md border-border py-3", className)}
       accessibilityRole="button"
       {...props}
     >

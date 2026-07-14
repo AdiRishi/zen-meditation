@@ -62,18 +62,6 @@ jest.mock("expo-notifications", () => ({
   useLastNotificationResponse: jest.fn(() => null),
 }));
 
-jest.mock("uniwind", () => {
-  const actual = jest.requireActual("uniwind");
-  const cssVariables: Record<string, string> = {
-    "--info": "#2563eb",
-  };
-
-  return {
-    ...actual,
-    useCSSVariable: (name: string) => cssVariables[name] ?? "#111827",
-  };
-});
-
 jest.mock("heroui-native", () => {
   const React = require("react");
   const { Pressable, Text, TextInput, View } = require("react-native");

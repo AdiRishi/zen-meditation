@@ -7,6 +7,7 @@ import { StickyFooterFormScrollView } from "@/components/ui/screen-containers/st
 import { Typography } from "@/components/ui/typography";
 import { ScreenHeader } from "@/components/ui/zen/screen-header";
 import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
+import { cn } from "@/lib/cn";
 
 type SettingsScreenLayoutProps = {
   title: string;
@@ -36,7 +37,7 @@ export function SettingsScreenLayout({
   contentContainerClassName,
 }: SettingsScreenLayoutProps) {
   return (
-    <StandardScrollView className="flex-1" contentContainerClassName={`gap-8 pb-10 ${contentContainerClassName ?? ""}`}>
+    <StandardScrollView className="flex-1" contentContainerClassName={cn("gap-8 pb-10", contentContainerClassName)}>
       <SettingsTitle title={title} showBack={showBack} />
       {children}
     </StandardScrollView>

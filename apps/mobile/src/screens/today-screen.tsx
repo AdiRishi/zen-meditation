@@ -16,6 +16,7 @@ import {
   toLocalDateKey,
 } from "@/domain/date-time";
 import type { Weekday } from "@/domain/meditation";
+import { completedPracticeDateKeys } from "@/domain/progress";
 import { useMeditation } from "@/providers/meditation-provider";
 
 export function TodayScreen() {
@@ -39,14 +40,10 @@ export function TodayScreen() {
   const todaySessions = completedSessions.filter((session) => session.localDate === todayKey);
   const weekStart = startOfLocalWeek(nowMs);
   const completedWeekdays = new Set<Weekday>();
-  const sessionsByDate = new Map<string, number>();
-
-  for (const session of completedSessions) {
-    sessionsByDate.set(session.localDate, (sessionsByDate.get(session.localDate) ?? 0) + 1);
-  }
+  const completedDates = completedPracticeDateKeys(completedSessions, preferences.sessionsPerDay);
   for (let dayOffset = 0; dayOffset < 7; dayOffset += 1) {
     const dateMs = addLocalDays(weekStart, dayOffset);
-    if ((sessionsByDate.get(toLocalDateKey(dateMs)) ?? 0) >= preferences.sessionsPerDay) {
+    if (completedDates.has(toLocalDateKey(dateMs))) {
       completedWeekdays.add(new Date(dateMs).getDay() as Weekday);
     }
   }

@@ -2,6 +2,8 @@ import { Image } from "expo-image";
 import { View } from "react-native";
 import { useUniwind } from "uniwind";
 
+import { cn } from "@/lib/cn";
+
 type EnsoMarkProps = {
   size?: number;
   className?: string;
@@ -29,7 +31,7 @@ type LandscapeArtworkProps = {
 export function LandscapeArtwork({ height = 260, className, contentPosition = "bottom" }: LandscapeArtworkProps) {
   const { theme } = useUniwind();
   return (
-    <View className={`overflow-hidden ${className ?? ""}`} style={{ height }}>
+    <View className={cn("overflow-hidden", className)} style={{ height }}>
       <Image
         source={
           theme === "dark"

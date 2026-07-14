@@ -13,16 +13,16 @@ export function useAsyncAction() {
     inFlight.current = true;
     setIsPending(true);
     setError(null);
+    let succeeded = false;
     try {
       await action();
-      return true;
+      succeeded = true;
     } catch (caught) {
       setError(caught instanceof Error ? caught : new Error("The action could not be completed."));
-      return false;
-    } finally {
-      inFlight.current = false;
-      setIsPending(false);
     }
+    inFlight.current = false;
+    setIsPending(false);
+    return succeeded;
   }, []);
 
   return { error, isPending, run };

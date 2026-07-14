@@ -1,5 +1,5 @@
 import type { CompletedSession } from "@/domain/meditation";
-import { buildProgressSummary } from "@/domain/progress";
+import { buildProgressSummary, completedPracticeDateKeys } from "@/domain/progress";
 
 function buildSession(day: number, durationMinutes: number, sequence = 1): CompletedSession {
   const completedAtMs = new Date(2026, 6, day, 7, 0).getTime();
@@ -44,6 +44,7 @@ describe("progress summary", () => {
 
     expect(summary.dayRhythm).toBe(1);
     expect(summary.buckets.slice(0, 2).map((bucket) => bucket.completed)).toEqual([false, true]);
+    expect(completedPracticeDateKeys(sessions, 2)).toEqual(new Set(["2026-07-07"]));
   });
 
   it("uses the completion-zone date when the device has since changed time zones", () => {

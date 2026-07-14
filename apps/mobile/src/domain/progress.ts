@@ -39,17 +39,28 @@ function sessionCountsByDate(sessions: CompletedSession[]) {
   return counts;
 }
 
+export function completedPracticeDateKeys(sessions: CompletedSession[], sessionsPerDay: number) {
+  const completedDates = new Set<string>();
+  for (const [dateKey, sessionCount] of sessionCountsByDate(sessions)) {
+    if (sessionCount >= sessionsPerDay) {
+      completedDates.add(dateKey);
+    }
+  }
+  return completedDates;
+}
+
 export function calculateDayRhythm(
   sessions: CompletedSession[],
   selectedWeekdays: Weekday[],
   nowMs: number,
   sessionsPerDay = 1,
 ) {
-  const sessionCounts = sessionCountsByDate(sessions);
-  const completedDates = new Set(
-    [...sessionCounts].filter(([, count]) => count >= sessionsPerDay).map(([dateKey]) => dateKey),
-  );
+  const completedDates = completedPracticeDateKeys(sessions, sessionsPerDay);
   const intendedDays = new Set<number>(selectedWeekdays);
+  if (completedDates.size === 0 || intendedDays.size === 0) {
+    return 0;
+  }
+
   let cursor = new Date(nowMs);
   cursor.setHours(0, 0, 0, 0);
 
@@ -58,7 +69,7 @@ export function calculateDayRhythm(
   }
 
   let rhythm = 0;
-  for (let scannedDays = 0; scannedDays < 3660; scannedDays += 1) {
+  while (rhythm < completedDates.size) {
     if (!intendedDays.has(cursor.getDay())) {
       cursor.setDate(cursor.getDate() - 1);
       continue;
@@ -94,7 +105,7 @@ export function buildProgressSummary(
   const periodEndKey = toLocalDateKey(periodEnd.getTime());
   const periodSessions = sessionsForDateRange(sessions, periodStartKey, periodEndKey);
   const totals = minutesByDate(periodSessions);
-  const sessionCounts = sessionCountsByDate(periodSessions);
+  const completedDates = completedPracticeDateKeys(periodSessions, sessionsPerDay);
   const buckets: ProgressBucket[] = [];
 
   if (mode === "week") {
@@ -104,7 +115,7 @@ export function buildProgressSummary(
       buckets.push({
         label: WEEKDAY_LABELS[index],
         minutes,
-        completed: (sessionCounts.get(dateKey) ?? 0) >= sessionsPerDay,
+        completed: completedDates.has(dateKey),
         dateKey,
       });
     }
@@ -121,7 +132,7 @@ export function buildProgressSummary(
       buckets.push({
         label: String(cursor.getDate()),
         minutes: bucketSessions.reduce((sum, session) => sum + Math.round(session.durationMs / 60_000), 0),
-        completed: [...sessionCountsByDate(bucketSessions).values()].some((count) => count >= sessionsPerDay),
+        completed: completedPracticeDateKeys(bucketSessions, sessionsPerDay).size > 0,
         dateKey: toLocalDateKey(bucketStart),
       });
       cursor.setDate(cursor.getDate() + 7);

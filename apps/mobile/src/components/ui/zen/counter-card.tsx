@@ -1,31 +1,43 @@
 import { Pressable, View } from "react-native";
 
 import { Typography } from "@/components/ui/typography";
-import { ZenCard } from "@/components/ui/zen/zen-card";
-import { ZenIcon } from "@/components/ui/zen/zen-icon";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
-type OnboardingCounterProps = {
+import { ZenCard } from "./zen-card";
+import { ZenIcon } from "./zen-icon";
+
+type CounterCardProps = {
   value: number;
   label: string;
   minimum: number;
   maximum: number;
+  accessibilityLabel?: string;
   onChange: (value: number) => void;
 };
 
-export function OnboardingCounter({ value, label, minimum, maximum, onChange }: OnboardingCounterProps) {
+export function CounterCard({
+  value,
+  label,
+  minimum,
+  maximum,
+  accessibilityLabel = label,
+  onChange,
+}: CounterCardProps) {
   const colors = useThemeColors();
+  const cannotDecrease = value <= minimum;
+  const cannotIncrease = value >= maximum;
 
   return (
     <ZenCard className="flex-row items-center justify-between px-4 py-4">
       <Pressable
-        accessibilityLabel={`Decrease ${label}`}
+        accessibilityLabel={`Decrease ${accessibilityLabel}`}
         accessibilityRole="button"
+        accessibilityState={{ disabled: cannotDecrease }}
         className="size-11 items-center justify-center rounded-full border border-stone"
-        disabled={value <= minimum}
+        disabled={cannotDecrease}
         onPress={() => onChange(Math.max(minimum, value - 1))}
       >
-        <ZenIcon name="minus" size={18} tintColor={value <= minimum ? colors.border : colors.foreground} />
+        <ZenIcon name="minus" size={18} tintColor={cannotDecrease ? colors.border : colors.foreground} />
       </Pressable>
       <View className="items-center gap-0.5">
         <Typography variant="h2" align="center" tone="accent" tabularNums>
@@ -36,13 +48,14 @@ export function OnboardingCounter({ value, label, minimum, maximum, onChange }: 
         </Typography>
       </View>
       <Pressable
-        accessibilityLabel={`Increase ${label}`}
+        accessibilityLabel={`Increase ${accessibilityLabel}`}
         accessibilityRole="button"
+        accessibilityState={{ disabled: cannotIncrease }}
         className="size-11 items-center justify-center rounded-full border border-stone"
-        disabled={value >= maximum}
+        disabled={cannotIncrease}
         onPress={() => onChange(Math.min(maximum, value + 1))}
       >
-        <ZenIcon name="plus" size={18} tintColor={value >= maximum ? colors.border : colors.foreground} />
+        <ZenIcon name="plus" size={18} tintColor={cannotIncrease ? colors.border : colors.foreground} />
       </Pressable>
     </ZenCard>
   );

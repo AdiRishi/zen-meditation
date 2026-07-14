@@ -1,5 +1,5 @@
 import { useFocusEffect, useRouter } from "expo-router";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { View } from "react-native";
 
 import { PracticeCalendar } from "@/components/screens/progress/practice-calendar";
@@ -22,16 +22,11 @@ export function PracticeHistoryScreen() {
   const router = useRouter();
   const { completedSessions, error, isReady, refresh } = useMeditation();
   const [nowMs, setNowMs] = useState(() => Date.now());
-  const [monthStartMs, setMonthStartMs] = useState(() => startOfLocalMonth(nowMs));
-  const previousNowMs = useRef(nowMs);
+  const [selectedMonthStartMs, setSelectedMonthStartMs] = useState<number | null>(null);
+  const monthStartMs = selectedMonthStartMs ?? startOfLocalMonth(nowMs);
   useFocusEffect(
     useCallback(() => {
-      const nextNowMs = Date.now();
-      setMonthStartMs((current) =>
-        current === startOfLocalMonth(previousNowMs.current) ? startOfLocalMonth(nextNowMs) : current,
-      );
-      previousNowMs.current = nextNowMs;
-      setNowMs(nextNowMs);
+      setNowMs(Date.now());
     }, []),
   );
   const monthKey = toLocalDateKey(monthStartMs).slice(0, 7);
@@ -57,8 +52,10 @@ export function PracticeHistoryScreen() {
           <PracticeCalendar
             monthStartMs={monthStartMs}
             completedDates={completedDateKeys(completedSessions)}
-            onPreviousMonth={() => setMonthStartMs((current) => moveMonth(current, -1))}
-            onNextMonth={() => setMonthStartMs((current) => moveMonth(current, 1))}
+            onPreviousMonth={() =>
+              setSelectedMonthStartMs((current) => moveMonth(current ?? startOfLocalMonth(nowMs), -1))
+            }
+            onNextMonth={() => setSelectedMonthStartMs((current) => moveMonth(current ?? startOfLocalMonth(nowMs), 1))}
           />
 
           <View className="h-px bg-separator" />
