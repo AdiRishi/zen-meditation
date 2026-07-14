@@ -12,6 +12,7 @@
     --color-sand: #e6dfd2;
     --color-stone: #cfc6b8;
     --color-moss: #7b866e;
+    --color-action-moss: #68725f;
     --color-slate: #4b5154;
     --color-ink: #1e2326;
 
@@ -32,13 +33,10 @@
     --opacity-disabled: 0.48;
 
     /* Zen typography: Geist for interface text, Newsreader for reflective moments. */
-    --font-sans: Geist_400Regular, ui-sans-serif, system-ui, sans-serif;
-    --font-sans-medium: Geist_500Medium, ui-sans-serif, system-ui, sans-serif;
-    --font-sans-semibold: Geist_600SemiBold, ui-sans-serif, system-ui, sans-serif;
-    --font-display: Newsreader_400Regular, ui-serif, Georgia, serif;
-    --font-serif: Newsreader_400Regular, ui-serif, Georgia, serif;
-    --font-serif-medium: Newsreader_500Medium, ui-serif, Georgia, serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    --font-sans: "Geist";
+    --font-display: "Newsreader";
+    --font-serif: "Newsreader";
+    --font-mono: Menlo;
 }
 
 @layer theme {
@@ -61,7 +59,7 @@
             --muted: var(--color-slate);
             --default: var(--color-sand);
             --default-foreground: var(--color-ink);
-            --accent: var(--color-moss);
+            --accent: var(--color-action-moss);
             --accent-foreground: var(--color-mist);
             --accent-soft: color-mix(in srgb, var(--color-moss) 18%, var(--color-mist));
             --accent-soft-foreground: var(--color-ink);
@@ -112,8 +110,8 @@
             --muted: var(--color-stone);
             --default: #343b3d;
             --default-foreground: var(--color-mist);
-            --accent: var(--color-moss);
-            --accent-foreground: var(--color-mist);
+            --accent: #929d85;
+            --accent-foreground: var(--color-ink);
             --accent-soft: #41493f;
             --accent-soft-foreground: var(--color-mist);
 

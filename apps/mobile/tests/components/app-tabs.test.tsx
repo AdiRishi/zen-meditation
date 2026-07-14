@@ -3,8 +3,6 @@ import type { ReactNode } from "react";
 
 import { AppTabs } from "@/components/app-tabs";
 
-// Native tabs are an Expo Router runtime primitive. This local mock keeps the test
-// focused on this component's contract: which tab triggers and labels it renders.
 jest.mock("expo-router/unstable-native-tabs", () => {
   const React = require("react") as typeof import("react");
   const { Text, View } = require("react-native") as typeof import("react-native");
@@ -32,8 +30,8 @@ describe("<AppTabs />", () => {
   test("renders the app tab workspaces", () => {
     const { getByText } = render(<AppTabs />);
 
-    getByText("Home");
-    getByText("Explore");
-    getByText("Tasks");
+    getByText("Today");
+    getByText("Progress");
+    getByText("Settings");
   });
 });

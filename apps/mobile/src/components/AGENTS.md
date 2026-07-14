@@ -3,7 +3,6 @@
 ## Organization
 
 - `src/components/ui/` — generic reusable UI primitives such as typography and screen containers.
-- `src/components/form/` — TanStack Form field bindings. Form hook factory is `src/hooks/form/use-app-form.ts`; client Zod schemas live in `src/schemas/`.
 - `src/components/screens/<screen-name>/` — components specific to a single screen.
 - `src/components/` top level — app-shell and shared app components such as providers, tabs, links, and brand elements.
 
@@ -19,10 +18,10 @@ HeroUI Native: `Card` extends `Surface`, which applies base padding. To remove d
 
 ## Safe Areas
 
-`StandardView`, `StandardScrollView`, `FormScrollView`, and `AnimatedHeaderScrollView` own screen safe-area handling through `useScreenContainerInsets`. Keep scroll-view keyboard/safe-area mechanics centralized in `ScreenScrollViewBase`.
+`StandardView`, `StandardScrollView`, and `FormScrollView` own screen safe-area handling through `useScreenContainerInsets`. Keep scroll-view and safe-area mechanics centralized in `ScreenScrollViewBase`.
 
 Do not wrap these containers in `SafeAreaView` or apply Uniwind safe-area utilities (`py-safe`, `pt-safe-*`, `pb-safe-*`). Use `edgeToEdge` only for intentional full-bleed screens, and put content spacing in `contentContainerClassName`.
 
 ## Comments
 
-Prefer clearer code over explanatory comments. Use short JSX section comments only to mark meaningful blocks in larger components, such as `{/* Branding */}` or `{/* Server Status */}`.
+Prefer clearer code over explanatory comments. Use short JSX section comments only to mark meaningful blocks in larger components.

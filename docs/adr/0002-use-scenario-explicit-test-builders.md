@@ -1,7 +1,7 @@
-# Use Scenario-Explicit Test Builders
+# Use Scenario-Explicit Meditation Test Data
 
-Frontend tests need realistic app data because meaningful behavior depends on state such as task status, form values, query results, mutation results, loading states, and error states. Fixed fixtures or convenience helpers would make those assumptions implicit, causing tests to read as if they cover one scenario while silently inheriting another.
+Mobile behavior depends on preferences, active-session state, completed practice history, notification permission, and the current time. Tests must make the fields that define each scenario visible instead of inheriting a global happy-path fixture.
 
-We will use shape-based configurable builders for app test data, paired with explicit tRPC mock responses at the test boundary. Builders provide boring structural defaults for DTOs; the test supplies the fields that define the scenario.
+Tests use small builders or fixtures at the nearest useful scope. A fixture may start from `DEFAULT_PREFERENCES` for structural defaults, but each test supplies the preference overrides, timestamps, durations, and session status that determine the outcome. Persistence tests exercise `SQLiteMeditationStore` through its public interface with an in-process SQLite adapter. Provider and screen tests use a test-only in-memory `MeditationStore` as a controlled collaborator, while notification tests replace only the native Expo adapter.
 
-This makes tests a little more verbose than global fixtures, but the trade-off is intentional: each test shows the conditions it depends on, and adding a new scenario does not require decoding or modifying a shared happy path.
+This keeps local-first scenarios readable and allows internal refactors without coupling tests to SQLite statements, provider call order, or native-module implementation details.

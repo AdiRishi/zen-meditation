@@ -6,8 +6,6 @@ Scoped guidance:
 
 - `apps/mobile/src/components/AGENTS.md` — component organization, HeroUI Native, Uniwind, and safe-area containers.
 - `apps/mobile/src/screens/AGENTS.md` — screen and route composition rules.
-- `servers/api/AGENTS.md` — Nitro, tRPC, server aliases, and server/client boundaries.
-- `packages/AGENTS.md` — shared package boundaries and build expectations.
 
 Repository knowledge:
 
@@ -21,23 +19,19 @@ Repository knowledge:
 ```bash
 pnpm install              # Install workspace dependencies
 
-pnpm run compile          # Compile shared internal packages
-pnpm run check            # Lint + Oxfmt check + TypeScript
-pnpm run lint             # App + server lint checks
-pnpm run lint:app         # Expo ESLint only
-pnpm run lint:server      # Oxlint server/shared package checks
-pnpm run test             # Jest app tests + Vitest server tests
-pnpm run test:app         # Jest app tests
-pnpm run test:server      # Vitest server tests
-pnpm run typecheck        # App, frontend test, server, and server test TypeScript
+pnpm run compile          # Compile shared internal packages through Turbo
+pnpm run check            # Turbo lint + Oxfmt check + Turbo TypeScript
+pnpm run lint             # Run workspace lint tasks through Turbo
+pnpm run lint:app         # Run the Expo app lint task through Turbo
+pnpm run test             # Run workspace tests through Turbo
+pnpm run test:app         # Run the Expo app tests through Turbo
+pnpm run typecheck        # Run workspace TypeScript tasks through Turbo
 pnpm run format           # Oxfmt write
 
-pnpm run server:dev       # Start Nitro API server on localhost:3000
-pnpm ios                  # Start the iOS app server / simulator
+pnpm ios                  # Build and start the iOS app / simulator
 pnpm android              # Start the Android app server / emulator
-pnpm web                  # Start Expo web
 
-pnpm run prebuild         # Compile packages and regenerate native projects
+pnpm run prebuild         # Regenerate native projects
 ```
 
 ## Maintainability
@@ -56,14 +50,10 @@ Commit throughout development at meaningful, reviewable checkpoints instead of w
 
 ## Architecture
 
-This is a pnpm/Turbo monorepo with three TypeScript workspaces:
+This is a pnpm/Turbo workspace whose active product workspace is an Expo SDK 57 / React Native 0.86 / React 19 app using Expo Router, Uniwind, HeroUI Native, SQLite, and Zod. Its product runtime is fully local to the device. The `packages/*` and `servers/*` workspace globs are retained as intentional scaffolding for future workspaces backed by a concrete product need.
 
-- **App (`apps/mobile/`)** — Expo SDK 57 / React Native 0.86 / React 19 app using Expo Router, Uniwind, HeroUI Native, TanStack Form, TanStack Query, and a tRPC client.
-- **Server (`servers/api/`)** — Nitro 3 API server with tRPC v11, deployable to Cloudflare Workers.
-- **Shared packages (`packages/`)** — compiled internal packages for cross-workspace contracts such as `@repo/rpc`.
-
-The main request path is:
+The mobile state path is:
 
 ```text
-Expo screen -> tRPC client -> server router -> procedure -> response
+Expo screen -> meditation provider -> SQLite store -> on-device database
 ```

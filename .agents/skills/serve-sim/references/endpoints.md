@@ -1,6 +1,6 @@
 # HTTP and WebSocket endpoints reference
 
-For agents that want to bypass the CLI — for example to drive gestures from a long-running process without forking `npx` per call — serve-sim exposes two surfaces over HTTP.
+For agents that want to bypass the CLI — for example to drive gestures from a long-running process without starting a CLI process per call — serve-sim exposes two surfaces over HTTP.
 
 ## Contents
 
@@ -60,7 +60,7 @@ For most agents, the CLI is the right entry point. Use the WebSocket directly on
 
 ## Preview middleware (default port 3200)
 
-This is a Node middleware that serves the preview UI and proxies state. It can be run standalone (`npx serve-sim`) or embedded in another dev server (`serve-sim/middleware`).
+This is a Node middleware that serves the preview UI and proxies state. It can be run standalone (`pnpm --filter @repo/mobile exec serve-sim`) or embedded in another dev server (`serve-sim/middleware`).
 
 | Method | Path | Returns / accepts |
 |---|---|---|
@@ -92,10 +92,13 @@ app.use(simMiddleware({ basePath: "/.sim" }));
 The simplest path is the CLI:
 
 ```sh
-npx serve-sim --list -q
+pnpm --filter @repo/mobile exec serve-sim --list -q
 ```
 
-Returns a JSON array of running streams, each with `url`, `streamUrl`, `wsUrl`, `device`, `pid`, `port`. An agent should call this once on entry to discover ports — they are not guaranteed to be 3200/3100 if other processes occupy those defaults.
+Returns `{running:false}` when no helper exists, one stream's fields directly on an object with `running:true`,
+or `{running:true,streams:[...]}` for multiple helpers. Stream entries include `url`, `streamUrl`, `wsUrl`,
+`device`, `pid`, and `port`. An agent should call this once on entry to discover ports — they are not guaranteed
+to be 3200/3100 if other processes occupy those defaults.
 
 Alternatively, read state files directly:
 
@@ -104,4 +107,4 @@ ls $TMPDIR/serve-sim/server-*.json
 cat $TMPDIR/serve-sim/server-<udid>.json
 ```
 
-This is faster than spawning `npx` but couples you to the file format. Prefer `--list -q` for portability.
+This avoids starting the CLI but couples you to the file format. Prefer `--list -q` for portability.

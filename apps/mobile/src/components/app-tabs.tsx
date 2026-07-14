@@ -9,24 +9,26 @@ export function AppTabs() {
     <NativeTabs
       backgroundColor={colors.surface}
       indicatorColor={colors.accentSoft}
+      tintColor={colors.accent}
+      labelVisibilityMode="labeled"
       labelStyle={{
         default: { color: colors.muted },
-        selected: { color: colors.foreground },
+        selected: { color: colors.accent },
       }}
     >
-      <NativeTabs.Trigger name="index">
-        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf="house.fill" md="home" />
+      <NativeTabs.Trigger name="today">
+        <NativeTabs.Trigger.Label>Today</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf={{ default: "house", selected: "house.fill" }} md="home" />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="explore">
-        <NativeTabs.Trigger.Label>Explore</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf="magnifyingglass" md="explore" />
+      <NativeTabs.Trigger name="progress">
+        <NativeTabs.Trigger.Label>Progress</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf={{ default: "chart.bar", selected: "chart.bar.fill" }} md="bar_chart" />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="tasks">
-        <NativeTabs.Trigger.Label>Tasks</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf="checklist" md="checklist" />
+      <NativeTabs.Trigger name="settings">
+        <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf={{ default: "gearshape", selected: "gearshape.fill" }} md="settings" />
       </NativeTabs.Trigger>
     </NativeTabs>
   );

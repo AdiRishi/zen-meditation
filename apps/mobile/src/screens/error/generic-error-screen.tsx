@@ -2,7 +2,7 @@ import { SymbolView } from "expo-symbols";
 import { Button, Card, useThemeColor } from "heroui-native";
 import { View } from "react-native";
 
-import { StandardView } from "@/components/ui/screen-containers/standard-view";
+import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
 
 type ErrorDetails = {
@@ -28,7 +28,7 @@ export function GenericErrorScreen({
   const danger = useThemeColor("danger");
 
   return (
-    <StandardView className="flex-1 items-center justify-center gap-6">
+    <StandardScrollView contentContainerClassName="min-h-full items-center justify-center gap-6 py-8">
       <View className="size-24 items-center justify-center rounded-full bg-danger/10">
         <SymbolView
           name={{ ios: "exclamationmark.triangle", android: "warning", web: "warning" }}
@@ -38,16 +38,16 @@ export function GenericErrorScreen({
       </View>
 
       <View className="items-center gap-2">
-        <Typography variant="h2" align="center">
+        <Typography accessibilityRole="header" variant="h2" align="center">
           {title}
         </Typography>
-        <Typography variant="small" tone="muted" align="center" className="max-w-75">
+        <Typography variant="small" tone="muted" align="center" className="max-w-75" selectable>
           {message}
         </Typography>
       </View>
 
       {errorDetails && (
-        <Card variant="tertiary" className="w-full max-w-[320px]">
+        <Card variant="tertiary" className="w-full max-w-[320px] p-0">
           <Card.Body className="gap-2 p-3">
             <View className="flex-row items-center gap-1.5">
               <SymbolView
@@ -70,7 +70,7 @@ export function GenericErrorScreen({
             {errorDetails.status != null && (
               <View className="flex-row justify-between">
                 <Typography variant="caption">Status</Typography>
-                <Typography variant="code" numberOfLines={2} className="ml-4 shrink text-right">
+                <Typography variant="code" numberOfLines={2} className="ml-4 shrink text-right" selectable>
                   {errorDetails.status}
                 </Typography>
               </View>
@@ -82,15 +82,15 @@ export function GenericErrorScreen({
       <View className="mt-2 w-full max-w-[320px] gap-3">
         {onRetry && (
           <Button variant="primary" size="lg" onPress={onRetry}>
-            <Button.Label>Try again</Button.Label>
+            <Button.Label className="font-sans">Try again</Button.Label>
           </Button>
         )}
         {onGoHome && (
           <Button variant={onRetry ? "tertiary" : "primary"} size="lg" onPress={onGoHome}>
-            <Button.Label>Go home</Button.Label>
+            <Button.Label className="font-sans">Go home</Button.Label>
           </Button>
         )}
       </View>
-    </StandardView>
+    </StandardScrollView>
   );
 }

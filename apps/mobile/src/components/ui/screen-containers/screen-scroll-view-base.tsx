@@ -1,11 +1,6 @@
 import { useThemeColor } from "heroui-native";
 import type { Ref } from "react";
-import { type StyleProp, View, type ViewStyle } from "react-native";
-import {
-  KeyboardAwareScrollView,
-  type KeyboardAwareScrollViewProps,
-  type KeyboardAwareScrollViewRef,
-} from "react-native-keyboard-controller";
+import { ScrollView, type ScrollViewProps, type StyleProp, View, type ViewStyle } from "react-native";
 import { type VariantProps, tv } from "tailwind-variants";
 
 import { useScreenContainerScrollInsets } from "./use-screen-container-insets";
@@ -14,16 +9,15 @@ const screenScrollViewVariants = tv({
   base: "flex-1 bg-background px-6",
 });
 
-export type ScreenScrollViewBaseProps = KeyboardAwareScrollViewProps &
+export type ScreenScrollViewBaseProps = ScrollViewProps &
   VariantProps<typeof screenScrollViewVariants> & {
     containerStyle?: StyleProp<ViewStyle>;
     edgeToEdge?: boolean;
-    ref?: Ref<KeyboardAwareScrollViewRef>;
+    ref?: Ref<ScrollView>;
   };
 
 export function ScreenScrollViewBase({
   automaticallyAdjustsScrollIndicatorInsets,
-  bottomOffset = 24,
   children,
   className,
   containerStyle,
@@ -41,21 +35,19 @@ export function ScreenScrollViewBase({
 
   return (
     <View style={[{ flex: 1, backgroundColor }, safeAreaInsets, containerStyle]}>
-      <KeyboardAwareScrollView
+      <ScrollView
         ref={ref}
         automaticallyAdjustsScrollIndicatorInsets={automaticallyAdjustsScrollIndicatorInsets ?? !edgeToEdge}
-        bottomOffset={bottomOffset}
         className={screenScrollViewVariants({ class: className })}
         contentContainerClassName={contentContainerClassName}
         contentInsetAdjustmentBehavior={contentInsetAdjustmentBehavior ?? (edgeToEdge ? "never" : "automatic")}
-        mode="layout"
         showsHorizontalScrollIndicator={showsHorizontalScrollIndicator}
         showsVerticalScrollIndicator={showsVerticalScrollIndicator}
         style={style}
         {...props}
       >
         {children}
-      </KeyboardAwareScrollView>
+      </ScrollView>
     </View>
   );
 }

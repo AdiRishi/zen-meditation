@@ -5,29 +5,6 @@
 // Feature-specific behavior, such as Expo Router navigation or native tabs, belongs
 // in the test or harness that needs it so each test keeps its assumptions visible.
 
-jest.mock("@tanstack/devtools-event-client", () => {
-  class EventClient {
-    createEventPayload(eventSuffix: string, payload: unknown) {
-      return {
-        type: eventSuffix,
-        payload,
-      };
-    }
-
-    emit() {}
-
-    getPluginId() {
-      return "mock-devtools";
-    }
-
-    on() {
-      return () => {};
-    }
-  }
-
-  return { EventClient };
-});
-
 jest.mock("react-native-reanimated", () => {
   const Reanimated = require("react-native-reanimated/mock");
 
@@ -54,12 +31,6 @@ jest.mock("expo-router/react-navigation", () => {
   };
 });
 
-jest.mock("expo-network", () => ({
-  addNetworkStateListener: () => ({
-    remove: jest.fn(),
-  }),
-}));
-
 jest.mock("expo-symbols", () => {
   const React = require("react");
   const { Text } = require("react-native");
@@ -74,24 +45,22 @@ jest.mock("expo-symbols", () => {
   };
 });
 
-jest.mock("expo-web-browser", () => ({
-  WebBrowserPresentationStyle: {
-    AUTOMATIC: "automatic",
-  },
-  openBrowserAsync: jest.fn(),
+jest.mock("expo-notifications", () => ({
+  AndroidImportance: { DEFAULT: 5 },
+  IosAuthorizationStatus: { PROVISIONAL: 3, EPHEMERAL: 4 },
+  SchedulableTriggerInputTypes: { WEEKLY: "weekly", DATE: "date" },
+  addNotificationResponseReceivedListener: jest.fn(() => ({ remove: jest.fn() })),
+  cancelScheduledNotificationAsync: jest.fn(),
+  clearLastNotificationResponse: jest.fn(),
+  getAllScheduledNotificationsAsync: jest.fn(async () => []),
+  getLastNotificationResponseAsync: jest.fn(async () => null),
+  getPermissionsAsync: jest.fn(async () => ({ status: "undetermined", granted: false })),
+  requestPermissionsAsync: jest.fn(async () => ({ status: "denied", granted: false })),
+  scheduleNotificationAsync: jest.fn(),
+  setNotificationChannelAsync: jest.fn(),
+  setNotificationHandler: jest.fn(),
+  useLastNotificationResponse: jest.fn(() => null),
 }));
-
-jest.mock("uniwind", () => {
-  const actual = jest.requireActual("uniwind");
-  const cssVariables: Record<string, string> = {
-    "--info": "#2563eb",
-  };
-
-  return {
-    ...actual,
-    useCSSVariable: (name: string) => cssVariables[name] ?? "#111827",
-  };
-});
 
 jest.mock("heroui-native", () => {
   const React = require("react");
@@ -197,23 +166,6 @@ jest.mock("heroui-native", () => {
     TextField: createViewComponent("MockTextField"),
     useThemeColor: (token: string | string[]) =>
       Array.isArray(token) ? token.map((item) => themeColors[item] ?? "#111827") : (themeColors[token] ?? "#111827"),
-  };
-});
-
-jest.mock("react-native-keyboard-controller", () => {
-  const React = require("react");
-  const { ScrollView, View } = require("react-native");
-  const KeyboardAwareScrollView = React.forwardRef((props: Record<string, unknown>, ref: unknown) =>
-    React.createElement(ScrollView, { ...props, ref }),
-  );
-  KeyboardAwareScrollView.displayName = "MockKeyboardAwareScrollView";
-
-  return {
-    KeyboardAwareScrollView,
-    KeyboardProvider: ({ children }: { children?: React.ReactNode }) =>
-      React.createElement(React.Fragment, null, children),
-    KeyboardStickyView: ({ children, ...props }: { children?: React.ReactNode }) =>
-      React.createElement(View, props, children),
   };
 });
 

@@ -1,7 +1,8 @@
 import React, { createContext, use } from "react";
 import type { LayoutChangeEvent, ViewProps } from "react-native";
 import { View } from "react-native";
-import { KeyboardStickyView } from "react-native-keyboard-controller";
+
+import { cn } from "@/lib/cn";
 
 import { FormScrollView } from "./form-scroll-view";
 
@@ -18,9 +19,7 @@ type StickyFooterFormScrollViewRootProps = {
 
 type StickyFooterFormScrollViewBodyProps = React.ComponentProps<typeof FormScrollView>;
 
-type StickyFooterFormScrollViewFooterProps = ViewProps & {
-  stickToKeyboard?: boolean;
-};
+type StickyFooterFormScrollViewFooterProps = ViewProps;
 
 function Root({ children }: StickyFooterFormScrollViewRootProps) {
   const [footerHeight, setFooterHeight] = React.useState(0);
@@ -37,33 +36,18 @@ function Root({ children }: StickyFooterFormScrollViewRootProps) {
   );
 }
 
-function Body({
-  bottomOffset = 24,
-  contentContainerStyle,
-  disableScrollOnKeyboardHide = true,
-  extraKeyboardSpace,
-  ...props
-}: StickyFooterFormScrollViewBodyProps) {
+function Body({ contentContainerStyle, ...props }: StickyFooterFormScrollViewBodyProps) {
   const { footerHeight } = useStickyFooterFormScrollView();
 
   return (
     <FormScrollView
-      bottomOffset={bottomOffset}
       contentContainerStyle={[contentContainerStyle, footerHeight > 0 ? { paddingBottom: footerHeight } : null]}
-      disableScrollOnKeyboardHide={disableScrollOnKeyboardHide}
-      extraKeyboardSpace={extraKeyboardSpace ?? footerHeight}
       {...props}
     />
   );
 }
 
-function Footer({
-  children,
-  className,
-  onLayout,
-  stickToKeyboard = false,
-  ...props
-}: StickyFooterFormScrollViewFooterProps) {
+function Footer({ children, className, onLayout, ...props }: StickyFooterFormScrollViewFooterProps) {
   const { setFooterHeight } = useStickyFooterFormScrollView();
 
   const handleLayout = (event: LayoutChangeEvent) => {
@@ -73,11 +57,9 @@ function Footer({
   };
 
   return (
-    <KeyboardStickyView className="absolute right-0 bottom-0 left-0" enabled={stickToKeyboard}>
-      <View className={className} onLayout={handleLayout} {...props}>
-        {children}
-      </View>
-    </KeyboardStickyView>
+    <View className={cn("absolute right-0 bottom-0 left-0", className)} onLayout={handleLayout} {...props}>
+      {children}
+    </View>
   );
 }
 

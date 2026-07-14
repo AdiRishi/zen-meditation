@@ -1,19 +1,11 @@
 {
   "$schema": "https://turborepo.com/schema.json",
-  "globalDependencies": [
-    "package.json",
-    "pnpm-lock.yaml",
-    "pnpm-workspace.yaml",
-    "packages/typescript-config/base.json"
-  ],
+  "globalDependencies": ["package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml"],
   "globalEnv": ["CI", "NODE_ENV"],
   "tasks": {
     "compile": {
       "dependsOn": ["^compile"],
       "outputs": ["dist/**"]
-    },
-    "@repo/typescript-config#compile": {
-      "outputs": []
     },
     "typecheck": {
       "dependsOn": ["^compile"],
@@ -25,15 +17,12 @@
     },
     "test": {
       "dependsOn": ["^compile"],
+      "env": ["LANG", "LC_ALL", "TZ"],
       "outputs": ["coverage/**"]
     },
     "build": {
       "dependsOn": ["^compile"],
       "outputs": ["dist/**", ".output/**"]
-    },
-    "@repo/api#build": {
-      "dependsOn": ["^compile"],
-      "outputs": [".output/**"]
     },
     "test:typecheck": {
       "dependsOn": ["^compile"],

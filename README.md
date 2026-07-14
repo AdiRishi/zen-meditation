@@ -41,20 +41,19 @@ The complete foundation lives in the repository:
 ## Project status
 
 > [!NOTE]
-> Zen is in active development. The product vision, brand system, core flows, and app theme are established; feature implementation is ongoing. The interfaces in this README show the high-fidelity product direction, not a released App Store build.
+> Zen is in active development. The complete local-first product flow is implemented; release packaging and store distribution remain future work.
 
 ## Engineering
 
-Zen is a TypeScript monorepo built for iOS, Android, and the web. The mobile app uses Expo and React Native; a Nitro server exposes a type-safe tRPC API that can be deployed to Cloudflare Workers.
+Zen is a TypeScript monorepo scaffold whose current product is built for iOS and Android. The app uses Expo and React Native, keeps preferences and practice history in on-device SQLite, and does not require an account or server connection.
 
-| Layer     | Technology                                             |
-| --------- | ------------------------------------------------------ |
-| App       | Expo 57, React Native 0.86, React 19, Expo Router      |
-| Interface | HeroUI Native, Uniwind, Tailwind CSS v4, Reanimated    |
-| Data      | tRPC v11, TanStack Query, TanStack Form, Zod           |
-| Server    | Nitro 3, Cloudflare Workers                            |
-| Quality   | Strict TypeScript, Jest, Vitest, ESLint, Oxlint, Oxfmt |
-| Workspace | pnpm, Turborepo                                        |
+| Layer     | Technology                                          |
+| --------- | --------------------------------------------------- |
+| App       | Expo 57, React Native 0.86, React 19, Expo Router   |
+| Interface | HeroUI Native, Uniwind, Tailwind CSS v4, Reanimated |
+| Data      | Expo SQLite, Zod, local notifications               |
+| Quality   | Strict TypeScript, Jest, ESLint, Oxfmt              |
+| Workspace | pnpm, Turborepo                                     |
 
 ## Quick start
 
@@ -66,13 +65,7 @@ cd zen-meditation
 pnpm install
 ```
 
-Start the API server:
-
-```bash
-pnpm run server:dev
-```
-
-Then generate the native projects when needed and start the app in a second terminal:
+Generate the native projects when needed and start the app:
 
 ```bash
 pnpm run prebuild
@@ -80,16 +73,15 @@ pnpm ios
 
 # Or:
 pnpm android
-pnpm web
 ```
 
 ## Everyday commands
 
 | Command             | Purpose                                        |
 | ------------------- | ---------------------------------------------- |
+| `pnpm run compile`  | Compile shared internal packages through Turbo |
 | `pnpm run check`    | Run lint, formatting checks, and TypeScript    |
-| `pnpm run test`     | Run app and server tests                       |
-| `pnpm run compile`  | Compile shared workspace packages              |
+| `pnpm run test`     | Run workspace tests through Turbo              |
 | `pnpm run format`   | Format the repository with Oxfmt               |
 | `pnpm run prebuild` | Regenerate the native iOS and Android projects |
 
@@ -97,8 +89,6 @@ pnpm web
 
 ```text
 apps/mobile/     Expo app, routes, screens, and interface components
-servers/api/     Nitro server and tRPC procedures
-packages/        Shared contracts and TypeScript configuration
 docs/            Product vision, design system, and architecture decisions
 ```
 

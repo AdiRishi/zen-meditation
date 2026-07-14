@@ -1,7 +1,9 @@
 packages:
   - apps/*
-  - servers/*
   - packages/*
+  - servers/*
+
+enableGlobalVirtualStore: false
 
 allowBuilds:
   esbuild: true

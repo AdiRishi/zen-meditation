@@ -1,6 +1,6 @@
 # App permissions reference
 
-`npx serve-sim permissions` manages an installed app's privacy permissions on
+`pnpm --filter @repo/mobile exec serve-sim permissions` manages an installed app's privacy permissions on
 the booted simulator. It is modelled on AppleSimulatorUtils but writes the
 underlying state stores directly, because `xcrun simctl privacy` is timing-
 fragile and cannot touch push notifications at all.
@@ -8,10 +8,10 @@ fragile and cannot touch push notifications at all.
 ## CLI surface
 
 ```sh
-npx serve-sim permissions grant  <permission> <bundle-id> [--value <v>] [-d <udid|name>]
-npx serve-sim permissions revoke <permission> <bundle-id> [-d <udid|name>]
-npx serve-sim permissions reset  <permission|all> <bundle-id> [-d <udid|name>]
-npx serve-sim permissions list   [bundle-id] [-d <udid|name>]
+pnpm --filter @repo/mobile exec serve-sim permissions grant  <permission> <bundle-id> [--value <v>] [-d <udid|name>]
+pnpm --filter @repo/mobile exec serve-sim permissions revoke <permission> <bundle-id> [-d <udid|name>]
+pnpm --filter @repo/mobile exec serve-sim permissions reset  <permission|all> <bundle-id> [-d <udid|name>]
+pnpm --filter @repo/mobile exec serve-sim permissions list   [bundle-id] [-d <udid|name>]
 ```
 
 - `grant` — allow the permission.
@@ -74,21 +74,21 @@ notification. To push a test notification, use `xcrun simctl push`.
 
 ```sh
 # Grant push notifications (including critical alerts)
-npx serve-sim permissions grant notifications com.example.app
-npx serve-sim permissions grant notifications com.example.app --value critical
+pnpm --filter @repo/mobile exec serve-sim permissions grant notifications com.example.app
+pnpm --filter @repo/mobile exec serve-sim permissions grant notifications com.example.app --value critical
 
 # Location, always-on
-npx serve-sim permissions grant location com.example.app --value always
+pnpm --filter @repo/mobile exec serve-sim permissions grant location com.example.app --value always
 
 # Limited photo library
-npx serve-sim permissions grant photos com.example.app --value limited
+pnpm --filter @repo/mobile exec serve-sim permissions grant photos com.example.app --value limited
 
 # Deny the camera, then inspect everything
-npx serve-sim permissions revoke camera com.example.app
-npx serve-sim permissions list com.example.app -q
+pnpm --filter @repo/mobile exec serve-sim permissions revoke camera com.example.app
+pnpm --filter @repo/mobile exec serve-sim permissions list com.example.app -q
 
 # Wipe every permission so the next launch re-prompts
-npx serve-sim permissions reset all com.example.app
+pnpm --filter @repo/mobile exec serve-sim permissions reset all com.example.app
 ```
 
 ## Notes

@@ -1,68 +1,69 @@
-import { Geist_400Regular } from "@expo-google-fonts/geist/400Regular";
-import { Geist_500Medium } from "@expo-google-fonts/geist/500Medium";
-import { Geist_600SemiBold } from "@expo-google-fonts/geist/600SemiBold";
-import { Newsreader_400Regular } from "@expo-google-fonts/newsreader/400Regular";
-import { Newsreader_500Medium } from "@expo-google-fonts/newsreader/500Medium";
-import { useFonts } from "expo-font";
 import type { ErrorBoundaryProps } from "expo-router";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { HeroUINativeProvider } from "heroui-native";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { AppProviders } from "@/components/app-providers";
+import { AppThemeProvider } from "@/components/app-theme-provider";
+import { MeditationDataBoundary } from "@/components/meditation-data-boundary";
 import "@/global.css";
+import { useMeditation } from "@/providers/meditation-provider";
 import { GenericErrorScreen } from "@/screens/error/generic-error-screen";
+import { configureForegroundNotificationHandling } from "@/services/local-notifications";
 
 void SplashScreen.preventAutoHideAsync();
+configureForegroundNotificationHandling();
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+  useEffect(() => {
+    void SplashScreen.hideAsync();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <KeyboardProvider>
-          <HeroUINativeProvider>
+        <HeroUINativeProvider>
+          <AppThemeProvider>
             <GenericErrorScreen
               title="Something went wrong"
-              message="We encountered an unexpected issue while processing your request. The application has logged this event."
+              message="Zen ran into an unexpected issue. Your practice data remains on this device."
               errorDetails={{ status: error.message }}
               onRetry={retry}
             />
-          </HeroUINativeProvider>
-        </KeyboardProvider>
+          </AppThemeProvider>
+        </HeroUINativeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }
 
-export default function RootLayout() {
-  const [fontsLoaded, fontError] = useFonts({
-    Geist_400Regular,
-    Geist_500Medium,
-    Geist_600SemiBold,
-    Newsreader_400Regular,
-    Newsreader_500Medium,
-  });
+function RootNavigator() {
+  const { isReady, reducedMotion } = useMeditation();
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
+    if (isReady) {
       void SplashScreen.hideAsync();
     }
-  }, [fontError, fontsLoaded]);
+  }, [isReady]);
 
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
+  return (
+    <MeditationDataBoundary>
+      <Stack screenOptions={{ headerShown: false, animation: reducedMotion ? "none" : "fade" }}>
+        <Stack.Screen name="meditation" options={{ gestureEnabled: false }} />
+        <Stack.Screen name="session-complete" options={{ gestureEnabled: false }} />
+      </Stack>
+    </MeditationDataBoundary>
+  );
+}
 
+export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AppProviders>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-        </Stack>
+        <RootNavigator />
       </AppProviders>
     </GestureHandlerRootView>
   );
