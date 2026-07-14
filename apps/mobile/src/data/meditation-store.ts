@@ -29,7 +29,3 @@ export interface MeditationStore {
   acknowledgeSession(id: string, acknowledgedAtMs: number): Promise<void>;
   resetAllData(): Promise<void>;
 }
-
-export function createSessionId(nowMs: number) {
-  return `session-${nowMs.toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
-}

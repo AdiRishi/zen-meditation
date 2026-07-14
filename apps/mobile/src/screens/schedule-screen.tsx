@@ -12,7 +12,8 @@ import {
   SettingsSection,
 } from "@/components/screens/settings/settings-layout";
 import { WeekdaySelector } from "@/components/ui/zen/weekday-selector";
-import { createPracticeTimeId, MAX_PRACTICE_TIMES, type AppPreferences } from "@/domain/meditation";
+import { createPracticeTimeId } from "@/domain/identifiers";
+import { MAX_PRACTICE_TIMES, type AppPreferences } from "@/domain/meditation";
 import { useMeditation } from "@/providers/meditation-provider";
 
 type SaveFeedback = { message: string; tone: "muted" | "success" | "danger" } | null;

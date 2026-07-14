@@ -130,7 +130,3 @@ export const DEFAULT_PREFERENCES: AppPreferences = {
 export function getCompletionSoundLabel(sound: CompletionSound) {
   return COMPLETION_SOUNDS.find((item) => item.id === sound)?.label ?? COMPLETION_SOUNDS[0].label;
 }
-
-export function createPracticeTimeId(nowMs = Date.now()) {
-  return `practice-${nowMs.toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-}

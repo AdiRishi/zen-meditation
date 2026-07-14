@@ -4,8 +4,8 @@ import { AccessibilityInfo, AppState } from "react-native";
 import { Uniwind } from "uniwind";
 
 import type { MeditationStore } from "@/data/meditation-store";
-import { createSessionId } from "@/data/meditation-store";
 import { SQLiteMeditationStore } from "@/data/sqlite-meditation-store";
+import { createSessionId } from "@/domain/identifiers";
 import {
   DEFAULT_PREFERENCES,
   type ActiveSession,
@@ -267,7 +267,7 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
         completionSound: sound,
       };
       const session = await store.startSession({
-        id: createSessionId(nowMs),
+        id: createSessionId(),
         durationMinutes,
         startedAtMs: nowMs,
         completionSound: sound,

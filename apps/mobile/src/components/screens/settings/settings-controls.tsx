@@ -6,17 +6,13 @@ import { Pressable, Switch, useWindowDimensions, View } from "react-native";
 import { Typography } from "@/components/ui/typography";
 import { ZenCard } from "@/components/ui/zen/zen-card";
 import { ZenIcon, type ZenIconName } from "@/components/ui/zen/zen-icon";
-import { formatPracticeTime } from "@/domain/date-time";
+import { dateForPracticeTime, formatPracticeTime } from "@/domain/date-time";
 import type { Appearance, PracticeTime } from "@/domain/meditation";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
 const REMINDER_LEAD_OPTIONS = [0, 5, 10, 15, 30] as const;
 
-export function dateForTime(hour: number, minute: number) {
-  return new Date(2026, 0, 1, hour, minute);
-}
-
-export function minuteOfDay(date: Date) {
+function minuteOfDay(date: Date) {
   return date.getHours() * 60 + date.getMinutes();
 }
 
@@ -41,7 +37,7 @@ function TimePickerControl({
 }: TimePickerControlProps) {
   const colors = useThemeColors();
   const [isAndroidPickerOpen, setIsAndroidPickerOpen] = useState(false);
-  const value = dateForTime(hour, minute);
+  const value = dateForPracticeTime({ hour, minute });
 
   if (process.env.EXPO_OS !== "android") {
     return (

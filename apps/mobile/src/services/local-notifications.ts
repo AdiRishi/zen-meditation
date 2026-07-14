@@ -1,6 +1,7 @@
 import * as Notifications from "expo-notifications";
 
 import type { AppPreferences, CompletionSound } from "@/domain/meditation";
+import { SerialTaskQueue } from "@/lib/serial-task-queue";
 
 export const PRACTICE_REMINDER_BODY = "Time for a quiet pause.";
 
@@ -163,7 +164,7 @@ function matchesSessionCompletion(notification: ScheduledNotificationSummary, de
 }
 
 export function createLocalNotifications(nativeApi: LocalNotificationsNativeApi): LocalNotifications {
-  let mutationQueue = Promise.resolve();
+  const mutationQueue = new SerialTaskQueue();
 
   async function getPermissionStatus() {
     return permissionStatusFromNative(await nativeApi.getPermissionsAsync());
@@ -188,15 +189,6 @@ export function createLocalNotifications(nativeApi: LocalNotificationsNativeApi)
     for (const notification of notifications) {
       await nativeApi.cancelScheduledNotificationAsync(notification.identifier);
     }
-  }
-
-  function serializeMutation<T>(update: () => Promise<T>) {
-    const result = mutationQueue.then(update, update);
-    mutationQueue = result.then(
-      () => undefined,
-      () => undefined,
-    );
-    return result;
   }
 
   async function scheduleSessionCompletion({ sessionId, scheduledAtMs, sound }: SessionCompletionNotification) {
@@ -258,7 +250,7 @@ export function createLocalNotifications(nativeApi: LocalNotificationsNativeApi)
     },
 
     async rescheduleWeeklyReminders(preferences) {
-      return serializeMutation(async () => {
+      return mutationQueue.run(async () => {
         const permissionStatus = await getPermissionStatus();
         const plans = preferences.remindersEnabled ? buildReminderPlans(preferences) : [];
         const existing = await getManagedNotifications(WEEKLY_REMINDER_KIND);
@@ -309,7 +301,7 @@ export function createLocalNotifications(nativeApi: LocalNotificationsNativeApi)
     },
 
     async syncSessionCompletion(notification) {
-      return serializeMutation(async () => {
+      return mutationQueue.run(async () => {
         const existing = await getManagedNotifications(SESSION_COMPLETION_KIND);
         if (!notification) {
           await cancelNotifications(existing);
@@ -340,18 +332,18 @@ export function createLocalNotifications(nativeApi: LocalNotificationsNativeApi)
     },
 
     async clearAllManagedNotifications() {
-      await serializeMutation(async () => cancelNotifications(await getManagedNotifications()));
+      await mutationQueue.run(async () => cancelNotifications(await getManagedNotifications()));
     },
   };
 }
 
 const expoNotificationsNativeApi: LocalNotificationsNativeApi = {
-  getPermissionsAsync: Notifications.getPermissionsAsync.bind(Notifications),
-  requestPermissionsAsync: Notifications.requestPermissionsAsync.bind(Notifications),
-  getAllScheduledNotificationsAsync: Notifications.getAllScheduledNotificationsAsync.bind(Notifications),
-  scheduleNotificationAsync: Notifications.scheduleNotificationAsync.bind(Notifications),
-  cancelScheduledNotificationAsync: Notifications.cancelScheduledNotificationAsync.bind(Notifications),
-  setNotificationChannelAsync: Notifications.setNotificationChannelAsync.bind(Notifications),
+  getPermissionsAsync: Notifications.getPermissionsAsync,
+  requestPermissionsAsync: Notifications.requestPermissionsAsync,
+  getAllScheduledNotificationsAsync: Notifications.getAllScheduledNotificationsAsync,
+  scheduleNotificationAsync: Notifications.scheduleNotificationAsync,
+  cancelScheduledNotificationAsync: Notifications.cancelScheduledNotificationAsync,
+  setNotificationChannelAsync: Notifications.setNotificationChannelAsync,
 };
 
 export const localNotifications = createLocalNotifications(expoNotificationsNativeApi);

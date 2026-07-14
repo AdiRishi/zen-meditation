@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 import { Typography } from "@/components/ui/typography";
 import { ZenSecondaryButton } from "@/components/ui/zen/zen-button";
-import { formatPracticeTime } from "@/domain/date-time";
+import { dateForPracticeTime, formatPracticeTime } from "@/domain/date-time";
 import type { PracticeTime } from "@/domain/meditation";
 
 type AndroidTimePickerControlProps = {
@@ -14,7 +14,7 @@ type AndroidTimePickerControlProps = {
 
 export function AndroidTimePickerControl({ practiceTime, onChange }: AndroidTimePickerControlProps) {
   const [isOpen, setIsOpen] = useState(true);
-  const value = new Date(2026, 0, 1, practiceTime.hour, practiceTime.minute);
+  const value = dateForPracticeTime(practiceTime);
 
   return (
     <View className="items-center gap-4">

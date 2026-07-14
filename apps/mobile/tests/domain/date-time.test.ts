@@ -1,4 +1,5 @@
 import {
+  dateForPracticeTime,
   formatLocalDateLabel,
   formatScheduledPractice,
   formatSessionDaypart,
@@ -21,6 +22,14 @@ describe("date-time presentation", () => {
     expect(formatLocalDateLabel("2026-07-14", now)).toBe("Yesterday");
     expect(formatLocalDateLabel("2026-07-01", now)).toBe(shortDateFormatter.format(new Date(2026, 6, 1)));
     expect(formatLocalDateLabel("2025-12-31", now)).toBe(shortDateWithYearFormatter.format(new Date(2025, 11, 31)));
+  });
+
+  it("creates picker values from one stable local reference date", () => {
+    const date = dateForPracticeTime({ hour: 19, minute: 35 });
+
+    expect([date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()]).toEqual([
+      2000, 0, 1, 19, 35,
+    ]);
   });
 
   it("classifies sessions using the wall-clock hour where they completed", () => {

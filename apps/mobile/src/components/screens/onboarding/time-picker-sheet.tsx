@@ -5,6 +5,7 @@ import { AndroidTimePickerControl } from "@/components/screens/onboarding/androi
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { ZenPrimaryButton, ZenSecondaryButton } from "@/components/ui/zen/zen-button";
+import { dateForPracticeTime } from "@/domain/date-time";
 import type { PracticeTime } from "@/domain/meditation";
 import { useMeditation } from "@/providers/meditation-provider";
 
@@ -17,7 +18,7 @@ type TimePickerSheetProps = {
 export function TimePickerSheet({ practiceTime, onChange, onClose }: TimePickerSheetProps) {
   const { reducedMotion } = useMeditation();
 
-  const value = new Date(2026, 0, 1, practiceTime.hour, practiceTime.minute);
+  const value = dateForPracticeTime(practiceTime);
 
   return (
     <Modal

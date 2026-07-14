@@ -71,17 +71,20 @@ export function addLocalDays(timeMs: number, amount: number) {
   return date.getTime();
 }
 
-export function formatPracticeTime(time: Pick<PracticeTime, "hour" | "minute">) {
-  const date = new Date(2026, 0, 1, time.hour, time.minute);
-  return shortTimeFormatter.format(date);
+export function dateForPracticeTime(time: Pick<PracticeTime, "hour" | "minute">) {
+  return new Date(2000, 0, 1, time.hour, time.minute);
 }
 
-export function toWallClockTimeMs(timeMs: number, timezoneOffsetMinutes: number) {
-  return timeMs - timezoneOffsetMinutes * 60_000;
+export function formatPracticeTime(time: Pick<PracticeTime, "hour" | "minute">) {
+  return shortTimeFormatter.format(dateForPracticeTime(time));
+}
+
+function fixedOffsetDate(timeMs: number, timezoneOffsetMinutes: number) {
+  return new Date(timeMs - timezoneOffsetMinutes * 60_000);
 }
 
 export function formatWallClockTime(timeMs: number, timezoneOffsetMinutes: number) {
-  return wallClockTimeFormatter.format(toWallClockTimeMs(timeMs, timezoneOffsetMinutes));
+  return wallClockTimeFormatter.format(fixedOffsetDate(timeMs, timezoneOffsetMinutes));
 }
 
 export function formatLocalDateLabel(dateKey: string, nowMs: number) {
@@ -99,7 +102,7 @@ export function formatLocalDateLabel(dateKey: string, nowMs: number) {
 }
 
 export function formatSessionDaypart(timeMs: number, timezoneOffsetMinutes: number) {
-  const hour = new Date(toWallClockTimeMs(timeMs, timezoneOffsetMinutes)).getUTCHours();
+  const hour = fixedOffsetDate(timeMs, timezoneOffsetMinutes).getUTCHours();
   if (hour < 12) {
     return "Morning";
   }

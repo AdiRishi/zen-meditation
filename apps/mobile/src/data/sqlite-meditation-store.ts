@@ -18,6 +18,7 @@ import {
   projectSession,
   resumeSession,
 } from "@/domain/session-timer";
+import { SerialTaskQueue } from "@/lib/serial-task-queue";
 
 import type { MeditationStore, StartSessionInput } from "./meditation-store";
 
@@ -89,7 +90,7 @@ function mapCompletedSession(row: CompletedSessionRow) {
 }
 
 export class SQLiteMeditationStore implements MeditationStore {
-  private writeQueue = Promise.resolve();
+  private readonly writeQueue = new SerialTaskQueue();
 
   constructor(private readonly db: SQLiteDatabase) {}
 
@@ -284,11 +285,6 @@ export class SQLiteMeditationStore implements MeditationStore {
   }
 
   private enqueueWrite<T>(write: () => Promise<T>) {
-    const result = this.writeQueue.then(write);
-    this.writeQueue = result.then(
-      () => undefined,
-      () => undefined,
-    );
-    return result;
+    return this.writeQueue.run(write);
   }
 }
