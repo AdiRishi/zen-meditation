@@ -37,3 +37,18 @@ export function ZenSecondaryButton({ children, className, ...props }: ZenButtonP
     </Button>
   );
 }
+
+export function ZenDangerButton({ children, className, ...props }: ZenButtonProps) {
+  return (
+    <Button
+      variant="danger-soft"
+      feedbackVariant="scale-highlight"
+      size="lg"
+      className={cn("min-h-14 w-full rounded-md py-3", className)}
+      accessibilityRole="button"
+      {...props}
+    >
+      <Button.Label className="font-sans text-base font-medium">{children}</Button.Label>
+    </Button>
+  );
+}

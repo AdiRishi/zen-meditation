@@ -18,7 +18,7 @@ describe("<PrivacyScreen />", () => {
     mockReplace.mockClear();
   });
 
-  it("explains the local-only model and resets device data only after confirmation", async () => {
+  it("explains the local-only model and deletes all device data only after confirmation", async () => {
     const notifications = createNotifications("granted");
     const store = new InMemoryMeditationStore({
       preferences: {
@@ -34,23 +34,25 @@ describe("<PrivacyScreen />", () => {
     await findByText("Your practice history, schedule, and preferences stay on this device.");
     getByText("Zen does not ask you to sign in or create a profile.");
     getByText("Zen does not track your activity or send analytics about your practice.");
-    fireEvent.press(getByText("Reset Local Data"));
+    fireEvent.press(getByText("Delete All Zen Data"));
 
     expect(alert).toHaveBeenCalledWith(
-      "Reset local data?",
-      expect.stringContaining("This can’t be undone."),
+      "Delete all Zen data?",
+      expect.stringContaining("practice history, active session, schedule, reminders, and settings"),
       expect.any(Array),
     );
+    await expect(store.loadPreferences()).resolves.not.toEqual(DEFAULT_PREFERENCES);
+
     const buttons = alert.mock.calls[0][2];
-    const resetButton = buttons?.find((button) => button.text === "Reset Local Data");
+    const deleteButton = buttons?.find((button) => button.text === "Delete All Zen Data");
     await act(async () => {
-      resetButton?.onPress?.();
+      deleteButton?.onPress?.();
     });
 
     await waitFor(async () => {
       await expect(store.loadPreferences()).resolves.toEqual(DEFAULT_PREFERENCES);
     });
-    expect(notifications.rescheduleWeeklyReminders).toHaveBeenCalledWith(DEFAULT_PREFERENCES);
+    expect(notifications.clearAllManagedNotifications).toHaveBeenCalled();
     expect(mockReplace).toHaveBeenCalledWith("/");
   });
 });

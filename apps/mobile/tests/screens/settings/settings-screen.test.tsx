@@ -23,7 +23,7 @@ describe("<SettingsScreen />", () => {
       "Completion sound",
       "Appearance",
       "Reduced motion",
-      "Privacy",
+      "Privacy & Data",
       "About",
     ]);
 
@@ -32,7 +32,7 @@ describe("<SettingsScreen />", () => {
     fireEvent.press(getByLabelText("Completion sound"));
     fireEvent.press(getByLabelText("Appearance"));
     fireEvent.press(getByLabelText("Reduced motion"));
-    fireEvent.press(getByLabelText("Privacy"));
+    fireEvent.press(getByLabelText("Privacy & Data"));
     fireEvent.press(getByLabelText("About"));
 
     expect(mockPush.mock.calls.map(([href]) => href)).toEqual([

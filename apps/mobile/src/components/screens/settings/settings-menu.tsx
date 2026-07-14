@@ -7,7 +7,7 @@ export const SETTINGS_ROUTES = [
   { label: "Completion sound", icon: "bell", href: "/completion-sound?source=settings" },
   { label: "Appearance", icon: "palette", href: "/appearance" },
   { label: "Reduced motion", icon: "motion", href: "/appearance" },
-  { label: "Privacy", icon: "lock", href: "/privacy" },
+  { label: "Privacy & Data", icon: "lock", href: "/privacy" },
   { label: "About", icon: "info", href: "/about" },
 ] as const satisfies readonly { label: string; icon: ZenIconName; href: string }[];
 

@@ -1,4 +1,4 @@
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 
 import { Typography } from "@/components/ui/typography";
 import { ZenCard } from "@/components/ui/zen/zen-card";
@@ -30,22 +30,5 @@ export function PrivacySummary() {
         </ZenCard>
       ))}
     </View>
-  );
-}
-
-export function ResetLocalDataButton({ disabled, onPress }: { disabled?: boolean; onPress: () => void }) {
-  return (
-    <Pressable
-      accessibilityLabel={disabled ? "Resetting local data" : "Reset Local Data"}
-      accessibilityRole="button"
-      accessibilityState={{ disabled }}
-      className="min-h-14 w-full items-center justify-center rounded-xl border border-danger px-4 py-3"
-      disabled={disabled}
-      onPress={onPress}
-    >
-      <Typography variant="bodyBold" tone="danger">
-        {disabled ? "Resetting…" : "Reset Local Data"}
-      </Typography>
-    </Pressable>
   );
 }

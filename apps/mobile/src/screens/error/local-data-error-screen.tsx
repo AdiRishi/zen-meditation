@@ -6,7 +6,7 @@ import { View } from "react-native";
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { useAsyncAction } from "@/hooks/use-async-action";
-import { confirmLocalDataReset } from "@/lib/confirm-local-data-reset";
+import { confirmDeleteZenData } from "@/lib/confirm-delete-zen-data";
 
 type LocalDataErrorScreenProps = {
   onRetry(): void | Promise<void>;
@@ -21,7 +21,7 @@ export function LocalDataErrorScreen({ onRetry, onReset }: LocalDataErrorScreenP
   }, []);
 
   const confirmReset = () => {
-    confirmLocalDataReset(
+    confirmDeleteZenData(
       () =>
         void resetAction.run(async () => {
           await onReset();
@@ -45,7 +45,7 @@ export function LocalDataErrorScreen({ onRetry, onReset }: LocalDataErrorScreenP
         </Button>
         <Button variant="outline" size="lg" isDisabled={resetAction.isPending} onPress={confirmReset}>
           <Button.Label className="font-sans">
-            {resetAction.isPending ? "Resetting local data…" : "Reset local data"}
+            {resetAction.isPending ? "Deleting Zen data…" : "Delete All Zen Data"}
           </Button.Label>
         </Button>
         {resetAction.error ? (
@@ -54,7 +54,7 @@ export function LocalDataErrorScreen({ onRetry, onReset }: LocalDataErrorScreenP
           </Typography>
         ) : null}
         <Typography variant="caption" tone="muted" align="center">
-          Reset removes settings and practice history stored on this device.
+          This permanently deletes settings and practice history stored on this device.
         </Typography>
       </View>
     </StandardScrollView>
