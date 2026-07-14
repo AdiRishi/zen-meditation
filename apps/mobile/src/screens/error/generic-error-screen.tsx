@@ -28,7 +28,7 @@ export function GenericErrorScreen({
   const danger = useThemeColor("danger");
 
   return (
-    <StandardScrollView fillViewport contentContainerClassName="items-center justify-center gap-6 py-8">
+    <StandardScrollView contentContainerClassName="items-center justify-center gap-6 py-8">
       <View className="size-24 items-center justify-center rounded-full bg-danger/10">
         <SymbolView
           name={{ ios: "exclamationmark.triangle", android: "warning", web: "warning" }}

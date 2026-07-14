@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
 import { View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
-import { StickyFooterFormScrollView } from "@/components/ui/screen-containers/sticky-footer-form-scroll-view";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { ScreenHeader } from "@/components/ui/zen/screen-header";
 import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
@@ -63,18 +62,13 @@ export function SettingsFormLayout({
   saveLabel = "Save",
   feedback,
 }: SettingsFormLayoutProps) {
-  const insets = useSafeAreaInsets();
-
   return (
-    <StickyFooterFormScrollView.Root>
-      <StickyFooterFormScrollView.Body className="flex-1" contentContainerClassName="gap-8 pb-8">
+    <StickyFooterScrollView.Root>
+      <StickyFooterScrollView.FormBody className="flex-1" contentContainerClassName="gap-8 pb-8">
         <SettingsTitle title={title} showBack />
         {children}
-      </StickyFooterFormScrollView.Body>
-      <StickyFooterFormScrollView.Footer
-        className="border-t border-border bg-background px-6 pt-4"
-        style={{ paddingBottom: Math.max(insets.bottom, 16) }}
-      >
+      </StickyFooterScrollView.FormBody>
+      <StickyFooterScrollView.Footer className="border-t border-border">
         {feedback ? <View className="pb-3">{feedback}</View> : null}
         <ZenPrimaryButton
           accessibilityState={{ busy: isSaving, disabled: isSaving || saveDisabled }}
@@ -83,8 +77,8 @@ export function SettingsFormLayout({
         >
           {isSaving ? "Saving…" : saveLabel}
         </ZenPrimaryButton>
-      </StickyFooterFormScrollView.Footer>
-    </StickyFooterFormScrollView.Root>
+      </StickyFooterScrollView.Footer>
+    </StickyFooterScrollView.Root>
   );
 }
 

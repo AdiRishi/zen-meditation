@@ -7,9 +7,7 @@ import { useThemeColors } from "@/hooks/use-theme-colors";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-/**
- * The ring never fully closes: like the ensō, it stays open enough to begin again.
- */
+/** Maximum arc sweep with a 12-degree gap at full progress. */
 const MAX_SWEEP = 348 / 360;
 
 type SessionRingProps = {

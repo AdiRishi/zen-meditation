@@ -22,7 +22,9 @@ HeroUI Native: `Card` extends `Surface`, which applies base padding. To remove d
 
 Do not wrap these containers in `SafeAreaView` or apply Uniwind safe-area utilities (`py-safe`, `pt-safe-*`, `pb-safe-*`). Use `edgeToEdge` only for intentional full-bleed screens, and put content spacing in `contentContainerClassName`.
 
-For full-height compositions that pin content to the visible bottom edge (`justify-between` with a footer action), pass `fillViewport` to the scroll container instead of `min-h-full` or `grow`. Percentage heights and `flexGrow` resolve against the scroll frame, which on iOS includes the safe areas delivered as content insets, so they overflow the visible viewport.
+Full-window screen scroll containers guarantee that content is at least as tall as the visible viewport, so `justify-between` and `justify-center` compositions lay out against what the person actually sees. Native-tab and contained surfaces make no viewport-height promise. Never size scroll content yourself with `min-h-full`, `h-full`, or `grow` — percentage heights and `flexGrow` resolve against the scroll frame, which on iOS includes the safe areas, and they override the container's guarantee with an overflowing one.
+
+For a primary action pinned to the bottom of a screen, use `StickyFooterScrollView` (`Root` + `Body`/`FormBody` + `Footer`): the footer lives outside the scroll view, owns its safe-area clearance, and stays visible however tall the body grows.
 
 ## Comments
 

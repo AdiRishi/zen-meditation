@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, AppState, BackHandler, Pressable, useWindowDimensions, View } from "react-native";
 
 import { BreathingField } from "@/components/screens/meditation/breathing-field";
-import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { SessionRing } from "@/components/ui/zen/session-ring";
 import { ZenPrimaryButton, ZenSecondaryButton } from "@/components/ui/zen/zen-button";
@@ -136,39 +136,41 @@ export function MeditationScreen() {
   const sessionProgress = projection.elapsedMs / activeSession.plannedDurationMs;
 
   return (
-    <StandardScrollView fillViewport contentContainerClassName="items-center justify-between gap-6 pb-7 pt-14">
-      <View className="items-center gap-8">
-        <SessionRing
-          size={ringSize}
-          strokeWidth={2.5}
-          progress={sessionProgress}
-          animated={!reducedMotion}
-          drawDurationMs={900}
-        >
-          <BreathingField reducedMotion={reducedMotion} ending={isEnding} size={ringSize - 44} />
-        </SessionRing>
-        <View className="items-center gap-1">
-          <Typography accessibilityRole="header" variant="timer" align="center" tabularNums selectable>
-            {formatRemainingTime(projection.remainingMs)}
-          </Typography>
-          {isEnding ? (
-            <View className="items-center gap-1">
-              <Typography variant="reflection" tone="muted" align="center">
-                Gently returning.
-              </Typography>
-              <Typography variant="small" tone="muted" align="center">
-                Carry this calm into your day.
-              </Typography>
-            </View>
-          ) : (
-            <Typography tone="muted" align="center">
-              {isPaused ? "Paused" : "Time remaining"}
+    <StickyFooterScrollView.Root>
+      <StickyFooterScrollView.Body contentContainerClassName="items-center justify-center gap-6 py-8">
+        <View className="items-center gap-8">
+          <SessionRing
+            size={ringSize}
+            strokeWidth={2.5}
+            progress={sessionProgress}
+            animated={!reducedMotion}
+            drawDurationMs={900}
+          >
+            <BreathingField reducedMotion={reducedMotion} ending={isEnding} size={ringSize - 44} />
+          </SessionRing>
+          <View className="items-center gap-1">
+            <Typography accessibilityRole="header" variant="timer" align="center" tabularNums selectable>
+              {formatRemainingTime(projection.remainingMs)}
             </Typography>
-          )}
+            {isEnding ? (
+              <View className="items-center gap-1">
+                <Typography variant="reflection" tone="muted" align="center">
+                  Gently returning.
+                </Typography>
+                <Typography variant="small" tone="muted" align="center">
+                  Carry this calm into your day.
+                </Typography>
+              </View>
+            ) : (
+              <Typography tone="muted" align="center">
+                {isPaused ? "Paused" : "Time remaining"}
+              </Typography>
+            )}
+          </View>
         </View>
-      </View>
+      </StickyFooterScrollView.Body>
 
-      <View className="w-full gap-6">
+      <StickyFooterScrollView.Footer className="gap-6 bg-transparent">
         {!isEnding ? (
           <View className="flex-row items-center justify-center gap-2">
             <ZenIcon name={completionSoundIcon(activeSession.completionSound)} size={15} tintColor={colors.muted} />
@@ -225,7 +227,7 @@ export function MeditationScreen() {
             <ZenIcon name="pause" size={22} tintColor={colors.foreground} />
           </Pressable>
         )}
-      </View>
-    </StandardScrollView>
+      </StickyFooterScrollView.Footer>
+    </StickyFooterScrollView.Root>
   );
 }

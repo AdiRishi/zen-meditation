@@ -3,7 +3,7 @@ import { useState } from "react";
 import { View } from "react-native";
 
 import { TimePickerSheet } from "@/components/screens/onboarding/time-picker-sheet";
-import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { GroupedList, PracticeTimeRow } from "@/components/ui/zen/list-row";
 import { ScreenHeader } from "@/components/ui/zen/screen-header";
@@ -35,8 +35,8 @@ export function OnboardingScheduleScreen() {
 
   return (
     <>
-      <StandardScrollView fillViewport contentContainerClassName="justify-between gap-8 pb-6">
-        <View className="gap-8">
+      <StickyFooterScrollView.Root>
+        <StickyFooterScrollView.Body contentContainerClassName="gap-8">
           <ScreenHeader onBack={() => router.back()} />
           <Typography accessibilityRole="header" variant="h1">
             When would you{"\n"}like to practise?
@@ -49,28 +49,30 @@ export function OnboardingScheduleScreen() {
           <Typography tone="muted">
             These times are gentle intentions. You can change or turn them off whenever you like.
           </Typography>
-        </View>
-        <View className="gap-3">
+        </StickyFooterScrollView.Body>
+        <StickyFooterScrollView.Footer>
           {action.error ? (
-            <Typography variant="small" tone="danger" accessibilityLiveRegion="polite">
+            <Typography variant="small" tone="danger" accessibilityLiveRegion="polite" className="pb-3">
               Your practice times couldn’t be saved. Please try again.
             </Typography>
           ) : null}
-          <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void continueOnboarding()}>
-            {action.isPending ? "Saving…" : "Continue"}
-          </ZenPrimaryButton>
-          <ZenSecondaryButton
-            isDisabled={action.isPending}
-            onPress={() => {
-              const flexibleTimes = practiceTimes.map((time) => ({ ...time, enabled: false }));
-              setPracticeTimes(flexibleTimes);
-              void continueOnboarding(flexibleTimes);
-            }}
-          >
-            Keep times flexible
-          </ZenSecondaryButton>
-        </View>
-      </StandardScrollView>
+          <View className="gap-3">
+            <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void continueOnboarding()}>
+              {action.isPending ? "Saving…" : "Continue"}
+            </ZenPrimaryButton>
+            <ZenSecondaryButton
+              isDisabled={action.isPending}
+              onPress={() => {
+                const flexibleTimes = practiceTimes.map((time) => ({ ...time, enabled: false }));
+                setPracticeTimes(flexibleTimes);
+                void continueOnboarding(flexibleTimes);
+              }}
+            >
+              Keep times flexible
+            </ZenSecondaryButton>
+          </View>
+        </StickyFooterScrollView.Footer>
+      </StickyFooterScrollView.Root>
       {editingTime ? (
         <TimePickerSheet practiceTime={editingTime} onChange={updateTime} onClose={() => setEditingId(null)} />
       ) : null}
