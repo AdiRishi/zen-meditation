@@ -30,8 +30,8 @@ function LocalDataProvider({ children }: { children: React.ReactNode }) {
 
   const reset = async () => {
     try {
-      await deleteDatabaseAsync("zen.db");
       await localNotifications.clearAllManagedNotifications();
+      await deleteDatabaseAsync("zen.db");
       retry();
     } catch (error) {
       const databaseResetError = error instanceof Error ? error : new Error("Local data could not be reset.");
