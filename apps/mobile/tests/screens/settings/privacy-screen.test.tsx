@@ -55,4 +55,22 @@ describe("<PrivacyScreen />", () => {
     expect(notifications.clearAllManagedNotifications).toHaveBeenCalled();
     expect(mockReplace).toHaveBeenCalledWith("/");
   });
+
+  it("does not report completion when scheduled notifications cannot be deleted", async () => {
+    const notifications = createNotifications("granted");
+    notifications.clearAllManagedNotifications.mockRejectedValueOnce(new Error("Notification cleanup failed"));
+    const alert = jest.spyOn(Alert, "alert").mockImplementation(() => undefined);
+    const { findByText, getByText } = renderMeditationScreen(<PrivacyScreen />, { notifications });
+
+    fireEvent.press(await findByText("Delete All Zen Data"));
+    const buttons = alert.mock.calls[0][2];
+    const deleteButton = buttons?.find((button) => button.text === "Delete All Zen Data");
+    await act(async () => {
+      deleteButton?.onPress?.();
+    });
+
+    await findByText("Zen couldn’t finish deleting your data. Please try again.");
+    getByText("Delete All Zen Data");
+    expect(mockReplace).not.toHaveBeenCalled();
+  });
 });

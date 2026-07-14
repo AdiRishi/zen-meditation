@@ -22,7 +22,7 @@ export function DeleteZenDataSection({ isDeleting, deletionFailed, onDelete }: D
         {isDeleting ? "Deleting Zen data…" : "Delete All Zen Data"}
       </ZenDangerButton>
       {deletionFailed ? (
-        <SettingsFeedback tone="danger">Zen couldn’t delete your data. Please try again.</SettingsFeedback>
+        <SettingsFeedback tone="danger">Zen couldn’t finish deleting your data. Please try again.</SettingsFeedback>
       ) : null}
     </SettingsSection>
   );

@@ -50,7 +50,7 @@ export function LocalDataErrorScreen({ onRetry, onReset }: LocalDataErrorScreenP
         </Button>
         {resetAction.error ? (
           <Typography variant="small" tone="danger" align="center">
-            Your local data couldn’t be reset. Please try again.
+            Zen couldn’t finish deleting your data. Please try again.
           </Typography>
         ) : null}
         <Typography variant="caption" tone="muted" align="center">

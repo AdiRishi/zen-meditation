@@ -375,7 +375,7 @@ export function MeditationProvider({ children, store, clock = systemClock, notif
     await store.resetAllData();
     invalidatePendingRefresh();
     if (notifications) {
-      await notifications.clearAllManagedNotifications().catch(() => undefined);
+      await notifications.clearAllManagedNotifications();
     }
     await refresh();
   }, [invalidatePendingRefresh, notifications, refresh, store]);
