@@ -1,5 +1,4 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
 import { Alert, View } from "react-native";
 
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
@@ -7,16 +6,16 @@ import { Typography } from "@/components/ui/typography";
 import { LandscapeArtwork } from "@/components/ui/zen/brand-assets";
 import { NotificationPreview } from "@/components/ui/zen/notification-preview";
 import { ZenPrimaryButton, ZenSecondaryButton } from "@/components/ui/zen/zen-button";
+import { useAsyncAction } from "@/hooks/use-async-action";
 import { useMeditation } from "@/providers/meditation-provider";
 
 export function ReminderPermissionScreen() {
   const router = useRouter();
   const { preferences, saveReminderPreferences } = useMeditation();
-  const [isContinuing, setIsContinuing] = useState(false);
+  const continueAction = useAsyncAction();
 
   const finishOnboarding = async (requestPermission: boolean) => {
-    setIsContinuing(true);
-    try {
+    const completed = await continueAction.run(async () => {
       const nextPreferences = {
         ...preferences,
         remindersEnabled: requestPermission,
@@ -25,8 +24,8 @@ export function ReminderPermissionScreen() {
       };
       await saveReminderPreferences(nextPreferences, { requestPermission });
       router.replace("/(tabs)/today");
-    } catch {
-      setIsContinuing(false);
+    });
+    if (!completed) {
       Alert.alert("Couldn’t finish setup", "Your choices are still here. Please try again.");
     }
   };
@@ -41,10 +40,10 @@ export function ReminderPermissionScreen() {
       </View>
       <LandscapeArtwork height={300} className="-mx-6" />
       <View className="gap-3">
-        <ZenPrimaryButton isDisabled={isContinuing} onPress={() => void finishOnboarding(true)}>
+        <ZenPrimaryButton isDisabled={continueAction.isPending} onPress={() => void finishOnboarding(true)}>
           Allow reminders
         </ZenPrimaryButton>
-        <ZenSecondaryButton isDisabled={isContinuing} onPress={() => void finishOnboarding(false)}>
+        <ZenSecondaryButton isDisabled={continueAction.isPending} onPress={() => void finishOnboarding(false)}>
           Not now
         </ZenSecondaryButton>
       </View>

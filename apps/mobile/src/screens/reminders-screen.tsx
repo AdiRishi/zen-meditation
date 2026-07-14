@@ -10,12 +10,12 @@ import {
   SettingsFormLayout,
   SettingsLoading,
   SettingsSection,
+  type SettingsFeedbackState,
 } from "@/components/screens/settings/settings-layout";
 import { NotificationPreview } from "@/components/ui/zen/notification-preview";
 import type { AppPreferences } from "@/domain/meditation";
+import { useAsyncAction } from "@/hooks/use-async-action";
 import { useMeditation } from "@/providers/meditation-provider";
-
-type SaveFeedback = { message: string; tone: "muted" | "success" | "danger" } | null;
 
 export function RemindersScreen() {
   const meditation = useMeditation();
@@ -24,35 +24,18 @@ export function RemindersScreen() {
     return <SettingsLoading title="Reminders" />;
   }
 
-  return (
-    <RemindersEditor
-      error={meditation.error}
-      notificationPermission={meditation.notificationPermission}
-      preferences={meditation.preferences}
-      saveReminderPreferences={meditation.saveReminderPreferences}
-    />
-  );
+  return <RemindersEditor />;
 }
 
-type RemindersEditorProps = Pick<
-  ReturnType<typeof useMeditation>,
-  "error" | "notificationPermission" | "preferences" | "saveReminderPreferences"
->;
-
-function RemindersEditor({
-  error,
-  notificationPermission,
-  preferences,
-  saveReminderPreferences,
-}: RemindersEditorProps) {
+function RemindersEditor() {
+  const { error, notificationPermission, preferences, saveReminderPreferences } = useMeditation();
   const [draft, setDraft] = useState<AppPreferences>(preferences);
-  const [isSaving, setIsSaving] = useState(false);
-  const [feedback, setFeedback] = useState<SaveFeedback>(null);
+  const saveAction = useAsyncAction();
+  const [feedback, setFeedback] = useState<SettingsFeedbackState>(null);
 
   const save = async () => {
-    setIsSaving(true);
-    setFeedback(null);
-    try {
+    await saveAction.run(async () => {
+      setFeedback(null);
       const wantedReminders = draft.remindersEnabled;
       const result = await saveReminderPreferences(draft, {
         requestPermission: wantedReminders && notificationPermission === "undetermined",
@@ -83,20 +66,19 @@ function RemindersEditor({
       } else {
         setFeedback({ message: "Reminder settings saved.", tone: "success" });
       }
-    } catch {
-      setFeedback({ message: "Your reminder settings couldn’t be saved. Please try again.", tone: "danger" });
-    } finally {
-      setIsSaving(false);
-    }
+    });
   };
 
   const visibleFeedback =
-    feedback ?? (error ? { message: "Your local settings are unavailable right now.", tone: "danger" as const } : null);
+    (saveAction.error
+      ? { message: "Your reminder settings couldn’t be saved. Please try again.", tone: "danger" as const }
+      : feedback) ??
+    (error ? { message: "Your local settings are unavailable right now.", tone: "danger" as const } : null);
 
   return (
     <SettingsFormLayout
       title="Reminders"
-      isSaving={isSaving}
+      isSaving={saveAction.isPending}
       onSave={() => void save()}
       feedback={
         visibleFeedback ? (

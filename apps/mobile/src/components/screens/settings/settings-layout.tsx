@@ -123,6 +123,11 @@ export function SettingsFeedback({
   );
 }
 
+export type SettingsFeedbackState = {
+  message: string;
+  tone: "muted" | "success" | "danger";
+} | null;
+
 export function SettingsLoading({ title }: { title: string }) {
   return (
     <SettingsScreenLayout title={title}>

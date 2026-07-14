@@ -10,13 +10,13 @@ import {
   SettingsFormLayout,
   SettingsLoading,
   SettingsSection,
+  type SettingsFeedbackState,
 } from "@/components/screens/settings/settings-layout";
 import { WeekdaySelector } from "@/components/ui/zen/weekday-selector";
 import { createPracticeTimeId } from "@/domain/identifiers";
 import { MAX_PRACTICE_TIMES, type AppPreferences } from "@/domain/meditation";
+import { useAsyncAction } from "@/hooks/use-async-action";
 import { useMeditation } from "@/providers/meditation-provider";
-
-type SaveFeedback = { message: string; tone: "muted" | "success" | "danger" } | null;
 
 export function ScheduleScreen() {
   const meditation = useMeditation();
@@ -25,26 +25,18 @@ export function ScheduleScreen() {
     return <SettingsLoading title="Schedule" />;
   }
 
-  return (
-    <ScheduleEditor
-      error={meditation.error}
-      preferences={meditation.preferences}
-      saveReminderPreferences={meditation.saveReminderPreferences}
-    />
-  );
+  return <ScheduleEditor />;
 }
 
-type ScheduleEditorProps = Pick<ReturnType<typeof useMeditation>, "error" | "preferences" | "saveReminderPreferences">;
-
-function ScheduleEditor({ error, preferences, saveReminderPreferences }: ScheduleEditorProps) {
+function ScheduleEditor() {
+  const { error, preferences, saveReminderPreferences } = useMeditation();
   const [draft, setDraft] = useState<AppPreferences>(preferences);
-  const [isSaving, setIsSaving] = useState(false);
-  const [feedback, setFeedback] = useState<SaveFeedback>(null);
+  const saveAction = useAsyncAction();
+  const [feedback, setFeedback] = useState<SettingsFeedbackState>(null);
 
   const save = async () => {
-    setIsSaving(true);
-    setFeedback(null);
-    try {
+    await saveAction.run(async () => {
+      setFeedback(null);
       const result = await saveReminderPreferences(draft);
       setDraft(result.preferences);
       if (result.status === "sync-failed") {
@@ -55,20 +47,19 @@ function ScheduleEditor({ error, preferences, saveReminderPreferences }: Schedul
         return;
       }
       setFeedback({ message: "Schedule saved.", tone: "success" });
-    } catch {
-      setFeedback({ message: "Your schedule couldn’t be saved. Please try again.", tone: "danger" });
-    } finally {
-      setIsSaving(false);
-    }
+    });
   };
 
   const visibleFeedback =
-    feedback ?? (error ? { message: "Your local settings are unavailable right now.", tone: "danger" as const } : null);
+    (saveAction.error
+      ? { message: "Your schedule couldn’t be saved. Please try again.", tone: "danger" as const }
+      : feedback) ??
+    (error ? { message: "Your local settings are unavailable right now.", tone: "danger" as const } : null);
 
   return (
     <SettingsFormLayout
       title="Schedule"
-      isSaving={isSaving}
+      isSaving={saveAction.isPending}
       onSave={() => void save()}
       feedback={
         visibleFeedback ? (
