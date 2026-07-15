@@ -1,12 +1,12 @@
 import { Redirect, useRouter } from "expo-router";
 import { useState } from "react";
 
-import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
-import { Typography } from "@/components/ui/typography";
 import { DurationSelector } from "@/components/ui/moss/duration-selector";
 import { CompletionSoundRow, GroupedList } from "@/components/ui/moss/list-row";
-import { ScreenHeader } from "@/components/ui/moss/screen-header";
 import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
+import { ScreenHeader } from "@/components/ui/moss/screen-header";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
+import { Typography } from "@/components/ui/typography";
 import type { SessionDuration } from "@/domain/meditation";
 import { useAsyncAction } from "@/hooks/use-async-action";
 import { impactHaptic } from "@/lib/haptics";

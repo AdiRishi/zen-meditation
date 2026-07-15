@@ -9,9 +9,9 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { EnsoMark } from "@/components/ui/moss/brand-assets";
 import { StandardView } from "@/components/ui/screen-containers/standard-view";
 import { Typography } from "@/components/ui/typography";
-import { EnsoMark } from "@/components/ui/moss/brand-assets";
 import { useMeditation } from "@/providers/meditation-provider";
 
 const ONBOARDING_ROUTES = {

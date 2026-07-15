@@ -1,8 +1,8 @@
 import { Pressable, View } from "react-native";
 
-import { Typography } from "@/components/ui/typography";
 import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
 import { MossCard } from "@/components/ui/moss/moss-card";
+import { Typography } from "@/components/ui/typography";
 
 type PracticeStateCardProps = {
   title: string;

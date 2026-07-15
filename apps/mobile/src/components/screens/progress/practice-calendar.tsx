@@ -1,7 +1,7 @@
 import { Pressable, View } from "react-native";
 
-import { Typography } from "@/components/ui/typography";
 import { MossIcon } from "@/components/ui/moss/moss-icon";
+import { Typography } from "@/components/ui/typography";
 import { toLocalDateKey } from "@/domain/date-time";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 

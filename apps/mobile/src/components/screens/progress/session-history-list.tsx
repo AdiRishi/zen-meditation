@@ -1,8 +1,8 @@
 import { View } from "react-native";
 
-import { Typography } from "@/components/ui/typography";
 import { GroupedList } from "@/components/ui/moss/list-row";
 import { MossIcon } from "@/components/ui/moss/moss-icon";
+import { Typography } from "@/components/ui/typography";
 import { formatLocalDateLabel, formatSessionDaypart, formatWallClockTime } from "@/domain/date-time";
 import type { CompletedSession } from "@/domain/meditation";
 import { useThemeColors } from "@/hooks/use-theme-colors";

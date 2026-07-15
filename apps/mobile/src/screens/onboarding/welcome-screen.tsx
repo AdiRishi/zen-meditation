@@ -2,10 +2,10 @@ import { useRouter } from "expo-router";
 import { View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 
-import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
-import { Typography } from "@/components/ui/typography";
 import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
 import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
+import { Typography } from "@/components/ui/typography";
 import { useAsyncAction } from "@/hooks/use-async-action";
 import { useMeditation } from "@/providers/meditation-provider";
 

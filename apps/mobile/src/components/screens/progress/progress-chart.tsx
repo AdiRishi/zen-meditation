@@ -1,8 +1,8 @@
 import { Pressable, View } from "react-native";
 
-import { Typography } from "@/components/ui/typography";
 import { MossCard } from "@/components/ui/moss/moss-card";
 import { MossIcon } from "@/components/ui/moss/moss-icon";
+import { Typography } from "@/components/ui/typography";
 import type { ProgressBucket, ProgressMode } from "@/domain/progress";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 

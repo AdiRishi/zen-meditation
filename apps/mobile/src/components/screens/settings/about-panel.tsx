@@ -1,8 +1,8 @@
 import { View } from "react-native";
 
-import { Typography } from "@/components/ui/typography";
 import { EnsoMark } from "@/components/ui/moss/brand-assets";
 import { MossCard } from "@/components/ui/moss/moss-card";
+import { Typography } from "@/components/ui/typography";
 
 export function AboutPanel({ version }: { version: string }) {
   return (

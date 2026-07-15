@@ -4,11 +4,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, AppState, BackHandler, Pressable, useWindowDimensions, View } from "react-native";
 
 import { BreathingField } from "@/components/screens/meditation/breathing-field";
-import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
-import { Typography } from "@/components/ui/typography";
-import { SessionRing } from "@/components/ui/moss/session-ring";
 import { MossPrimaryButton, MossSecondaryButton } from "@/components/ui/moss/moss-button";
 import { completionSoundIcon, MossIcon } from "@/components/ui/moss/moss-icon";
+import { SessionRing } from "@/components/ui/moss/session-ring";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
+import { Typography } from "@/components/ui/typography";
 import { getCompletionSoundLabel } from "@/domain/meditation";
 import { formatRemainingTime, projectSession } from "@/domain/session-timer";
 import { useAsyncAction } from "@/hooks/use-async-action";

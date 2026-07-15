@@ -1,12 +1,12 @@
 import { useRouter } from "expo-router";
 import { Pressable, View } from "react-native";
 
-import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
-import { Typography } from "@/components/ui/typography";
-import { ScreenHeader } from "@/components/ui/moss/screen-header";
 import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
 import { MossCard } from "@/components/ui/moss/moss-card";
 import { completionSoundIcon, MossIcon } from "@/components/ui/moss/moss-icon";
+import { ScreenHeader } from "@/components/ui/moss/screen-header";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
+import { Typography } from "@/components/ui/typography";
 import { COMPLETION_SOUNDS, type CompletionSound } from "@/domain/meditation";
 import { useAsyncAction } from "@/hooks/use-async-action";
 import { useCompletionSounds } from "@/hooks/use-completion-sounds";

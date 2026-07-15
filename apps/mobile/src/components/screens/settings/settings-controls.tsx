@@ -2,10 +2,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { Pressable, Switch, useWindowDimensions, View } from "react-native";
 
-import { Typography } from "@/components/ui/typography";
 import { GroupedList } from "@/components/ui/moss/list-row";
 import { MossCard } from "@/components/ui/moss/moss-card";
 import { MossIcon, type MossIconName } from "@/components/ui/moss/moss-icon";
+import { Typography } from "@/components/ui/typography";
 import { dateForPracticeTime, formatPracticeTime } from "@/domain/date-time";
 import type { Appearance, PracticeTime } from "@/domain/meditation";
 import { useThemeColors } from "@/hooks/use-theme-colors";

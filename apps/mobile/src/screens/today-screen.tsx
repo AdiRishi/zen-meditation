@@ -3,13 +3,13 @@ import { useCallback, useState } from "react";
 import { View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
-import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
-import { Typography } from "@/components/ui/typography";
 import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
 import { PracticeTimeRow } from "@/components/ui/moss/list-row";
-import { WeekdaySelector } from "@/components/ui/moss/weekday-selector";
 import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
 import { MossCard } from "@/components/ui/moss/moss-card";
+import { WeekdaySelector } from "@/components/ui/moss/weekday-selector";
+import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
+import { Typography } from "@/components/ui/typography";
 import {
   addLocalDays,
   findNextPractice,

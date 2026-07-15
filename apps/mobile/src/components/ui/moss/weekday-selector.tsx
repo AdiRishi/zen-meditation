@@ -4,8 +4,8 @@ import type { Weekday } from "@/domain/meditation";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
 import { Typography } from "../typography";
-import { SessionRing } from "./session-ring";
 import { MossIcon } from "./moss-icon";
+import { SessionRing } from "./session-ring";
 
 const WEEKDAYS: readonly { day: Weekday; label: string; accessibilityLabel: string }[] = [
   { day: 1, label: "M", accessibilityLabel: "Monday" },

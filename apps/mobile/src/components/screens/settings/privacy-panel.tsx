@@ -1,7 +1,7 @@
 import { View } from "react-native";
 
-import { Typography } from "@/components/ui/typography";
 import { MossCard } from "@/components/ui/moss/moss-card";
+import { Typography } from "@/components/ui/typography";
 
 const PRIVACY_POINTS = [
   {
