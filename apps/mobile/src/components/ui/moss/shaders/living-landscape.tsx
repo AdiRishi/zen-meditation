@@ -31,6 +31,8 @@ uniform float3 uRidgeNear;
 uniform float3 uMistColor;
 uniform float  uMistAmount;
 uniform float3 uWater;
+uniform float  uFadeTop;
+uniform float  uFadeBottom;
 
 float hash(float2 p) {
   float3 p3 = fract(float3(p.xyx) * 0.1031);
@@ -135,7 +137,11 @@ half4 main(float2 fragCoord) {
   float2 v = uv * 2.0 - 1.0;
   col *= 1.0 - dot(v, v) * 0.055;
 
-  return half4(clamp(col, 0.0, 1.0), 1.0);
+  // Dissolve into the page canvas at the requested edges, like fog lifting.
+  float alpha = smoothstep(0.0, max(uFadeTop, 0.0001), uv.y)
+              * smoothstep(1.0, 1.0 - max(uFadeBottom, 0.0001), uv.y);
+
+  return half4(clamp(col, 0.0, 1.0) * alpha, alpha);
 }
 `;
 
@@ -191,9 +197,19 @@ type LivingLandscapeProps = {
   className?: string;
   /** "bottom" anchors the lake low in the frame; "center" raises the horizon. */
   contentPosition?: "center" | "bottom";
+  /** Points over which the scene dissolves into the page at the top edge. */
+  fadeTop?: number;
+  /** Points over which the scene dissolves into the page at the bottom edge. */
+  fadeBottom?: number;
 };
 
-export function LivingLandscape({ height = 260, className, contentPosition = "bottom" }: LivingLandscapeProps) {
+export function LivingLandscape({
+  height = 260,
+  className,
+  contentPosition = "bottom",
+  fadeTop = 0,
+  fadeBottom = 0,
+}: LivingLandscapeProps) {
   const { theme } = useUniwind();
   const { reducedMotion } = useMeditation();
   const width = useSharedValue(1);
@@ -207,6 +223,8 @@ export function LivingLandscape({ height = 260, className, contentPosition = "bo
   const palette = theme === "dark" ? DARK_PALETTE : LIGHT_PALETTE;
   const horizon = contentPosition === "bottom" ? 0.52 : 0.6;
   const motion = reducedMotion ? 0 : 1;
+  const fadeTopFraction = Math.min(0.45, fadeTop / height);
+  const fadeBottomFraction = Math.min(0.45, fadeBottom / height);
 
   const uniforms = useDerivedValue(() => {
     return {
@@ -226,8 +244,10 @@ export function LivingLandscape({ height = 260, className, contentPosition = "bo
       uMistColor: palette.mistColor,
       uMistAmount: palette.mistAmount,
       uWater: palette.water,
+      uFadeTop: fadeTopFraction,
+      uFadeBottom: fadeBottomFraction,
     };
-  }, [width, measuredHeight, time, horizon, motion, palette]);
+  }, [width, measuredHeight, time, horizon, motion, palette, fadeTopFraction, fadeBottomFraction]);
 
   const canvasStyle = useAnimatedStyle(() => ({
     position: "absolute" as const,

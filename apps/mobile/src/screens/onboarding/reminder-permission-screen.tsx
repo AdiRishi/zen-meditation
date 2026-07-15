@@ -39,7 +39,7 @@ export function ReminderPermissionScreen() {
           </Typography>
           <NotificationPreview message="Take a breath." />
         </View>
-        <LandscapeArtwork height={300} className="-mx-6" />
+        <LandscapeArtwork height={300} className="-mx-6" fadeTop={72} fadeBottom={80} />
       </StickyFooterScrollView.Body>
       <StickyFooterScrollView.Footer>
         <View className="gap-3">

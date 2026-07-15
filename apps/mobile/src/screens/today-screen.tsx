@@ -1,12 +1,11 @@
 import { Redirect, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
 import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
-import { PracticeTimeRow } from "@/components/ui/moss/list-row";
 import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
-import { MossCard } from "@/components/ui/moss/moss-card";
+import { MossIcon } from "@/components/ui/moss/moss-icon";
 import { WeekdaySelector } from "@/components/ui/moss/weekday-selector";
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
@@ -19,6 +18,7 @@ import {
 } from "@/domain/date-time";
 import type { Weekday } from "@/domain/meditation";
 import { completedPracticeDateKeys } from "@/domain/progress";
+import { useThemeColors } from "@/hooks/use-theme-colors";
 import { useMeditation } from "@/providers/meditation-provider";
 
 const TODAY_DATE_FORMATTER = new Intl.DateTimeFormat(undefined, {
@@ -39,6 +39,7 @@ function greetingForHour(hour: number) {
 
 export function TodayScreen() {
   const router = useRouter();
+  const colors = useThemeColors();
   const { activeSession, completedSessions, pendingCompletion, preferences, reducedMotion } = useMeditation();
   const [nowMs, setNowMs] = useState(() => Date.now());
   useFocusEffect(
@@ -81,18 +82,29 @@ export function TodayScreen() {
         </Typography>
       </Animated.View>
 
-      <Animated.View entering={enter(1)}>
-        <MossCard>
-          <LandscapeArtwork height={168} />
-          {nextPractice ? (
-            <PracticeTimeRow
-              time={nextPractice.practiceTime}
-              value={`${formatScheduledPractice(nextPractice.scheduledAtMs, nowMs)} · ${preferences.lastDurationMinutes} min`}
-              prominent
-              onPress={() => router.push("/session-setup")}
-            />
-          ) : null}
-        </MossCard>
+      <Animated.View entering={enter(1)} className="-mx-6">
+        <LandscapeArtwork height={248} fadeTop={64} fadeBottom={72} />
+        {nextPractice ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`${nextPractice.practiceTime.label}, ${formatScheduledPractice(nextPractice.scheduledAtMs, nowMs)}, ${preferences.lastDurationMinutes} minutes`}
+            accessibilityHint="Opens session setup"
+            className="-mt-6 min-h-14 items-center justify-center gap-1 px-6"
+            onPress={() => router.push("/session-setup")}
+          >
+            <View className="flex-row items-center gap-2">
+              <MossIcon
+                name={nextPractice.practiceTime.hour < 12 ? "sun" : "moon"}
+                size={15}
+                tintColor={colors.muted}
+              />
+              <Typography variant="h3">{nextPractice.practiceTime.label}</Typography>
+            </View>
+            <Typography variant="small" tone="muted" tabularNums>
+              {`${formatScheduledPractice(nextPractice.scheduledAtMs, nowMs)} · ${preferences.lastDurationMinutes} min`}
+            </Typography>
+          </Pressable>
+        ) : null}
       </Animated.View>
 
       <Animated.View entering={enter(2)} className="gap-4">

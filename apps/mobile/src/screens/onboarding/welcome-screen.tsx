@@ -33,7 +33,7 @@ export function WelcomeScreen() {
           </Typography>
         </Animated.View>
 
-        <LandscapeArtwork height={296} className="-mx-6" />
+        <LandscapeArtwork height={296} className="-mx-6" fadeTop={72} fadeBottom={80} />
 
         <View className="flex-row justify-center gap-2 pb-2" accessibilityLabel="Onboarding step 1 of 4">
           <View className="size-2 rounded-full bg-accent" />

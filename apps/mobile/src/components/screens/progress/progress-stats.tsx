@@ -22,9 +22,7 @@ export function ProgressStats({ sessions, minutes, dayRhythm }: ProgressStatsPro
   return (
     <View className="flex-row items-stretch py-1">
       <ProgressStat label="Sessions" value={sessions} />
-      <View className="w-px bg-separator" />
       <ProgressStat label="Minutes" value={minutes} />
-      <View className="w-px bg-separator" />
       <ProgressStat label="Day rhythm" value={dayRhythm} />
     </View>
   );

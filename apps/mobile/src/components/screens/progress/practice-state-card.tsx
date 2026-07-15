@@ -1,8 +1,8 @@
 import { Pressable, View } from "react-native";
 
-import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
-import { MossCard } from "@/components/ui/moss/moss-card";
+import { BreathingField } from "@/components/ui/moss/shaders/breathing-field";
 import { Typography } from "@/components/ui/typography";
+import { useMeditation } from "@/providers/meditation-provider";
 
 type PracticeStateCardProps = {
   title: string;
@@ -37,9 +37,11 @@ export function PracticeStateCard({
   onSecondaryAction,
   showArtwork = false,
 }: PracticeStateCardProps) {
+  const { reducedMotion } = useMeditation();
+
   return (
-    <MossCard accessibilityLiveRegion="polite" className="items-center gap-4 px-6 py-6">
-      {showArtwork ? <LandscapeArtwork className="w-24 rounded-full" height={96} /> : null}
+    <View accessibilityLiveRegion="polite" className="items-center gap-4 px-6 py-8">
+      {showArtwork ? <BreathingField reducedMotion={reducedMotion} ending={false} size={108} /> : null}
       <View className="items-center gap-1.5">
         <Typography variant="h3" align="center">
           {title}
@@ -60,6 +62,6 @@ export function PracticeStateCard({
           </Typography>
         </Pressable>
       ) : null}
-    </MossCard>
+    </View>
   );
 }

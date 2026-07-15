@@ -25,8 +25,24 @@ type LandscapeArtworkProps = {
   height?: number;
   className?: string;
   contentPosition?: "center" | "bottom";
+  fadeTop?: number;
+  fadeBottom?: number;
 };
 
-export function LandscapeArtwork({ height = 260, className, contentPosition = "bottom" }: LandscapeArtworkProps) {
-  return <LivingLandscape height={height} className={className} contentPosition={contentPosition} />;
+export function LandscapeArtwork({
+  height = 260,
+  className,
+  contentPosition = "bottom",
+  fadeTop,
+  fadeBottom,
+}: LandscapeArtworkProps) {
+  return (
+    <LivingLandscape
+      height={height}
+      className={className}
+      contentPosition={contentPosition}
+      fadeTop={fadeTop}
+      fadeBottom={fadeBottom}
+    />
+  );
 }
