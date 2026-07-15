@@ -8,6 +8,7 @@ export type ZenIconName =
   | "bell"
   | "bowl"
   | "wood"
+  | "sound"
   | "back"
   | "forward"
   | "play"
@@ -27,6 +28,7 @@ const ICONS = {
   bell: { ios: "bell", android: "notifications", web: "notifications" },
   bowl: { ios: "cup.and.saucer", android: "emoji_food_beverage", web: "emoji_food_beverage" },
   wood: { ios: "tree", android: "forest", web: "forest" },
+  sound: { ios: "speaker.wave.2", android: "volume_up", web: "volume_up" },
   back: { ios: "chevron.left", android: "chevron_left", web: "chevron_left" },
   forward: { ios: "chevron.right", android: "chevron_right", web: "chevron_right" },
   play: { ios: "play.fill", android: "play_arrow", web: "play_arrow" },

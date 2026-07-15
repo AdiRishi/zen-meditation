@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { Alert, View } from "react-native";
 
-import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { LandscapeArtwork } from "@/components/ui/zen/brand-assets";
 import { NotificationPreview } from "@/components/ui/zen/notification-preview";
@@ -31,22 +31,26 @@ export function ReminderPermissionScreen() {
   };
 
   return (
-    <StandardScrollView contentContainerClassName="min-h-full justify-between gap-6 pb-6 pt-12">
-      <View className="gap-7">
-        <Typography accessibilityRole="header" variant="h1">
-          A gentle reminder,{"\n"}when you want one.
-        </Typography>
-        <NotificationPreview message="Take a breath." />
-      </View>
-      <LandscapeArtwork height={300} className="-mx-6" />
-      <View className="gap-3">
-        <ZenPrimaryButton isDisabled={continueAction.isPending} onPress={() => void finishOnboarding(true)}>
-          Allow reminders
-        </ZenPrimaryButton>
-        <ZenSecondaryButton isDisabled={continueAction.isPending} onPress={() => void finishOnboarding(false)}>
-          Not now
-        </ZenSecondaryButton>
-      </View>
-    </StandardScrollView>
+    <StickyFooterScrollView.Root>
+      <StickyFooterScrollView.Body contentContainerClassName="justify-between gap-6 pt-12">
+        <View className="gap-7">
+          <Typography accessibilityRole="header" variant="h1">
+            A gentle reminder,{"\n"}when you want one.
+          </Typography>
+          <NotificationPreview message="Take a breath." />
+        </View>
+        <LandscapeArtwork height={300} className="-mx-6" />
+      </StickyFooterScrollView.Body>
+      <StickyFooterScrollView.Footer>
+        <View className="gap-3">
+          <ZenPrimaryButton isDisabled={continueAction.isPending} onPress={() => void finishOnboarding(true)}>
+            Allow reminders
+          </ZenPrimaryButton>
+          <ZenSecondaryButton isDisabled={continueAction.isPending} onPress={() => void finishOnboarding(false)}>
+            Not now
+          </ZenSecondaryButton>
+        </View>
+      </StickyFooterScrollView.Footer>
+    </StickyFooterScrollView.Root>
   );
 }

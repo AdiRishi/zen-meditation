@@ -1,6 +1,13 @@
 import { Redirect } from "expo-router";
 import { useEffect, useState } from "react";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeOut,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 import { StandardView } from "@/components/ui/screen-containers/standard-view";
 import { Typography } from "@/components/ui/typography";
@@ -15,17 +22,29 @@ const ONBOARDING_ROUTES = {
   complete: "/(tabs)/today",
 } as const;
 
+const BRAND_MOMENT_MS = 1_100;
+
 export function LaunchScreen() {
   const { activeSession, isReady, pendingCompletion, preferences, reducedMotion } = useMeditation();
   const [brandMomentComplete, setBrandMomentComplete] = useState(false);
+  const breath = useSharedValue(1);
 
   useEffect(() => {
     if (!isReady) {
       return;
     }
-    const timeout = setTimeout(() => setBrandMomentComplete(true), 1_100);
+    const timeout = setTimeout(() => setBrandMomentComplete(true), BRAND_MOMENT_MS);
     return () => clearTimeout(timeout);
   }, [isReady]);
+
+  useEffect(() => {
+    if (!isReady || reducedMotion) {
+      return;
+    }
+    breath.set(withTiming(1.02, { duration: BRAND_MOMENT_MS, easing: Easing.inOut(Easing.ease) }));
+  }, [breath, isReady, reducedMotion]);
+
+  const breathStyle = useAnimatedStyle(() => ({ transform: [{ scale: breath.get() }] }));
 
   if (!isReady) {
     return null;
@@ -39,11 +58,13 @@ export function LaunchScreen() {
           exiting={reducedMotion ? undefined : FadeOut.duration(240)}
           className="items-center gap-5"
         >
-          <EnsoMark size={126} />
-          <Typography variant="display" align="center" className="text-[42px] tracking-[12px]">
-            ZEN
+          <Animated.View style={breathStyle}>
+            <EnsoMark size={126} />
+          </Animated.View>
+          <Typography variant="display" align="center">
+            Zen
           </Typography>
-          <Typography tone="accent" align="center">
+          <Typography variant="reflection" tone="accent" align="center">
             A quiet rhythm{"\n"}for daily practice.
           </Typography>
         </Animated.View>

@@ -85,6 +85,11 @@
                   {
                     "path": "./node_modules/@expo-google-fonts/newsreader/400Regular/Newsreader_400Regular.ttf",
                     "weight": 400
+                  },
+                  {
+                    "path": "./node_modules/@expo-google-fonts/newsreader/400Regular_Italic/Newsreader_400Regular_Italic.ttf",
+                    "weight": 400,
+                    "style": "italic"
                   }
                 ]
               }
@@ -95,7 +100,8 @@
               "./node_modules/@expo-google-fonts/geist/400Regular/Geist_400Regular.ttf",
               "./node_modules/@expo-google-fonts/geist/500Medium/Geist_500Medium.ttf",
               "./node_modules/@expo-google-fonts/geist/600SemiBold/Geist_600SemiBold.ttf",
-              "./node_modules/@expo-google-fonts/newsreader/400Regular/Newsreader_400Regular.ttf"
+              "./node_modules/@expo-google-fonts/newsreader/400Regular/Newsreader_400Regular.ttf",
+              "./node_modules/@expo-google-fonts/newsreader/400Regular_Italic/Newsreader_400Regular_Italic.ttf"
             ]
           }
         }
@@ -124,19 +130,19 @@
             "timePicker": {
               "background": {
                 "light": "#FBF9F4",
-                "dark": "#292F31"
+                "dark": "#2A2F2C"
               },
               "headerBackground": {
                 "light": "#68725F",
-                "dark": "#41493F"
+                "dark": "#3E463B"
               },
               "numbersBackgroundColor": {
                 "light": "#FBF9F4",
-                "dark": "#292F31"
+                "dark": "#2A2F2C"
               },
               "numbersSelectorColor": {
                 "light": "#E6DFD2",
-                "dark": "#41493F"
+                "dark": "#3E463B"
               },
               "numbersTextColor": {
                 "light": "#1E2326",

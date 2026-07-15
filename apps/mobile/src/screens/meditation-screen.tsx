@@ -1,14 +1,15 @@
 import { useKeepAwake } from "expo-keep-awake";
 import { Redirect, useRouter } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Alert, AppState, BackHandler, Pressable, View } from "react-native";
+import { Alert, AppState, BackHandler, Pressable, useWindowDimensions, View } from "react-native";
 
 import { BreathingField } from "@/components/screens/meditation/breathing-field";
-import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
-import { CompletionSoundRow, GroupedList } from "@/components/ui/zen/list-row";
+import { SessionRing } from "@/components/ui/zen/session-ring";
 import { ZenPrimaryButton, ZenSecondaryButton } from "@/components/ui/zen/zen-button";
-import { ZenIcon } from "@/components/ui/zen/zen-icon";
+import { completionSoundIcon, ZenIcon } from "@/components/ui/zen/zen-icon";
+import { getCompletionSoundLabel } from "@/domain/meditation";
 import { formatRemainingTime, projectSession } from "@/domain/session-timer";
 import { useAsyncAction } from "@/hooks/use-async-action";
 import { useThemeColors } from "@/hooks/use-theme-colors";
@@ -18,6 +19,7 @@ export function MeditationScreen() {
   useKeepAwake("meditation-session");
   const router = useRouter();
   const colors = useThemeColors();
+  const { width } = useWindowDimensions();
   const {
     abandonSession,
     activeSession,
@@ -130,39 +132,52 @@ export function MeditationScreen() {
 
   const isPaused = activeSession.status === "paused";
   const isEnding = projection.phase !== "active";
+  const ringSize = Math.min(354, width - 48);
+  const sessionProgress = projection.elapsedMs / activeSession.plannedDurationMs;
 
   return (
-    <StandardScrollView contentContainerClassName="min-h-full items-center justify-between gap-4 pb-7 pt-8">
-      <Typography accessibilityRole="header" variant="h3" align="center" className="font-serif font-normal">
-        {isEnding ? "Session ending" : "Meditation"}
-      </Typography>
-
-      <View className="items-center">
-        <BreathingField reducedMotion={reducedMotion} ending={isEnding} />
-        <Typography variant="display" align="center" tabularNums selectable>
-          {formatRemainingTime(projection.remainingMs)}
-        </Typography>
-        {isEnding ? (
-          <View className="items-center gap-2 pt-2">
-            <Typography variant="h2" align="center">
-              Gently returning.
+    <StickyFooterScrollView.Root>
+      <StickyFooterScrollView.Body contentContainerClassName="items-center justify-center gap-6 py-8">
+        <View className="items-center gap-8">
+          <SessionRing
+            size={ringSize}
+            strokeWidth={2.5}
+            progress={sessionProgress}
+            animated={!reducedMotion}
+            drawDurationMs={900}
+          >
+            <BreathingField reducedMotion={reducedMotion} ending={isEnding} size={ringSize - 44} />
+          </SessionRing>
+          <View className="items-center gap-1">
+            <Typography accessibilityRole="header" variant="timer" align="center" tabularNums selectable>
+              {formatRemainingTime(projection.remainingMs)}
             </Typography>
-            <Typography tone="muted" align="center">
-              Carry this calm into your day.
+            {isEnding ? (
+              <View className="items-center gap-1">
+                <Typography variant="reflection" tone="muted" align="center">
+                  Gently returning.
+                </Typography>
+                <Typography variant="small" tone="muted" align="center">
+                  Carry this calm into your day.
+                </Typography>
+              </View>
+            ) : (
+              <Typography tone="muted" align="center">
+                {isPaused ? "Paused" : "Time remaining"}
+              </Typography>
+            )}
+          </View>
+        </View>
+      </StickyFooterScrollView.Body>
+
+      <StickyFooterScrollView.Footer className="gap-6 bg-transparent">
+        {!isEnding ? (
+          <View className="flex-row items-center justify-center gap-2">
+            <ZenIcon name={completionSoundIcon(activeSession.completionSound)} size={15} tintColor={colors.muted} />
+            <Typography variant="small" tone="muted">
+              Ends with {getCompletionSoundLabel(activeSession.completionSound)}
             </Typography>
           </View>
-        ) : (
-          <Typography tone="muted" align="center">
-            {isPaused ? "Paused" : "Time remaining"}
-          </Typography>
-        )}
-      </View>
-
-      <View className="w-full gap-5">
-        {!isEnding ? (
-          <GroupedList>
-            <CompletionSoundRow sound={activeSession.completionSound} />
-          </GroupedList>
         ) : null}
 
         {transitionError || completionError ? (
@@ -201,9 +216,8 @@ export function MeditationScreen() {
             accessibilityLabel="Pause session"
             accessibilityRole="button"
             accessibilityState={{ disabled: transitionPending }}
-            className="mx-auto size-16 items-center justify-center rounded-full bg-surface"
+            className="mx-auto size-16 items-center justify-center rounded-full border border-border bg-surface"
             disabled={transitionPending}
-            style={{ boxShadow: "0 8px 24px rgba(30, 35, 38, 0.08)" }}
             onPress={() =>
               void runTransition(async () => {
                 await pauseSession();
@@ -213,7 +227,7 @@ export function MeditationScreen() {
             <ZenIcon name="pause" size={22} tintColor={colors.foreground} />
           </Pressable>
         )}
-      </View>
-    </StandardScrollView>
+      </StickyFooterScrollView.Footer>
+    </StickyFooterScrollView.Root>
   );
 }

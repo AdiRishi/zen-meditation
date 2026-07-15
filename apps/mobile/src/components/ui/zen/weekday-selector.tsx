@@ -4,6 +4,7 @@ import type { Weekday } from "@/domain/meditation";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
 import { Typography } from "../typography";
+import { SessionRing } from "./session-ring";
 import { ZenIcon } from "./zen-icon";
 
 const WEEKDAYS: readonly { day: Weekday; label: string; accessibilityLabel: string }[] = [
@@ -26,7 +27,6 @@ type WeekdaySelectorProps = {
 export function WeekdaySelector({ selected, onChange, completed = new Set(), compact = false }: WeekdaySelectorProps) {
   const colors = useThemeColors();
   const selectedSet = new Set<Weekday>(selected);
-  const sizeClass = compact ? "aspect-square max-h-9 max-w-9 flex-1" : "aspect-square max-h-10 max-w-10 flex-1";
 
   const toggle = (day: Weekday) => {
     if (!onChange) {
@@ -38,23 +38,14 @@ export function WeekdaySelector({ selected, onChange, completed = new Set(), com
     }
   };
 
-  return (
-    <View className="flex-row justify-between gap-0.5">
-      {WEEKDAYS.map(({ day, label, accessibilityLabel }) => {
-        const isSelected = selectedSet.has(day);
-        const isCompleted = completed.has(day);
-        const className = `${sizeClass} items-center justify-center rounded-full border ${
-          isSelected ? "border-accent bg-accent" : "border-stone bg-transparent"
-        }`;
-        const content = isCompleted ? (
-          <ZenIcon name="check" size={14} tintColor={isSelected ? colors.accentForeground : colors.accent} />
-        ) : (
-          <Typography variant="smallBold" className={isSelected ? "text-accent-foreground" : "text-foreground"}>
-            {label}
-          </Typography>
-        );
-
-        if (!onChange) {
+  // Read-only rhythm: planned days show an empty track, and a completed sit draws the ring.
+  if (!onChange) {
+    const ringSize = compact ? 38 : 42;
+    return (
+      <View className="flex-row justify-between">
+        {WEEKDAYS.map(({ day, label, accessibilityLabel }) => {
+          const isSelected = selectedSet.has(day);
+          const isCompleted = completed.has(day);
           return (
             <View
               key={day}
@@ -63,24 +54,49 @@ export function WeekdaySelector({ selected, onChange, completed = new Set(), com
                 isCompleted ? "practice complete" : isSelected ? "practice day" : "not a planned practice day"
               }`}
               accessibilityRole="text"
-              className={className}
+              className="flex-1 items-center"
             >
-              {content}
+              <SessionRing
+                size={ringSize}
+                progress={isCompleted ? 1 : 0}
+                trackColor={isSelected ? undefined : "transparent"}
+              >
+                {isCompleted ? (
+                  <ZenIcon name="check" size={15} weight="medium" tintColor={colors.accent} />
+                ) : (
+                  <Typography variant="smallBold" className={isSelected ? "text-foreground" : "text-muted opacity-50"}>
+                    {label}
+                  </Typography>
+                )}
+              </SessionRing>
             </View>
           );
-        }
+        })}
+      </View>
+    );
+  }
 
+  const sizeClass = compact ? "aspect-square max-h-9 max-w-9 flex-1" : "aspect-square max-h-10 max-w-10 flex-1";
+
+  return (
+    <View className="flex-row justify-between gap-0.5">
+      {WEEKDAYS.map(({ day, label, accessibilityLabel }) => {
+        const isSelected = selectedSet.has(day);
         return (
           <Pressable
             key={day}
             accessibilityLabel={accessibilityLabel}
             accessibilityRole="checkbox"
             accessibilityState={{ checked: isSelected }}
-            className={className}
+            className={`${sizeClass} items-center justify-center rounded-full border ${
+              isSelected ? "border-accent bg-accent" : "border-stone bg-transparent"
+            }`}
             hitSlop={4}
             onPress={() => toggle(day)}
           >
-            {content}
+            <Typography variant="smallBold" className={isSelected ? "text-accent-foreground" : "text-foreground"}>
+              {label}
+            </Typography>
           </Pressable>
         );
       })}

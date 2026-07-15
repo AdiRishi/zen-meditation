@@ -21,7 +21,9 @@ function StateAction({ label, onPress }: { label: string; onPress(): void }) {
       className="min-h-11 min-w-24 items-center justify-center rounded-xl px-4"
       onPress={onPress}
     >
-      <Typography variant="bodyBold">{label}</Typography>
+      <Typography variant="bodyBold" tone="accent">
+        {label}
+      </Typography>
     </Pressable>
   );
 }

@@ -96,44 +96,44 @@
             --background: var(--color-ink);
             --foreground: var(--color-mist);
 
-            --surface: #292f31;
+            --surface: #2a2f2c;
             --surface-foreground: var(--color-mist);
-            --surface-secondary: #343b3d;
+            --surface-secondary: #353b37;
             --surface-secondary-foreground: var(--color-mist);
-            --surface-tertiary: #3f4749;
+            --surface-tertiary: #404742;
             --surface-tertiary-foreground: var(--color-mist);
 
-            --overlay: #292f31;
+            --overlay: #2a2f2c;
             --overlay-foreground: var(--color-mist);
             --backdrop: rgb(0 0 0 / 34%);
 
             --muted: var(--color-stone);
-            --default: #343b3d;
+            --default: #353b37;
             --default-foreground: var(--color-mist);
-            --accent: #929d85;
+            --accent: #97a189;
             --accent-foreground: var(--color-ink);
-            --accent-soft: #41493f;
+            --accent-soft: #3e463b;
             --accent-soft-foreground: var(--color-mist);
 
-            --field-background: #292f31;
+            --field-background: #2a2f2c;
             --field-foreground: var(--color-mist);
             --field-placeholder: var(--color-stone);
             --field-border: var(--color-slate);
 
             --info: var(--color-stone);
             --info-foreground: var(--color-ink);
-            --success: #929d85;
+            --success: #97a189;
             --success-foreground: var(--color-ink);
             --warning: #c79b69;
             --warning-foreground: var(--color-ink);
             --danger: #c87970;
             --danger-foreground: var(--color-ink);
 
-            --segment: #343b3d;
+            --segment: #353b37;
             --segment-foreground: var(--color-mist);
             --border: var(--color-slate);
-            --separator: #5e6669;
-            --focus: #929d85;
+            --separator: #5e6660;
+            --focus: #97a189;
             --link: var(--color-mist);
 
             --surface-shadow: 0 0 0 1px rgb(245 242 235 / 4%) inset;

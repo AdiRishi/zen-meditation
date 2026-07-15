@@ -46,11 +46,11 @@ export function ZenListRow({
       accessibilityRole={onPress ? "button" : undefined}
       accessibilityLabel={[label, detail, value].filter(Boolean).join(", ")}
       accessibilityHint={accessibilityHint}
-      className={cn("min-h-16 flex-row items-center gap-4 px-4 py-3", className)}
+      className={cn("min-h-16 flex-row items-center gap-4 px-5 py-3", className)}
       disabled={!onPress}
       onPress={onPress}
     >
-      <View className={cn("size-10 items-center justify-center rounded-full bg-surface-secondary", iconClassName)}>
+      <View className={cn("items-center justify-center", iconClassName)}>
         <ZenIcon name={icon} size={iconSize} tintColor={colors.muted} />
       </View>
       <View className="flex-1 gap-0.5">
@@ -96,9 +96,8 @@ export function PracticeTimeRow({
       onPress={onPress}
       trailing={trailing}
       showChevron={Boolean(onPress) && !trailing}
-      className={prominent ? "min-h-32 px-5 py-4" : undefined}
-      iconClassName={prominent ? "size-16" : undefined}
-      iconSize={prominent ? 30 : undefined}
+      className={prominent ? "min-h-24 px-5 py-4" : undefined}
+      iconSize={prominent ? 26 : undefined}
     />
   );
 }

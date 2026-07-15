@@ -13,16 +13,14 @@ export function AboutPanel({ version }: { version: string }) {
           <Typography variant="h2" align="center">
             Zen
           </Typography>
-          <Typography variant="small" tone="muted" align="center">
+          <Typography variant="reflection" tone="muted" align="center" className="text-base leading-6">
             A quiet rhythm for daily practice.
           </Typography>
         </View>
       </View>
 
       <ZenCard className="gap-2 px-5 py-5">
-        <Typography variant="label" tone="muted">
-          PRODUCT PROMISE
-        </Typography>
+        <Typography variant="eyebrow">Product promise</Typography>
         <Typography variant="h3">Support the practice without becoming the focus of it.</Typography>
       </ZenCard>
 

@@ -132,7 +132,7 @@ export function PracticeTimeControls({
         <View key={time.id}>
           <View className="min-h-20 gap-3 px-4 py-3">
             <View className="flex-row items-center gap-3">
-              <View className="size-10 items-center justify-center rounded-full bg-surface-secondary">
+              <View className="w-8 items-center justify-center">
                 <ZenIcon name={time.hour < 12 ? "sun" : "moon"} size={22} tintColor={colors.muted} />
               </View>
               <Typography variant="body" className="flex-1">
@@ -232,7 +232,7 @@ export function ReminderTimeControls({
         return (
           <ZenCard key={time.id} className={`gap-3 px-4 py-4 ${isDisabled ? "opacity-60" : ""}`}>
             <View className="flex-row items-center gap-3">
-              <View className="size-10 items-center justify-center rounded-full bg-surface-secondary">
+              <View className="w-8 items-center justify-center">
                 <ZenIcon name={time.hour < 12 ? "sun" : "moon"} size={22} tintColor={colors.muted} />
               </View>
               <View className="flex-1">
@@ -290,7 +290,7 @@ export function QuietHoursControl({
     <GroupedList className={enabled ? undefined : "opacity-60"}>
       {timeRows.map((row) => (
         <View key={row.id} className="min-h-16 flex-row items-center gap-3 px-4 py-3">
-          <View className="size-10 items-center justify-center rounded-full bg-surface-secondary">
+          <View className="w-8 items-center justify-center">
             <ZenIcon name={row.id === "start" ? "moon" : "sun"} size={22} tintColor={colors.muted} />
           </View>
           <Typography variant="body" className="flex-1">
@@ -336,7 +336,7 @@ export function SettingsToggleCard({
   return (
     <ZenCard>
       <View className="min-h-16 flex-row items-center gap-4 px-4 py-3">
-        <View className="size-10 items-center justify-center rounded-full bg-surface-secondary">
+        <View className="w-8 items-center justify-center">
           <ZenIcon name={icon} size={22} tintColor={colors.muted} />
         </View>
         <View className="flex-1 gap-0.5">

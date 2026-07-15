@@ -30,7 +30,7 @@ export function LocalDataErrorScreen({ onRetry, onReset }: LocalDataErrorScreenP
   };
 
   return (
-    <StandardScrollView contentContainerClassName="min-h-full justify-center gap-8 py-8">
+    <StandardScrollView contentContainerClassName="justify-center gap-8 py-8">
       <View className="gap-3">
         <Typography accessibilityRole="header" variant="h1">
           Your practice data needs a moment.

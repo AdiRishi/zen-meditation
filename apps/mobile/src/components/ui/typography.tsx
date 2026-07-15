@@ -5,16 +5,19 @@ const typographyVariants = tv({
   base: "font-sans text-foreground",
   variants: {
     variant: {
+      timer: "font-serif text-[68px] leading-[76px] font-normal",
       display: "font-serif text-5xl leading-[52px] font-normal",
       h1: "font-serif text-4xl leading-[42px] font-normal",
       h2: "font-serif text-[28px] leading-[34px] font-normal",
       h3: "text-xl leading-[26px] font-medium",
       h4: "text-lg leading-6 font-medium",
+      reflection: "font-serif text-xl leading-[30px] font-normal italic",
       body: "text-base leading-6",
       bodyBold: "text-base leading-6 font-medium",
       small: "text-sm leading-5",
       smallBold: "text-sm leading-5 font-medium",
       label: "text-xs leading-4 font-medium tracking-wide",
+      eyebrow: "text-[13px] leading-[18px] font-medium tracking-[2px]",
       caption: "text-[11px] leading-[15px]",
       code: "font-mono text-sm leading-5",
     },
@@ -33,6 +36,11 @@ const typographyVariants = tv({
   compoundVariants: [
     {
       variant: "caption",
+      tone: "default",
+      class: "text-muted",
+    },
+    {
+      variant: "eyebrow",
       tone: "default",
       class: "text-muted",
     },

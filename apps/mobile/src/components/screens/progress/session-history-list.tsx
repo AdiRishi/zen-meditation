@@ -30,9 +30,9 @@ function SessionRow({ session, nowMs }: { session: CompletedSession; nowMs: numb
       accessibilityLabel={`${label} session, ${dateTime}, ${durationMinutes} ${
         durationMinutes === 1 ? "minute" : "minutes"
       }`}
-      className="min-h-18 flex-row items-center gap-3 px-4 py-3"
+      className="min-h-18 flex-row items-center gap-4 px-5 py-3"
     >
-      <View className="size-11 items-center justify-center rounded-full bg-surface-secondary">
+      <View className="items-center justify-center">
         <ZenIcon name={label === "Evening" ? "moon" : "sun"} size={22} tintColor={colors.muted} />
       </View>
       <View className="min-w-0 flex-1 gap-0.5">

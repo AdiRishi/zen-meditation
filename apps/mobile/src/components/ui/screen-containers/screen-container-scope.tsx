@@ -1,6 +1,6 @@
 import { ReactNode, createContext, use } from "react";
 
-export type ScreenContainerScope = "default" | "tabs";
+export type ScreenContainerScope = "contained" | "default" | "tabs";
 
 const ScreenContainerScopeContext = createContext<ScreenContainerScope>("default");
 

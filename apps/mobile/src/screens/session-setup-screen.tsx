@@ -1,8 +1,7 @@
 import { Redirect, useRouter } from "expo-router";
 import { useState } from "react";
-import { View } from "react-native";
 
-import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { DurationSelector } from "@/components/ui/zen/duration-selector";
 import { CompletionSoundRow, GroupedList } from "@/components/ui/zen/list-row";
@@ -37,8 +36,8 @@ export function SessionSetupScreen() {
   };
 
   return (
-    <StandardScrollView contentContainerClassName="min-h-full justify-between gap-8 pb-6">
-      <View className="gap-9">
+    <StickyFooterScrollView.Root>
+      <StickyFooterScrollView.Body contentContainerClassName="gap-9">
         <ScreenHeader />
         <Typography accessibilityRole="header" variant="h1">
           How long would{"\n"}you like to sit?
@@ -55,17 +54,17 @@ export function SessionSetupScreen() {
             Keep Zen open for precise timing and to hear the completion sound.
           </Typography>
         )}
-      </View>
-      <View className="gap-3">
+      </StickyFooterScrollView.Body>
+      <StickyFooterScrollView.Footer>
         {action.error ? (
-          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite">
+          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite" className="pb-3">
             Your session couldn’t begin. Please try again.
           </Typography>
         ) : null}
         <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void begin()}>
           {action.isPending ? "Starting…" : "Begin"}
         </ZenPrimaryButton>
-      </View>
-    </StandardScrollView>
+      </StickyFooterScrollView.Footer>
+    </StickyFooterScrollView.Root>
   );
 }

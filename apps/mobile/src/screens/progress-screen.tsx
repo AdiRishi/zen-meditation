@@ -33,10 +33,13 @@ export function ProgressScreen() {
   const hasPracticeHistory = completedSessions.length > 0;
 
   return (
-    <StandardScrollView className="flex-1" contentContainerClassName="gap-7 pb-8 pt-12">
-      <Typography accessibilityRole="header" variant="h1" align="center">
-        Your rhythm
-      </Typography>
+    <StandardScrollView className="flex-1" contentContainerClassName="gap-7 pb-8 pt-7">
+      <View className="gap-2">
+        <Typography variant="eyebrow">Progress</Typography>
+        <Typography accessibilityRole="header" variant="h1">
+          Your rhythm
+        </Typography>
+      </View>
 
       <ProgressPeriodControl mode={mode} onChange={setMode} />
 

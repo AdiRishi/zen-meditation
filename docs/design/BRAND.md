@@ -65,18 +65,23 @@ Use Newsreader sparingly for emotional headlines, session time, and reflective m
 
 Use Regular for display text and Medium only when a smaller serif title needs additional presence.
 
+**Newsreader Italic is the product's reflective voice.** Use it for at most one line per screen — the line where Zen speaks softly to the person ("A quiet rhythm carries you home.", "Gently returning."). Never use italic for labels, data, or controls.
+
 ### Scale
 
-| Style   | Size / line height | Face               | Use                            |
-| ------- | ------------------ | ------------------ | ------------------------------ |
-| Display | 48 / 52            | Newsreader Regular | Brand and hero moments         |
-| H1      | 36 / 42            | Newsreader Regular | Primary screen statement       |
-| H2      | 28 / 34            | Newsreader Regular | Section heading                |
-| H3      | 20 / 26            | Geist Medium       | Card and modal heading         |
-| Body    | 16 / 24            | Geist Regular      | Primary reading text           |
-| Small   | 14 / 20            | Geist Regular      | Supporting content             |
-| Label   | 12 / 16            | Geist Medium       | Controls and metadata          |
-| Caption | 11 / 15            | Geist Regular      | Timestamps and tertiary detail |
+| Style      | Size / line height | Face               | Use                               |
+| ---------- | ------------------ | ------------------ | --------------------------------- |
+| Timer      | 68 / 76            | Newsreader Regular | Session time, tabular numerals    |
+| Display    | 48 / 52            | Newsreader Regular | Brand and hero moments            |
+| Reflection | 20 / 30            | Newsreader Italic  | One reflective line per screen    |
+| Eyebrow    | 13 / 18            | Geist Medium       | Tracked date and section eyebrows |
+| H1         | 36 / 42            | Newsreader Regular | Primary screen statement          |
+| H2         | 28 / 34            | Newsreader Regular | Section heading                   |
+| H3         | 20 / 26            | Geist Medium       | Card and modal heading            |
+| Body       | 16 / 24            | Geist Regular      | Primary reading text              |
+| Small      | 14 / 20            | Geist Regular      | Supporting content                |
+| Label      | 12 / 16            | Geist Medium       | Controls and metadata             |
+| Caption    | 11 / 15            | Geist Regular      | Timestamps and tertiary detail    |
 
 Use tabular numerals for timers, durations, streaks, and charts. Avoid bold display typography and dense all-caps copy. Short labels may use modest tracking.
 
@@ -102,7 +107,8 @@ Use tabular numerals for timers, durations, streaks, and charts. Avoid bold disp
 
 ## Components
 
-- **Primary action:** Moss fill, Mist label, full-width when it closes a decision.
+- **Session ring:** the signature element. A hairline circular track that a moss arc draws closed as a session progresses; the arc always stops short of closing (a 12° ensō gap, "open enough to begin again"). Reused at every scale: around the breathing field, drawn in on completion, and as day rings in rhythm views. Planned days show an empty track; sitting draws the circle.
+- **Primary action:** Moss fill, Mist label, full pill, full-width when it closes a decision.
 - **Secondary action:** transparent or Sand fill with Ink label.
 - **Cards:** warm surface, quiet border, one clear purpose.
 - **Selectors:** large readable value, restrained selected ring, no ornamental chrome.

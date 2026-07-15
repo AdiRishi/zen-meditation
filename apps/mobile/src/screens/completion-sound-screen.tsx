@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { Pressable, View } from "react-native";
 
-import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { ScreenHeader } from "@/components/ui/zen/screen-header";
 import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
@@ -31,14 +31,16 @@ export function CompletionSoundScreen() {
   };
 
   return (
-    <StandardScrollView contentContainerClassName="min-h-full justify-between gap-8 pb-6">
-      <View className="gap-8">
+    <StickyFooterScrollView.Root>
+      <StickyFooterScrollView.Body contentContainerClassName="gap-8">
         <ScreenHeader onBack={() => void done()} />
         <View className="gap-2">
           <Typography accessibilityRole="header" variant="h1">
             Completion sound
           </Typography>
-          <Typography tone="accent">Played once, when your time is complete.</Typography>
+          <Typography variant="reflection" tone="accent">
+            Played once, when your time is complete.
+          </Typography>
         </View>
         <View accessibilityRole="radiogroup" className="gap-4">
           {COMPLETION_SOUNDS.map((sound) => {
@@ -54,7 +56,7 @@ export function CompletionSoundScreen() {
                   disabled={action.isPending}
                   onPress={() => void select(sound.id)}
                 >
-                  <View className="size-11 items-center justify-center rounded-full bg-surface-secondary">
+                  <View className="w-8 items-center justify-center">
                     <ZenIcon name={completionSoundIcon(sound.id)} size={23} tintColor={colors.muted} />
                   </View>
                   <Typography className="flex-1">{sound.label}</Typography>
@@ -78,17 +80,24 @@ export function CompletionSoundScreen() {
             );
           })}
         </View>
-      </View>
-      <View className="gap-3">
+      </StickyFooterScrollView.Body>
+      <StickyFooterScrollView.Footer>
         {action.error ? (
-          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite" align="center" selectable>
+          <Typography
+            variant="small"
+            tone="danger"
+            accessibilityLiveRegion="polite"
+            align="center"
+            selectable
+            className="pb-3"
+          >
             That action couldn’t be completed. Please try again.
           </Typography>
         ) : null}
         <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void done()}>
           {action.isPending ? "Working…" : "Done"}
         </ZenPrimaryButton>
-      </View>
-    </StandardScrollView>
+      </StickyFooterScrollView.Footer>
+    </StickyFooterScrollView.Root>
   );
 }

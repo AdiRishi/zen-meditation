@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 
-import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { LandscapeArtwork } from "@/components/ui/zen/brand-assets";
 import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
@@ -22,34 +22,36 @@ export function WelcomeScreen() {
   };
 
   return (
-    <StandardScrollView contentContainerClassName="min-h-full justify-between gap-8 pb-6 pt-10">
-      <Animated.View entering={reducedMotion ? undefined : FadeIn.duration(450)} className="gap-3 pt-24">
-        <Typography accessibilityRole="header" variant="h1">
-          Welcome.
-        </Typography>
-        <Typography variant="h3" tone="accent" className="max-w-64 font-serif font-normal">
-          A quieter way to{"\n"}keep your practice.
-        </Typography>
-      </Animated.View>
+    <StickyFooterScrollView.Root>
+      <StickyFooterScrollView.Body contentContainerClassName="justify-between gap-8 pt-10">
+        <Animated.View entering={reducedMotion ? undefined : FadeIn.duration(450)} className="gap-3 pt-10">
+          <Typography accessibilityRole="header" variant="h1">
+            Welcome.
+          </Typography>
+          <Typography variant="reflection" tone="accent">
+            A quieter way to{"\n"}keep your practice.
+          </Typography>
+        </Animated.View>
 
-      <LandscapeArtwork height={384} className="-mx-6" />
+        <LandscapeArtwork height={296} className="-mx-6" />
 
-      <View className="-mt-12 -translate-y-8 gap-12">
-        <View className="flex-row justify-center gap-2" accessibilityLabel="Onboarding step 1 of 4">
+        <View className="flex-row justify-center gap-2 pb-2" accessibilityLabel="Onboarding step 1 of 4">
           <View className="size-2 rounded-full bg-accent" />
           <View className="size-2 rounded-full bg-stone" />
           <View className="size-2 rounded-full bg-stone" />
           <View className="size-2 rounded-full bg-stone" />
         </View>
+      </StickyFooterScrollView.Body>
+      <StickyFooterScrollView.Footer>
         {action.error ? (
-          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite">
+          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite" className="pb-3">
             Your choice couldn’t be saved. Please try again.
           </Typography>
         ) : null}
         <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void continueOnboarding()}>
           {action.isPending ? "Saving…" : "Continue"}
         </ZenPrimaryButton>
-      </View>
-    </StandardScrollView>
+      </StickyFooterScrollView.Footer>
+    </StickyFooterScrollView.Root>
   );
 }

@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 
-import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { CounterCard } from "@/components/ui/zen/counter-card";
 import { ScreenHeader } from "@/components/ui/zen/screen-header";
@@ -49,8 +49,8 @@ export function PracticeGoalScreen() {
   };
 
   return (
-    <StandardScrollView contentContainerClassName="min-h-full justify-between gap-8 pb-6">
-      <View className="gap-8">
+    <StickyFooterScrollView.Root>
+      <StickyFooterScrollView.Body contentContainerClassName="gap-8">
         <ScreenHeader onBack={() => router.back()} />
         <Typography accessibilityRole="header" variant="h1">
           How often would you{"\n"}like to sit?
@@ -78,17 +78,17 @@ export function PracticeGoalScreen() {
             onChange={setSessionsPerDay}
           />
         </View>
-      </View>
-      <View className="gap-3">
+      </StickyFooterScrollView.Body>
+      <StickyFooterScrollView.Footer>
         {action.error ? (
-          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite">
+          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite" className="pb-3">
             Your intention couldn’t be saved. Please try again.
           </Typography>
         ) : null}
         <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void continueOnboarding()}>
           {action.isPending ? "Saving…" : "Continue"}
         </ZenPrimaryButton>
-      </View>
-    </StandardScrollView>
+      </StickyFooterScrollView.Footer>
+    </StickyFooterScrollView.Root>
   );
 }

@@ -1,6 +1,7 @@
 import { View } from "react-native";
 
 import { Typography } from "@/components/ui/typography";
+import { SessionRing } from "@/components/ui/zen/session-ring";
 import { fromLocalDateKey } from "@/domain/date-time";
 import type { ProgressBucket, ProgressMode } from "@/domain/progress";
 
@@ -9,6 +10,9 @@ const MONTH_BUCKET_FORMATTER = new Intl.DateTimeFormat(undefined, {
   month: "long",
   day: "numeric",
 });
+
+/** Partial practice draws part of the circle; only a completed day closes it to the ensō gap. */
+const PARTIAL_SWEEP_LIMIT = 0.72;
 
 function bucketAccessibilityLabel(bucket: ProgressBucket, index: number, mode: ProgressMode) {
   const period =
@@ -26,7 +30,19 @@ type PracticeRhythmProps = {
   mode: ProgressMode;
 };
 
+function bucketRingProgress(bucket: ProgressBucket, maxMinutes: number) {
+  if (bucket.completed) {
+    return 1;
+  }
+  if (bucket.minutes <= 0) {
+    return 0;
+  }
+  return Math.max(0.12, (bucket.minutes / maxMinutes) * PARTIAL_SWEEP_LIMIT);
+}
+
 export function PracticeRhythm({ buckets, mode }: PracticeRhythmProps) {
+  const maxMinutes = Math.max(...buckets.map((bucket) => bucket.minutes), 1);
+
   return (
     <View
       accessibilityLabel={mode === "week" ? "This week’s practice rhythm" : "This month’s practice rhythm"}
@@ -38,14 +54,20 @@ export function PracticeRhythm({ buckets, mode }: PracticeRhythmProps) {
           key={bucket.dateKey}
           accessible
           accessibilityLabel={bucketAccessibilityLabel(bucket, index, mode)}
-          className="flex-1 items-center gap-2"
+          className="flex-1 items-center"
         >
-          <Typography variant="label" tone="muted" align="center" tabularNums>
-            {bucket.label}
-          </Typography>
-          <View
-            className={`size-10 rounded-full ${bucket.completed ? "border-2 border-accent" : "border border-stone"}`}
-          />
+          <SessionRing size={42} strokeWidth={2} progress={bucketRingProgress(bucket, maxMinutes)}>
+            <Typography
+              variant="smallBold"
+              align="center"
+              tabularNums
+              className={
+                bucket.completed ? "text-accent" : bucket.minutes > 0 ? "text-foreground" : "text-muted opacity-60"
+              }
+            >
+              {bucket.label}
+            </Typography>
+          </SessionRing>
         </View>
       ))}
     </View>

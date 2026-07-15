@@ -3,7 +3,7 @@ import type { Ref } from "react";
 import { ScrollView, type ScrollViewProps, type StyleProp, View, type ViewStyle } from "react-native";
 import { type VariantProps, tv } from "tailwind-variants";
 
-import { useScreenContainerScrollInsets } from "./use-screen-container-insets";
+import { useScreenContainerScrollInsets, useScreenContainerViewportMinHeight } from "./use-screen-container-insets";
 
 const screenScrollViewVariants = tv({
   base: "flex-1 bg-background px-6",
@@ -23,6 +23,7 @@ export function ScreenScrollViewBase({
   containerStyle,
   contentInsetAdjustmentBehavior,
   contentContainerClassName,
+  contentContainerStyle,
   edgeToEdge,
   ref,
   showsHorizontalScrollIndicator = false,
@@ -31,6 +32,7 @@ export function ScreenScrollViewBase({
   ...props
 }: ScreenScrollViewBaseProps) {
   const safeAreaInsets = useScreenContainerScrollInsets(edgeToEdge);
+  const viewportMinHeight = useScreenContainerViewportMinHeight(edgeToEdge);
   const backgroundColor = useThemeColor("background");
 
   return (
@@ -40,6 +42,10 @@ export function ScreenScrollViewBase({
         automaticallyAdjustsScrollIndicatorInsets={automaticallyAdjustsScrollIndicatorInsets ?? !edgeToEdge}
         className={screenScrollViewVariants({ class: className })}
         contentContainerClassName={contentContainerClassName}
+        contentContainerStyle={[
+          viewportMinHeight !== null ? { minHeight: viewportMinHeight } : null,
+          contentContainerStyle,
+        ]}
         contentInsetAdjustmentBehavior={contentInsetAdjustmentBehavior ?? (edgeToEdge ? "never" : "automatic")}
         showsHorizontalScrollIndicator={showsHorizontalScrollIndicator}
         showsVerticalScrollIndicator={showsVerticalScrollIndicator}

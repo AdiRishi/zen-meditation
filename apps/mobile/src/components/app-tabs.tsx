@@ -18,12 +18,15 @@ export function AppTabs() {
     >
       <NativeTabs.Trigger name="today">
         <NativeTabs.Trigger.Label>Today</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf={{ default: "house", selected: "house.fill" }} md="home" />
+        <NativeTabs.Trigger.Icon sf={{ default: "sun.max", selected: "sun.max.fill" }} md="wb_sunny" />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="progress">
         <NativeTabs.Trigger.Label>Progress</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf={{ default: "chart.bar", selected: "chart.bar.fill" }} md="bar_chart" />
+        <NativeTabs.Trigger.Icon
+          sf={{ default: "circle.dashed", selected: "circle.dashed.inset.filled" }}
+          md="donut_large"
+        />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="settings">

@@ -15,17 +15,18 @@ import { useUniwind } from "uniwind";
 type BreathingFieldProps = {
   reducedMotion: boolean;
   ending: boolean;
+  size?: number;
 };
 
 const MAX_FIELD_SIZE = 330;
 const MAX_BREATHING_SCALE = 1.035;
 const IMAGE_OVERSCAN_RATIO = 350 / MAX_FIELD_SIZE;
 
-export function BreathingField({ reducedMotion, ending }: BreathingFieldProps) {
+export function BreathingField({ reducedMotion, ending, size }: BreathingFieldProps) {
   const { theme } = useUniwind();
   const { width } = useWindowDimensions();
   const breath = useSharedValue(0);
-  const fieldSize = Math.min(MAX_FIELD_SIZE, (width - 48) / MAX_BREATHING_SCALE);
+  const fieldSize = size ?? Math.min(MAX_FIELD_SIZE, (width - 48) / MAX_BREATHING_SCALE);
   const imageSize = fieldSize * IMAGE_OVERSCAN_RATIO;
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export function BreathingField({ reducedMotion, ending }: BreathingFieldProps) {
 
   return (
     <Animated.View
-      className="items-center justify-center overflow-hidden"
+      className="items-center justify-center overflow-hidden rounded-full"
       style={[{ height: fieldSize, width: fieldSize }, animatedStyle]}
       accessibilityElementsHidden
     >

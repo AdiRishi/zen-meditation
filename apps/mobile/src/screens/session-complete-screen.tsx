@@ -2,16 +2,14 @@ import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { BackHandler, Pressable, View } from "react-native";
 
-import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
+import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
+import { SessionRing } from "@/components/ui/zen/session-ring";
 import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
-import { ZenCard } from "@/components/ui/zen/zen-card";
-import { ZenIcon } from "@/components/ui/zen/zen-icon";
 import { formatLocalDateLabel, formatWallClockTime } from "@/domain/date-time";
 import { type Feeling } from "@/domain/meditation";
 import { useAsyncAction } from "@/hooks/use-async-action";
 import { useCompletionSounds } from "@/hooks/use-completion-sounds";
-import { useThemeColors } from "@/hooks/use-theme-colors";
 import { impactHaptic } from "@/lib/haptics";
 import { useMeditation } from "@/providers/meditation-provider";
 
@@ -24,9 +22,9 @@ const FEELINGS: readonly { id: Feeling; label: string }[] = [
 
 export function SessionCompleteScreen() {
   const router = useRouter();
-  const colors = useThemeColors();
   const { id, playSound } = useLocalSearchParams<{ id?: string; playSound?: string }>();
-  const { acknowledgeSession, completedSessions, pendingCompletion, setSessionFeeling } = useMeditation();
+  const { acknowledgeSession, completedSessions, pendingCompletion, reducedMotion, setSessionFeeling } =
+    useMeditation();
   const completionSoundStarted = useRef(false);
   const { play, stop } = useCompletionSounds();
   const action = useAsyncAction();
@@ -70,67 +68,72 @@ export function SessionCompleteScreen() {
   };
 
   return (
-    <StandardScrollView contentContainerClassName="grow justify-between gap-8 pb-6 pt-14">
-      <View className="items-center gap-14">
-        <View className="size-14 items-center justify-center rounded-full border-2 border-accent">
-          <ZenIcon name="check" size={25} tintColor={colors.accent} />
-        </View>
-        <View className="items-center gap-2">
-          <Typography accessibilityRole="header" variant="h2" align="center">
-            Session complete.
-          </Typography>
-          <Typography tone="muted" align="center" selectable>
-            You sat for {durationMinutes} {durationMinutes === 1 ? "minute" : "minutes"}.
-          </Typography>
-        </View>
-
-        <ZenCard className="w-full px-4 py-4">
-          <View className="flex-row items-center gap-4">
-            <ZenIcon name="calendar" size={22} tintColor={colors.muted} />
-            <Typography selectable>
+    <StickyFooterScrollView.Root>
+      <StickyFooterScrollView.Body contentContainerClassName="pt-16">
+        <View className="items-center gap-12">
+          <SessionRing size={136} strokeWidth={2.5} progress={1} animated={!reducedMotion} drawDurationMs={1400}>
+            <View
+              accessible
+              accessibilityLabel={`You sat for ${durationMinutes} ${durationMinutes === 1 ? "minute" : "minutes"}`}
+              className="items-center"
+            >
+              <Typography variant="h1" align="center" tabularNums>
+                {durationMinutes}
+              </Typography>
+              <Typography variant="caption" tone="muted" align="center">
+                min
+              </Typography>
+            </View>
+          </SessionRing>
+          <View className="items-center gap-2">
+            <Typography accessibilityRole="header" variant="h2" align="center">
+              Session complete.
+            </Typography>
+            <Typography tone="muted" align="center" selectable>
               {dateLabel}, {formatWallClockTime(session.completedAtMs, session.timezoneOffsetMinutes)}
             </Typography>
           </View>
-        </ZenCard>
 
-        <View className="h-px w-2/3 bg-separator" />
-        <Typography tone="muted" align="center">
-          How do you feel?
-        </Typography>
-        <View accessibilityRole="radiogroup" className="flex-row flex-wrap justify-center gap-2">
-          {FEELINGS.map((feeling) => {
-            const isSelected = session.feeling === feeling.id;
-            return (
-              <Pressable
-                key={feeling.id}
-                accessibilityRole="radio"
-                accessibilityState={{ checked: isSelected, disabled: action.isPending }}
-                className={`min-h-11 justify-center rounded-full border px-5 ${
-                  isSelected ? "border-accent bg-accent-soft" : "border-stone"
-                }`}
-                disabled={action.isPending}
-                onPress={() => {
-                  void action.run(async () => {
-                    await setSessionFeeling(session.id, feeling.id);
-                  });
-                }}
-              >
-                <Typography variant="small">{feeling.label}</Typography>
-              </Pressable>
-            );
-          })}
+          <View className="items-center gap-5">
+            <Typography variant="h3" tone="muted" align="center">
+              How do you feel?
+            </Typography>
+            <View accessibilityRole="radiogroup" className="flex-row flex-wrap justify-center gap-2">
+              {FEELINGS.map((feeling) => {
+                const isSelected = session.feeling === feeling.id;
+                return (
+                  <Pressable
+                    key={feeling.id}
+                    accessibilityRole="radio"
+                    accessibilityState={{ checked: isSelected, disabled: action.isPending }}
+                    className={`min-h-11 justify-center rounded-full border px-5 ${
+                      isSelected ? "border-accent bg-accent-soft" : "border-stone"
+                    }`}
+                    disabled={action.isPending}
+                    onPress={() => {
+                      void action.run(async () => {
+                        await setSessionFeeling(session.id, feeling.id);
+                      });
+                    }}
+                  >
+                    <Typography variant="small">{feeling.label}</Typography>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
         </View>
-      </View>
-      <View className="gap-3">
+      </StickyFooterScrollView.Body>
+      <StickyFooterScrollView.Footer>
         {action.error ? (
-          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite" align="center">
+          <Typography variant="small" tone="danger" accessibilityLiveRegion="polite" align="center" className="pb-3">
             That change couldn’t be saved. Please try again.
           </Typography>
         ) : null}
         <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void done()}>
           {action.isPending ? "Saving…" : "Done"}
         </ZenPrimaryButton>
-      </View>
-    </StandardScrollView>
+      </StickyFooterScrollView.Footer>
+    </StickyFooterScrollView.Root>
   );
 }
