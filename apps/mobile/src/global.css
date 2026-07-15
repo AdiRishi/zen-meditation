@@ -93,52 +93,55 @@
         }
 
         @variant dark {
-            --background: var(--color-ink);
+            /* Night in the forest, not the lights turned off: a warm green-ink
+               canvas, moss-tinted surface steps, Sand-family secondary text,
+               and one luminous protagonist — moonlit moss. */
+            --background: #171c18;
             --foreground: var(--color-mist);
 
-            --surface: #2a2f2c;
+            --surface: #232b23;
             --surface-foreground: var(--color-mist);
-            --surface-secondary: #353b37;
+            --surface-secondary: #2d372c;
             --surface-secondary-foreground: var(--color-mist);
-            --surface-tertiary: #404742;
+            --surface-tertiary: #384334;
             --surface-tertiary-foreground: var(--color-mist);
 
-            --overlay: #2a2f2c;
+            --overlay: #232b23;
             --overlay-foreground: var(--color-mist);
-            --backdrop: rgb(0 0 0 / 34%);
+            --backdrop: rgb(8 12 7 / 44%);
 
-            --muted: var(--color-stone);
-            --default: #353b37;
+            --muted: #b7bba1;
+            --default: #2d372c;
             --default-foreground: var(--color-mist);
-            --accent: #97a189;
-            --accent-foreground: var(--color-ink);
-            --accent-soft: #3e463b;
-            --accent-soft-foreground: var(--color-mist);
+            --accent: #a9c08d;
+            --accent-foreground: #161c10;
+            --accent-soft: #33402a;
+            --accent-soft-foreground: #dce4c8;
 
-            --field-background: #2a2f2c;
+            --field-background: #232b23;
             --field-foreground: var(--color-mist);
-            --field-placeholder: var(--color-stone);
-            --field-border: var(--color-slate);
+            --field-placeholder: #969c84;
+            --field-border: #4c574a;
 
-            --info: var(--color-stone);
-            --info-foreground: var(--color-ink);
-            --success: #97a189;
-            --success-foreground: var(--color-ink);
-            --warning: #c79b69;
-            --warning-foreground: var(--color-ink);
-            --danger: #c87970;
-            --danger-foreground: var(--color-ink);
+            --info: #b7bba1;
+            --info-foreground: #171c18;
+            --success: #a9c08d;
+            --success-foreground: #161c10;
+            --warning: #d4a76a;
+            --warning-foreground: #1c1710;
+            --danger: #db8b80;
+            --danger-foreground: #1e1210;
 
-            --segment: #353b37;
+            --segment: #2d372c;
             --segment-foreground: var(--color-mist);
-            --border: var(--color-slate);
-            --separator: #5e6660;
-            --focus: #97a189;
+            --border: #465142;
+            --separator: #556150;
+            --focus: #a9c08d;
             --link: var(--color-mist);
 
-            --surface-shadow: 0 0 0 1px rgb(245 242 235 / 4%) inset;
-            --overlay-shadow: 0 0 0 1px rgb(245 242 235 / 7%) inset;
-            --field-shadow: 0 0 0 1px rgb(245 242 235 / 4%) inset;
+            --surface-shadow: 0 0 0 1px rgb(245 242 235 / 5%) inset;
+            --overlay-shadow: 0 0 0 1px rgb(245 242 235 / 8%) inset;
+            --field-shadow: 0 0 0 1px rgb(245 242 235 / 5%) inset;
         }
     }
 }

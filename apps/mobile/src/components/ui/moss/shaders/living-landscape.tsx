@@ -173,16 +173,17 @@ const LIGHT_PALETTE: LandscapePalette = {
   water: hexToVec3("#e3dccb"),
 };
 
+// skyTop matches the dark --background token exactly so faded edges dissolve.
 const DARK_PALETTE: LandscapePalette = {
-  skyTop: hexToVec3("#1b2022"),
-  skyHorizon: hexToVec3("#31372f"),
-  glow: hexToVec3("#d9d0b5"),
-  glowStrength: 0.42,
-  ridgeFar: hexToVec3("#2b312c"),
-  ridgeNear: hexToVec3("#131617"),
-  mistColor: hexToVec3("#3d453e"),
+  skyTop: hexToVec3("#171c18"),
+  skyHorizon: hexToVec3("#2f3b2a"),
+  glow: hexToVec3("#e5d9ab"),
+  glowStrength: 0.46,
+  ridgeFar: hexToVec3("#273123"),
+  ridgeNear: hexToVec3("#0f130e"),
+  mistColor: hexToVec3("#3f4c37"),
   mistAmount: 0.46,
-  water: hexToVec3("#15191b"),
+  water: hexToVec3("#11150e"),
 };
 
 // Soft, misty content survives aggressive undersampling: the canvas renders at
@@ -268,7 +269,7 @@ export function LivingLandscape({
   );
 
   const fallback = useMemo(
-    () => ({ backgroundColor: theme === "dark" ? "#22282a" : "#efe8d9" }),
+    () => ({ backgroundColor: theme === "dark" ? "#232b23" : "#efe8d9" }),
     [theme],
   );
 

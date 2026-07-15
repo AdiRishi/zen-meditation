@@ -102,9 +102,9 @@ const LIGHT_FIELD: FieldPalette = {
 };
 
 const DARK_FIELD: FieldPalette = {
-  core: hexToVec3("#576351"),
-  field: hexToVec3("#2c322c"),
-  accent: hexToVec3("#97a189"),
+  core: hexToVec3("#61704f"),
+  field: hexToVec3("#283224"),
+  accent: hexToVec3("#a9c08d"),
 };
 
 const MAX_FIELD_SIZE = 330;
