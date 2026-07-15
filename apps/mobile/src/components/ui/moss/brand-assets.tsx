@@ -1,8 +1,7 @@
 import { Image } from "expo-image";
-import { View } from "react-native";
 import { useUniwind } from "uniwind";
 
-import { cn } from "@/lib/cn";
+import { LivingLandscape } from "./shaders/living-landscape";
 
 type EnsoMarkProps = {
   size?: number;
@@ -29,20 +28,5 @@ type LandscapeArtworkProps = {
 };
 
 export function LandscapeArtwork({ height = 260, className, contentPosition = "bottom" }: LandscapeArtworkProps) {
-  const { theme } = useUniwind();
-  return (
-    <View className={cn("overflow-hidden", className)} style={{ height }}>
-      <Image
-        source={
-          theme === "dark"
-            ? require("../../../../assets/images/mountain-lake-background-dark.png")
-            : require("../../../../assets/images/mountain-lake-background.png")
-        }
-        contentFit="cover"
-        contentPosition={contentPosition}
-        style={{ height: "100%", width: "100%" }}
-        accessibilityIgnoresInvertColors
-      />
-    </View>
-  );
+  return <LivingLandscape height={height} className={className} contentPosition={contentPosition} />;
 }

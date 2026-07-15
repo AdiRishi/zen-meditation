@@ -19,6 +19,7 @@
     "@expo-google-fonts/newsreader": "^0.4.1",
     "@react-native-community/datetimepicker": "9.1.0",
     "@react-native-segmented-control/segmented-control": "2.5.7",
+    "@shopify/react-native-skia": "2.6.2",
     "expo": "^57.0.4",
     "expo-audio": "~57.0.0",
     "expo-build-properties": "~57.0.3",
@@ -95,7 +96,7 @@
       "<rootDir>/tests/**/*.test.[jt]s?(x)"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(?:.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|native-base|react-native-svg|react-native-worklets|react-native-reanimated|react-native-gesture-handler|react-native-safe-area-context|heroui-native|uniwind|tailwind-variants|superjson|copy-anything|is-what))"
+      "node_modules/(?!(?:.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|native-base|react-native-svg|react-native-worklets|react-native-reanimated|@shopify(/|\\+)react-native-skia|react-native-gesture-handler|react-native-safe-area-context|heroui-native|uniwind|tailwind-variants|superjson|copy-anything|is-what))"
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1",
