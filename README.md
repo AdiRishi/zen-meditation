@@ -1,39 +1,39 @@
 <div align="center">
 
-<img src="./docs/design/assets/zen-app-icon.png" width="112" alt="Zen app icon" />
+<img src="./docs/design/assets/moss-app-icon.png" width="112" alt="Moss app icon" />
 
-# Zen
+# Moss
 
 **A quiet rhythm for daily practice.**
 
-Zen is a meditation companion that supports the practice without becoming the focus of it.
+Moss is a meditation companion that supports the practice without becoming the focus of it.
 
 </div>
 
-![Zen daily practice experience](./docs/design/screens/02-daily-practice.png)
+![Moss daily practice experience](./docs/design/screens/02-daily-practice.png)
 
 ## Presence without pressure
 
 Meditation asks for quiet. Most phone timers end it with an alarm.
 
-Zen is designed around a gentler experience: choose how long you want to sit, begin with minimal ceremony, and return with a soft sound when the session is complete. Outside the session, flexible goals, subtle reminders, and thoughtful progress help a practice become regular without turning it into another obligation.
+Moss is designed around a gentler experience: choose how long you want to sit, begin with minimal ceremony, and return with a soft sound when the session is complete. Outside the session, flexible goals, subtle reminders, and thoughtful progress help a practice become regular without turning it into another obligation.
 
-Zen is not a guided-meditation service or a content library. It is the calm structure around a person's own practice.
+Moss is not a guided-meditation service or a content library. It is the calm structure around a person's own practice.
 
-- **Sit without interruption.** Once a session begins, Zen asks for nothing.
+- **Sit without interruption.** Once a session begins, Moss asks for nothing.
 - **Return gently.** Soft sound, restrained motion, and calm language replace the abrupt alarm.
 - **Build a rhythm.** Flexible schedules and reminders make it easier to come back.
 - **See progress without pressure.** Progress is encouraging and tangible, never punitive.
 
 ## Designed to recede
 
-Zen's interface is warm, spacious, and purposefully quiet. The open ensō represents a practice that is alive rather than perfected: complete enough to hold the moment, open enough to begin again.
+Moss's interface is warm, spacious, and purposefully quiet. The open ensō represents a practice that is alive rather than perfected: complete enough to hold the moment, open enough to begin again.
 
 The visual system pairs an ink-and-mist foundation with a restrained moss accent, editorial Newsreader display type, clear Geist interface type, and motion that feels more like breath than spectacle.
 
 The complete foundation lives in the repository:
 
-- [Vision](./docs/VISION.md) — why Zen should exist and how it should feel.
+- [Vision](./docs/VISION.md) — why Moss should exist and how it should feel.
 - [Product](./docs/PRODUCT.md) — the core experience, boundaries, and open decisions.
 - [Design system](./docs/design/README.md) — brand, screens, assets, and implementation tokens.
 - [Brand specification](./docs/design/BRAND.md) — identity, colour, typography, layout, motion, sound, and voice.
@@ -41,11 +41,11 @@ The complete foundation lives in the repository:
 ## Project status
 
 > [!NOTE]
-> Zen is in active development. The complete local-first product flow is implemented; release packaging and store distribution remain future work.
+> Moss is in active development. The complete local-first product flow is implemented; release packaging and store distribution remain future work.
 
 ## Engineering
 
-Zen is a TypeScript monorepo scaffold whose current product is built for iOS and Android. The app uses Expo and React Native, keeps preferences and practice history in on-device SQLite, and does not require an account or server connection.
+Moss is a TypeScript monorepo scaffold whose current product is built for iOS and Android. The app uses Expo and React Native, keeps preferences and practice history in on-device SQLite, and does not require an account or server connection.
 
 | Layer     | Technology                                          |
 | --------- | --------------------------------------------------- |
@@ -60,8 +60,8 @@ Zen is a TypeScript monorepo scaffold whose current product is built for iOS and
 You will need the Node.js version in [`.node-version`](./.node-version), pnpm 11, and Xcode or Android Studio for native development.
 
 ```bash
-git clone https://github.com/AdiRishi/zen-meditation.git
-cd zen-meditation
+git clone https://github.com/AdiRishi/moss-meditation.git
+cd moss-meditation
 pnpm install
 ```
 
@@ -96,7 +96,7 @@ Architecture and workflow decisions are recorded in [`docs/adr`](./docs/adr/READ
 
 ## License
 
-Zen is available under the [MIT License](./LICENSE).
+Moss is available under the [MIT License](./LICENSE).
 
 ---
 

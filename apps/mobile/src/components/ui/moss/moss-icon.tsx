@@ -2,7 +2,7 @@ import { SymbolView, type SymbolViewProps } from "expo-symbols";
 
 import type { CompletionSound } from "@/domain/meditation";
 
-export type ZenIconName =
+export type MossIconName =
   | "sun"
   | "moon"
   | "bell"
@@ -41,22 +41,22 @@ const ICONS = {
   info: { ios: "info.circle", android: "info", web: "info" },
   plus: { ios: "plus", android: "add", web: "add" },
   minus: { ios: "minus", android: "remove", web: "remove" },
-} as const satisfies Record<ZenIconName, SymbolViewProps["name"]>;
+} as const satisfies Record<MossIconName, SymbolViewProps["name"]>;
 
-type ZenIconProps = Omit<SymbolViewProps, "name"> & {
-  name: ZenIconName;
+type MossIconProps = Omit<SymbolViewProps, "name"> & {
+  name: MossIconName;
 };
 
 const COMPLETION_SOUND_ICONS = {
   "soft-chime": "bell",
   "low-bowl": "bowl",
   "wood-tone": "wood",
-} as const satisfies Record<CompletionSound, ZenIconName>;
+} as const satisfies Record<CompletionSound, MossIconName>;
 
-export function completionSoundIcon(sound: CompletionSound): ZenIconName {
+export function completionSoundIcon(sound: CompletionSound): MossIconName {
   return COMPLETION_SOUND_ICONS[sound];
 }
 
-export function ZenIcon({ name, size = 22, weight = "light", ...props }: ZenIconProps) {
+export function MossIcon({ name, size = 22, weight = "light", ...props }: MossIconProps) {
   return <SymbolView name={ICONS[name]} size={size} weight={weight} resizeMode="scaleAspectFit" {...props} />;
 }

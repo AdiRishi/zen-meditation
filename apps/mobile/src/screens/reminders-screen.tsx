@@ -12,7 +12,7 @@ import {
   SettingsSection,
   type SettingsFeedbackState,
 } from "@/components/screens/settings/settings-layout";
-import { NotificationPreview } from "@/components/ui/zen/notification-preview";
+import { NotificationPreview } from "@/components/ui/moss/notification-preview";
 import type { AppPreferences } from "@/domain/meditation";
 import { useAsyncAction } from "@/hooks/use-async-action";
 import { useMeditation } from "@/providers/meditation-provider";
@@ -96,7 +96,7 @@ function RemindersEditor() {
 
       {notificationPermission === "denied" && draft.remindersEnabled ? (
         <SettingsFeedback>
-          Notifications are off in device settings. Zen will stay quiet until you choose to allow them.
+          Notifications are off in device settings. Moss will stay quiet until you choose to allow them.
         </SettingsFeedback>
       ) : null}
 

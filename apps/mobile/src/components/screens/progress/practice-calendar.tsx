@@ -1,7 +1,7 @@
 import { Pressable, View } from "react-native";
 
+import { MossIcon } from "@/components/ui/moss/moss-icon";
 import { Typography } from "@/components/ui/typography";
-import { ZenIcon } from "@/components/ui/zen/zen-icon";
 import { toLocalDateKey } from "@/domain/date-time";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
@@ -72,7 +72,7 @@ export function PracticeCalendar({
           hitSlop={4}
           onPress={onPreviousMonth}
         >
-          <ZenIcon name="back" size={18} tintColor={colors.foreground} />
+          <MossIcon name="back" size={18} tintColor={colors.foreground} />
         </Pressable>
         <Typography accessibilityRole="header" accessibilityLiveRegion="polite" variant="h3" tabularNums>
           {MONTH_FORMATTER.format(month)}
@@ -84,7 +84,7 @@ export function PracticeCalendar({
           hitSlop={4}
           onPress={onNextMonth}
         >
-          <ZenIcon name="forward" size={18} tintColor={colors.foreground} />
+          <MossIcon name="forward" size={18} tintColor={colors.foreground} />
         </Pressable>
       </View>
 

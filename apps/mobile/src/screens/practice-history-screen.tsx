@@ -5,9 +5,9 @@ import { View } from "react-native";
 import { PracticeCalendar } from "@/components/screens/progress/practice-calendar";
 import { PracticeStateCard } from "@/components/screens/progress/practice-state-card";
 import { SessionHistoryList } from "@/components/screens/progress/session-history-list";
+import { ScreenHeader } from "@/components/ui/moss/screen-header";
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
-import { ScreenHeader } from "@/components/ui/zen/screen-header";
 import { startOfLocalMonth, toLocalDateKey } from "@/domain/date-time";
 import { completedDateKeys } from "@/domain/progress";
 import { useMeditation } from "@/providers/meditation-provider";
@@ -43,7 +43,7 @@ export function PracticeHistoryScreen() {
       ) : error ? (
         <PracticeStateCard
           title="Your history needs a moment."
-          message="Zen could not read your practice history."
+          message="Moss could not read your practice history."
           actionLabel="Try again"
           onAction={() => void refresh()}
         />

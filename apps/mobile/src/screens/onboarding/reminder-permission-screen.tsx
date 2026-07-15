@@ -1,11 +1,11 @@
 import { useRouter } from "expo-router";
 import { Alert, View } from "react-native";
 
+import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
+import { MossPrimaryButton, MossSecondaryButton } from "@/components/ui/moss/moss-button";
+import { NotificationPreview } from "@/components/ui/moss/notification-preview";
 import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
-import { LandscapeArtwork } from "@/components/ui/zen/brand-assets";
-import { NotificationPreview } from "@/components/ui/zen/notification-preview";
-import { ZenPrimaryButton, ZenSecondaryButton } from "@/components/ui/zen/zen-button";
 import { useAsyncAction } from "@/hooks/use-async-action";
 import { useMeditation } from "@/providers/meditation-provider";
 
@@ -43,12 +43,12 @@ export function ReminderPermissionScreen() {
       </StickyFooterScrollView.Body>
       <StickyFooterScrollView.Footer>
         <View className="gap-3">
-          <ZenPrimaryButton isDisabled={continueAction.isPending} onPress={() => void finishOnboarding(true)}>
+          <MossPrimaryButton isDisabled={continueAction.isPending} onPress={() => void finishOnboarding(true)}>
             Allow reminders
-          </ZenPrimaryButton>
-          <ZenSecondaryButton isDisabled={continueAction.isPending} onPress={() => void finishOnboarding(false)}>
+          </MossPrimaryButton>
+          <MossSecondaryButton isDisabled={continueAction.isPending} onPress={() => void finishOnboarding(false)}>
             Not now
-          </ZenSecondaryButton>
+          </MossSecondaryButton>
         </View>
       </StickyFooterScrollView.Footer>
     </StickyFooterScrollView.Root>

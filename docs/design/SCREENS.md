@@ -1,14 +1,14 @@
-# Zen Screen System
+# Moss Screen System
 
 > **Current specification.** The [five screen boards](./screens/README.md) are the canonical visual reference for these surfaces. Copy may tighten during implementation, but the product structure and behaviours below should remain stable.
 
-Zen uses three primary destinations: **Today**, **Progress**, and **Settings**. Meditation runs as a focused flow above that navigation.
+Moss uses three primary destinations: **Today**, **Progress**, and **Settings**. Meditation runs as a focused flow above that navigation.
 
 ## Onboarding
 
 ### 01 — Splash
 
-Introduce the ensō, Zen wordmark, and tagline without controls. Fade naturally into Welcome.
+Introduce the ensō, Moss wordmark, and tagline without controls. Fade naturally into Welcome.
 
 ### 02 — Welcome
 

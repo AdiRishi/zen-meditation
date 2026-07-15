@@ -32,19 +32,19 @@ describe("<PrivacyScreen />", () => {
     const { findByText, getByText } = renderMeditationScreen(<PrivacyScreen />, { notifications, store });
 
     await findByText("Your practice history, schedule, and preferences stay on this device.");
-    getByText("Zen does not ask you to sign in or create a profile.");
-    getByText("Zen does not track your activity or send analytics about your practice.");
-    fireEvent.press(getByText("Delete All Zen Data"));
+    getByText("Moss does not ask you to sign in or create a profile.");
+    getByText("Moss does not track your activity or send analytics about your practice.");
+    fireEvent.press(getByText("Delete All Moss Data"));
 
     expect(alert).toHaveBeenCalledWith(
-      "Delete all Zen data?",
+      "Delete all Moss data?",
       expect.stringContaining("practice history, active session, schedule, reminders, and settings"),
       expect.any(Array),
     );
     await expect(store.loadPreferences()).resolves.not.toEqual(DEFAULT_PREFERENCES);
 
     const buttons = alert.mock.calls[0][2];
-    const deleteButton = buttons?.find((button) => button.text === "Delete All Zen Data");
+    const deleteButton = buttons?.find((button) => button.text === "Delete All Moss Data");
     await act(async () => {
       deleteButton?.onPress?.();
     });
@@ -70,15 +70,15 @@ describe("<PrivacyScreen />", () => {
     const alert = jest.spyOn(Alert, "alert").mockImplementation(() => undefined);
     const { findByText, getByText } = renderMeditationScreen(<PrivacyScreen />, { notifications, store });
 
-    fireEvent.press(await findByText("Delete All Zen Data"));
+    fireEvent.press(await findByText("Delete All Moss Data"));
     const buttons = alert.mock.calls[0][2];
-    const deleteButton = buttons?.find((button) => button.text === "Delete All Zen Data");
+    const deleteButton = buttons?.find((button) => button.text === "Delete All Moss Data");
     await act(async () => {
       deleteButton?.onPress?.();
     });
 
-    await findByText("Zen couldn’t finish deleting your data. Please try again.");
-    getByText("Delete All Zen Data");
+    await findByText("Moss couldn’t finish deleting your data. Please try again.");
+    getByText("Delete All Moss Data");
     await expect(store.loadPreferences()).resolves.toEqual({
       ...DEFAULT_PREFERENCES,
       onboardingCompleted: true,

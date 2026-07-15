@@ -31,7 +31,7 @@ function LocalDataProvider({ children }: { children: React.ReactNode }) {
   const reset = async () => {
     try {
       await localNotifications.clearAllManagedNotifications();
-      await deleteDatabaseAsync("zen.db");
+      await deleteDatabaseAsync("moss.db");
       retry();
     } catch (error) {
       const databaseResetError = error instanceof Error ? error : new Error("Local data could not be reset.");
@@ -45,7 +45,7 @@ function LocalDataProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <SQLiteProvider key={databaseKey} databaseName="zen.db" onError={setDatabaseError} onInit={initializeDatabase}>
+    <SQLiteProvider key={databaseKey} databaseName="moss.db" onError={setDatabaseError} onInit={initializeDatabase}>
       <SQLiteMeditationProvider>{children}</SQLiteMeditationProvider>
     </SQLiteProvider>
   );

@@ -20,16 +20,16 @@ describe("<LocalDataErrorScreen />", () => {
     const alert = jest.spyOn(Alert, "alert").mockImplementation(() => undefined);
     const { getByText } = renderWithTestProviders(<LocalDataErrorScreen onRetry={jest.fn()} onReset={onReset} />);
 
-    fireEvent.press(getByText("Delete All Zen Data"));
+    fireEvent.press(getByText("Delete All Moss Data"));
     expect(onReset).not.toHaveBeenCalled();
     expect(alert).toHaveBeenCalledWith(
-      "Delete all Zen data?",
+      "Delete all Moss data?",
       expect.stringContaining("This can’t be undone."),
       expect.any(Array),
     );
 
     const buttons = alert.mock.calls[0][2];
-    const resetButton = buttons?.find((button) => button.text === "Delete All Zen Data");
+    const resetButton = buttons?.find((button) => button.text === "Delete All Moss Data");
     await act(async () => {
       resetButton?.onPress?.();
       resetButton?.onPress?.();
@@ -37,7 +37,7 @@ describe("<LocalDataErrorScreen />", () => {
     });
 
     expect(onReset).toHaveBeenCalledTimes(1);
-    getByText("Deleting Zen data…");
+    getByText("Deleting Moss data…");
 
     await act(async () => finishReset?.());
   });

@@ -6,13 +6,13 @@ import { SerialTaskQueue } from "@/lib/serial-task-queue";
 export const PRACTICE_REMINDER_BODY = "Time for a quiet pause.";
 
 const SESSION_COMPLETION_BODY = "Your quiet pause is complete.";
-const NOTIFICATION_KIND_KEY = "zenNotificationKind";
+const NOTIFICATION_KIND_KEY = "mossNotificationKind";
 const WEEKLY_REMINDER_KIND = "weekly-practice-reminder";
 const SESSION_COMPLETION_KIND = "session-completion";
 const SESSION_COMPLETION_TIME_KEY = "scheduledAtMs";
 const SESSION_COMPLETION_SOUND_KEY = "sound";
-const REMINDER_CHANNEL_ID = "zen-practice-reminders";
-const SESSION_COMPLETION_CHANNEL_PREFIX = "zen-session-completion";
+const REMINDER_CHANNEL_ID = "moss-practice-reminders";
+const SESSION_COMPLETION_CHANNEL_PREFIX = "moss-session-completion";
 const MINUTES_PER_DAY = 24 * 60;
 
 const COMPLETION_SOUND_FILENAMES = {
@@ -21,9 +21,9 @@ const COMPLETION_SOUND_FILENAMES = {
   "wood-tone": "wood_tone.wav",
 } as const satisfies Record<CompletionSound, string>;
 
-export type ZenNotificationKind = typeof WEEKLY_REMINDER_KIND | typeof SESSION_COMPLETION_KIND;
+export type MossNotificationKind = typeof WEEKLY_REMINDER_KIND | typeof SESSION_COMPLETION_KIND;
 
-export function getZenNotificationKind(data: Record<string, unknown> | null | undefined): ZenNotificationKind | null {
+export function getMossNotificationKind(data: Record<string, unknown> | null | undefined): MossNotificationKind | null {
   const kind = data?.[NOTIFICATION_KIND_KEY];
   return kind === WEEKLY_REMINDER_KIND || kind === SESSION_COMPLETION_KIND ? kind : null;
 }
@@ -127,7 +127,7 @@ function buildReminderPlans(preferences: AppPreferences): ReminderPlan[] {
       const planKey = `${expoWeekday}.${String(hour).padStart(2, "0")}${String(minute).padStart(2, "0")}`;
 
       plans.set(planKey, {
-        identifier: `zen.weekly-practice-reminder.${planKey}`,
+        identifier: `moss.weekly-practice-reminder.${planKey}`,
         weekday: expoWeekday,
         hour,
         minute,
@@ -140,13 +140,13 @@ function buildReminderPlans(preferences: AppPreferences): ReminderPlan[] {
   );
 }
 
-function isManagedNotification(notification: ScheduledNotificationSummary, kind?: ZenNotificationKind) {
-  const notificationKind = getZenNotificationKind(notification.content.data);
+function isManagedNotification(notification: ScheduledNotificationSummary, kind?: MossNotificationKind) {
+  const notificationKind = getMossNotificationKind(notification.content.data);
   return notificationKind !== null && (!kind || notificationKind === kind);
 }
 
 function sessionCompletionIdentifier(sessionId: string) {
-  return `zen.session-completion.${sessionId}`;
+  return `moss.session-completion.${sessionId}`;
 }
 
 function sessionCompletionChannelId(sound: CompletionSound) {
@@ -178,7 +178,7 @@ export function createLocalNotifications(nativeApi: LocalNotificationsNativeApi)
     });
   }
 
-  async function getManagedNotifications(kind?: ZenNotificationKind) {
+  async function getManagedNotifications(kind?: MossNotificationKind) {
     const scheduled = await nativeApi.getAllScheduledNotificationsAsync();
     return scheduled
       .filter((notification) => isManagedNotification(notification, kind))
@@ -213,7 +213,7 @@ export function createLocalNotifications(nativeApi: LocalNotificationsNativeApi)
     await nativeApi.scheduleNotificationAsync({
       identifier: sessionCompletionIdentifier(sessionId),
       content: {
-        title: "Zen",
+        title: "Moss",
         body: SESSION_COMPLETION_BODY,
         sound: filename,
         data: {
@@ -273,7 +273,7 @@ export function createLocalNotifications(nativeApi: LocalNotificationsNativeApi)
             const identifier = await nativeApi.scheduleNotificationAsync({
               identifier: plan.identifier,
               content: {
-                title: "Zen",
+                title: "Moss",
                 body: PRACTICE_REMINDER_BODY,
                 sound: "default",
                 data: { [NOTIFICATION_KIND_KEY]: WEEKLY_REMINDER_KIND },

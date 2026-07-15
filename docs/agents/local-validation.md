@@ -4,7 +4,7 @@ Use the Build iOS Apps plugin for iOS validation, preferring its simulator-brows
 
 The Codex environment at `.codex/environments/environment.toml` owns dependency installation and native prebuild work for new worktrees.
 
-Zen is a local-only app. Its preferences, active session, and practice history are persisted on the device with SQLite, so validation does not require any server process.
+Moss is a local-only app. Its preferences, active session, and practice history are persisted on the device with SQLite, so validation does not require any server process.
 
 Metro needs access to host file watchers and port `8081`, while the native build needs access to Simulator services. In Codex, run the iOS command with scoped host escalation rather than starting it in the filesystem sandbox.
 

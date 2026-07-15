@@ -1,6 +1,6 @@
-# Zen Vision
+# Moss Vision
 
-Zen exists to make a regular meditation practice easier to begin, sustain, and return to.
+Moss exists to make a regular meditation practice easier to begin, sustain, and return to.
 
 ## The Problem
 
@@ -10,11 +10,11 @@ A meditation tool should not disturb the state it is meant to support.
 
 ## The Vision
 
-Zen should feel like a quiet transition into and out of meditation. A person opens the app, chooses how long they want to sit, begins, and is left alone. The session remains silent. When the time is complete, a soft sound brings them back gently.
+Moss should feel like a quiet transition into and out of meditation. A person opens the app, chooses how long they want to sit, begins, and is left alone. The session remains silent. When the time is complete, a soft sound brings them back gently.
 
-Beyond the session, Zen helps people build a rhythm. Flexible goals, subtle reminders, and thoughtfully presented progress encourage them to keep practising without turning meditation into another source of pressure.
+Beyond the session, Moss helps people build a rhythm. Flexible goals, subtle reminders, and thoughtfully presented progress encourage them to keep practising without turning meditation into another source of pressure.
 
-Zen is not the practice itself. It is the calm structure around it.
+Moss is not the practice itself. It is the calm structure around it.
 
 ## Product Promise
 
@@ -24,7 +24,7 @@ Support the practice without becoming the focus of it.
 
 ### Quiet by default
 
-Zen should ask for as little attention as possible, especially once a session has begun.
+Moss should ask for as little attention as possible, especially once a session has begun.
 
 ### Consistency without pressure
 
@@ -40,8 +40,8 @@ The interface should be simple, spacious, and immediately understandable. Every 
 
 ### Practice, not content
 
-Zen supports a person's own meditation practice. It is not a guided-meditation service or a library to browse.
+Moss supports a person's own meditation practice. It is not a guided-meditation service or a library to browse.
 
 ## What Success Feels Like
 
-Zen succeeds when people meditate more regularly, feel supported rather than managed, and barely need to think about the app while they practise.
+Moss succeeds when people meditate more regularly, feel supported rather than managed, and barely need to think about the app while they practise.

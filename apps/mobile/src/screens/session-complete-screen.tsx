@@ -2,10 +2,10 @@ import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { BackHandler, Pressable, View } from "react-native";
 
+import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
+import { SessionRing } from "@/components/ui/moss/session-ring";
 import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
-import { SessionRing } from "@/components/ui/zen/session-ring";
-import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
 import { formatLocalDateLabel, formatWallClockTime } from "@/domain/date-time";
 import { type Feeling } from "@/domain/meditation";
 import { useAsyncAction } from "@/hooks/use-async-action";
@@ -130,9 +130,9 @@ export function SessionCompleteScreen() {
             That change couldn’t be saved. Please try again.
           </Typography>
         ) : null}
-        <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void done()}>
+        <MossPrimaryButton isDisabled={action.isPending} onPress={() => void done()}>
           {action.isPending ? "Saving…" : "Done"}
-        </ZenPrimaryButton>
+        </MossPrimaryButton>
       </StickyFooterScrollView.Footer>
     </StickyFooterScrollView.Root>
   );

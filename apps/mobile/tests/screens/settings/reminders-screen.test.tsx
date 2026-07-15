@@ -59,7 +59,7 @@ describe("<RemindersScreen />", () => {
       store: new InMemoryMeditationStore({ preferences }),
     });
 
-    await findByText("Notifications are off in device settings. Zen will stay quiet until you choose to allow them.");
+    await findByText("Notifications are off in device settings. Moss will stay quiet until you choose to allow them.");
     fireEvent.press(getByText("Save"));
 
     await findByText(

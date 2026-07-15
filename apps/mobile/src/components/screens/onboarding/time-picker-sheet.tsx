@@ -2,10 +2,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Modal, View } from "react-native";
 
 import { AndroidTimePickerControl } from "@/components/screens/onboarding/android-time-picker-control";
+import { MossPrimaryButton, MossSecondaryButton } from "@/components/ui/moss/moss-button";
 import { ScreenContainerScopeProvider } from "@/components/ui/screen-containers/screen-container-scope";
 import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
-import { ZenPrimaryButton, ZenSecondaryButton } from "@/components/ui/zen/zen-button";
 import { dateForPracticeTime } from "@/domain/date-time";
 import type { PracticeTime } from "@/domain/meditation";
 import { useMeditation } from "@/providers/meditation-provider";
@@ -53,15 +53,15 @@ export function TimePickerSheet({ practiceTime, onChange, onClose }: TimePickerS
           </StickyFooterScrollView.Body>
           <StickyFooterScrollView.Footer>
             <View className="gap-3">
-              <ZenPrimaryButton onPress={onClose}>Done</ZenPrimaryButton>
-              <ZenSecondaryButton
+              <MossPrimaryButton onPress={onClose}>Done</MossPrimaryButton>
+              <MossSecondaryButton
                 onPress={() => {
                   onChange({ ...practiceTime, enabled: false });
                   onClose();
                 }}
               >
                 Keep this time flexible
-              </ZenSecondaryButton>
+              </MossSecondaryButton>
             </View>
           </StickyFooterScrollView.Footer>
         </StickyFooterScrollView.Root>

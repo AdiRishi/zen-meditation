@@ -1,8 +1,8 @@
 import { View } from "react-native";
 
+import { GroupedList } from "@/components/ui/moss/list-row";
+import { MossIcon } from "@/components/ui/moss/moss-icon";
 import { Typography } from "@/components/ui/typography";
-import { GroupedList } from "@/components/ui/zen/list-row";
-import { ZenIcon } from "@/components/ui/zen/zen-icon";
 import { formatLocalDateLabel, formatSessionDaypart, formatWallClockTime } from "@/domain/date-time";
 import type { CompletedSession } from "@/domain/meditation";
 import { useThemeColors } from "@/hooks/use-theme-colors";
@@ -33,7 +33,7 @@ function SessionRow({ session, nowMs }: { session: CompletedSession; nowMs: numb
       className="min-h-18 flex-row items-center gap-4 px-5 py-3"
     >
       <View className="items-center justify-center">
-        <ZenIcon name={label === "Evening" ? "moon" : "sun"} size={22} tintColor={colors.muted} />
+        <MossIcon name={label === "Evening" ? "moon" : "sun"} size={22} tintColor={colors.muted} />
       </View>
       <View className="min-w-0 flex-1 gap-0.5">
         <Typography variant="body">{label}</Typography>

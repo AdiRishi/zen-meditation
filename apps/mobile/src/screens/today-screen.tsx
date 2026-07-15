@@ -3,13 +3,13 @@ import { useCallback, useState } from "react";
 import { View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 
+import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
+import { PracticeTimeRow } from "@/components/ui/moss/list-row";
+import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
+import { MossCard } from "@/components/ui/moss/moss-card";
+import { WeekdaySelector } from "@/components/ui/moss/weekday-selector";
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
-import { LandscapeArtwork } from "@/components/ui/zen/brand-assets";
-import { PracticeTimeRow } from "@/components/ui/zen/list-row";
-import { WeekdaySelector } from "@/components/ui/zen/weekday-selector";
-import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
-import { ZenCard } from "@/components/ui/zen/zen-card";
 import {
   addLocalDays,
   findNextPractice,
@@ -82,7 +82,7 @@ export function TodayScreen() {
       </Animated.View>
 
       <Animated.View entering={enter(1)}>
-        <ZenCard>
+        <MossCard>
           <LandscapeArtwork height={168} />
           {nextPractice ? (
             <PracticeTimeRow
@@ -92,7 +92,7 @@ export function TodayScreen() {
               onPress={() => router.push("/session-setup")}
             />
           ) : null}
-        </ZenCard>
+        </MossCard>
       </Animated.View>
 
       <Animated.View entering={enter(2)} className="gap-4">
@@ -112,7 +112,7 @@ export function TodayScreen() {
       </Animated.View>
 
       <Animated.View entering={enter(3)}>
-        <ZenPrimaryButton onPress={() => router.push("/session-setup")}>Begin</ZenPrimaryButton>
+        <MossPrimaryButton onPress={() => router.push("/session-setup")}>Begin</MossPrimaryButton>
       </Animated.View>
     </StandardScrollView>
   );

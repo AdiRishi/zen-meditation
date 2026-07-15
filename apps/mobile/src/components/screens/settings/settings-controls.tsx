@@ -2,10 +2,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { Pressable, Switch, useWindowDimensions, View } from "react-native";
 
+import { GroupedList } from "@/components/ui/moss/list-row";
+import { MossCard } from "@/components/ui/moss/moss-card";
+import { MossIcon, type MossIconName } from "@/components/ui/moss/moss-icon";
 import { Typography } from "@/components/ui/typography";
-import { GroupedList } from "@/components/ui/zen/list-row";
-import { ZenCard } from "@/components/ui/zen/zen-card";
-import { ZenIcon, type ZenIconName } from "@/components/ui/zen/zen-icon";
 import { dateForPracticeTime, formatPracticeTime } from "@/domain/date-time";
 import type { Appearance, PracticeTime } from "@/domain/meditation";
 import { useThemeColors } from "@/hooks/use-theme-colors";
@@ -133,7 +133,7 @@ export function PracticeTimeControls({
           <View className="min-h-20 gap-3 px-4 py-3">
             <View className="flex-row items-center gap-3">
               <View className="w-8 items-center justify-center">
-                <ZenIcon name={time.hour < 12 ? "sun" : "moon"} size={22} tintColor={colors.muted} />
+                <MossIcon name={time.hour < 12 ? "sun" : "moon"} size={22} tintColor={colors.muted} />
               </View>
               <Typography variant="body" className="flex-1">
                 {time.label}
@@ -200,7 +200,7 @@ export function AddPracticeTimeButton({ onPress, disabled = false }: { onPress: 
       disabled={disabled}
       onPress={onPress}
     >
-      <ZenIcon name="plus" size={18} tintColor={colors.foreground} />
+      <MossIcon name="plus" size={18} tintColor={colors.foreground} />
       <Typography variant="body">Add a time</Typography>
     </Pressable>
   );
@@ -230,10 +230,10 @@ export function ReminderTimeControls({
       {times.map((time) => {
         const isDisabled = !enabled || !time.enabled;
         return (
-          <ZenCard key={time.id} className={`gap-3 px-4 py-4 ${isDisabled ? "opacity-60" : ""}`}>
+          <MossCard key={time.id} className={`gap-3 px-4 py-4 ${isDisabled ? "opacity-60" : ""}`}>
             <View className="flex-row items-center gap-3">
               <View className="w-8 items-center justify-center">
-                <ZenIcon name={time.hour < 12 ? "sun" : "moon"} size={22} tintColor={colors.muted} />
+                <MossIcon name={time.hour < 12 ? "sun" : "moon"} size={22} tintColor={colors.muted} />
               </View>
               <View className="flex-1">
                 <Typography variant="body">{time.label}</Typography>
@@ -262,7 +262,7 @@ export function ReminderTimeControls({
                 );
               })}
             </View>
-          </ZenCard>
+          </MossCard>
         );
       })}
     </View>
@@ -291,7 +291,7 @@ export function QuietHoursControl({
       {timeRows.map((row) => (
         <View key={row.id} className="min-h-16 flex-row items-center gap-3 px-4 py-3">
           <View className="w-8 items-center justify-center">
-            <ZenIcon name={row.id === "start" ? "moon" : "sun"} size={22} tintColor={colors.muted} />
+            <MossIcon name={row.id === "start" ? "moon" : "sun"} size={22} tintColor={colors.muted} />
           </View>
           <Typography variant="body" className="flex-1">
             {row.label}
@@ -324,7 +324,7 @@ export function SettingsToggleCard({
   disabled,
   onChange,
 }: {
-  icon: ZenIconName;
+  icon: MossIconName;
   label: string;
   value?: string;
   enabled: boolean;
@@ -334,10 +334,10 @@ export function SettingsToggleCard({
   const colors = useThemeColors();
 
   return (
-    <ZenCard>
+    <MossCard>
       <View className="min-h-16 flex-row items-center gap-4 px-4 py-3">
         <View className="w-8 items-center justify-center">
-          <ZenIcon name={icon} size={22} tintColor={colors.muted} />
+          <MossIcon name={icon} size={22} tintColor={colors.muted} />
         </View>
         <View className="flex-1 gap-0.5">
           <Typography variant="body">{label}</Typography>
@@ -357,7 +357,7 @@ export function SettingsToggleCard({
           value={enabled}
         />
       </View>
-    </ZenCard>
+    </MossCard>
   );
 }
 
@@ -403,7 +403,7 @@ export function AppearanceChoiceList({
                 isSelected ? "border-accent bg-accent" : "border-stone"
               }`}
             >
-              {isSelected ? <ZenIcon name="check" size={14} tintColor={colors.accentForeground} /> : null}
+              {isSelected ? <MossIcon name="check" size={14} tintColor={colors.accentForeground} /> : null}
             </View>
           </Pressable>
         );

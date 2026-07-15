@@ -2,12 +2,12 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 
+import { CounterCard } from "@/components/ui/moss/counter-card";
+import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
+import { ScreenHeader } from "@/components/ui/moss/screen-header";
+import { WeekdaySelector } from "@/components/ui/moss/weekday-selector";
 import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
-import { CounterCard } from "@/components/ui/zen/counter-card";
-import { ScreenHeader } from "@/components/ui/zen/screen-header";
-import { WeekdaySelector } from "@/components/ui/zen/weekday-selector";
-import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
 import type { Weekday } from "@/domain/meditation";
 import { useAsyncAction } from "@/hooks/use-async-action";
 import { useMeditation } from "@/providers/meditation-provider";
@@ -85,9 +85,9 @@ export function PracticeGoalScreen() {
             Your intention couldn’t be saved. Please try again.
           </Typography>
         ) : null}
-        <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void continueOnboarding()}>
+        <MossPrimaryButton isDisabled={action.isPending} onPress={() => void continueOnboarding()}>
           {action.isPending ? "Saving…" : "Continue"}
-        </ZenPrimaryButton>
+        </MossPrimaryButton>
       </StickyFooterScrollView.Footer>
     </StickyFooterScrollView.Root>
   );

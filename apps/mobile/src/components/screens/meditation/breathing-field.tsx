@@ -66,8 +66,8 @@ export function BreathingField({ reducedMotion, ending, size }: BreathingFieldPr
       <Image
         source={
           theme === "dark"
-            ? require("../../../../assets/images/zen-breathing-field-dark.png")
-            : require("../../../../assets/images/zen-breathing-field.png")
+            ? require("../../../../assets/images/moss-breathing-field-dark.png")
+            : require("../../../../assets/images/moss-breathing-field.png")
         }
         contentFit="contain"
         style={{ height: imageSize, width: imageSize }}

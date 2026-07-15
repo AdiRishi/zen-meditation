@@ -1,7 +1,7 @@
 import { within } from "@testing-library/react-native";
 import { renderWithTestProviders } from "@tests/testing-utils/render-with-test-providers";
 
-import { WeekdaySelector } from "@/components/ui/zen/weekday-selector";
+import { WeekdaySelector } from "@/components/ui/moss/weekday-selector";
 
 describe("<WeekdaySelector />", () => {
   test("shows a non-colour completion mark in the read-only rhythm", () => {

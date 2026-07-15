@@ -1,12 +1,12 @@
 import { Redirect, useRouter } from "expo-router";
 import { useState } from "react";
 
+import { DurationSelector } from "@/components/ui/moss/duration-selector";
+import { CompletionSoundRow, GroupedList } from "@/components/ui/moss/list-row";
+import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
+import { ScreenHeader } from "@/components/ui/moss/screen-header";
 import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
-import { DurationSelector } from "@/components/ui/zen/duration-selector";
-import { CompletionSoundRow, GroupedList } from "@/components/ui/zen/list-row";
-import { ScreenHeader } from "@/components/ui/zen/screen-header";
-import { ZenPrimaryButton } from "@/components/ui/zen/zen-button";
 import type { SessionDuration } from "@/domain/meditation";
 import { useAsyncAction } from "@/hooks/use-async-action";
 import { impactHaptic } from "@/lib/haptics";
@@ -51,7 +51,7 @@ export function SessionSetupScreen() {
         </GroupedList>
         {notificationPermission === "granted" && process.env.EXPO_OS !== "android" ? null : (
           <Typography variant="small" tone="muted">
-            Keep Zen open for precise timing and to hear the completion sound.
+            Keep Moss open for precise timing and to hear the completion sound.
           </Typography>
         )}
       </StickyFooterScrollView.Body>
@@ -61,9 +61,9 @@ export function SessionSetupScreen() {
             Your session couldn’t begin. Please try again.
           </Typography>
         ) : null}
-        <ZenPrimaryButton isDisabled={action.isPending} onPress={() => void begin()}>
+        <MossPrimaryButton isDisabled={action.isPending} onPress={() => void begin()}>
           {action.isPending ? "Starting…" : "Begin"}
-        </ZenPrimaryButton>
+        </MossPrimaryButton>
       </StickyFooterScrollView.Footer>
     </StickyFooterScrollView.Root>
   );

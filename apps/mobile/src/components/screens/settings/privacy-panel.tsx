@@ -1,7 +1,7 @@
 import { View } from "react-native";
 
+import { MossCard } from "@/components/ui/moss/moss-card";
 import { Typography } from "@/components/ui/typography";
-import { ZenCard } from "@/components/ui/zen/zen-card";
 
 const PRIVACY_POINTS = [
   {
@@ -10,11 +10,11 @@ const PRIVACY_POINTS = [
   },
   {
     title: "No account",
-    description: "Zen does not ask you to sign in or create a profile.",
+    description: "Moss does not ask you to sign in or create a profile.",
   },
   {
     title: "No tracking",
-    description: "Zen does not track your activity or send analytics about your practice.",
+    description: "Moss does not track your activity or send analytics about your practice.",
   },
 ] as const;
 
@@ -22,12 +22,12 @@ export function PrivacySummary() {
   return (
     <View className="gap-3">
       {PRIVACY_POINTS.map((point) => (
-        <ZenCard key={point.title} className="gap-1 px-4 py-4">
+        <MossCard key={point.title} className="gap-1 px-4 py-4">
           <Typography variant="bodyBold">{point.title}</Typography>
           <Typography variant="small" tone="muted">
             {point.description}
           </Typography>
-        </ZenCard>
+        </MossCard>
       ))}
     </View>
   );

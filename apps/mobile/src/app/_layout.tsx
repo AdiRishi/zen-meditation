@@ -29,7 +29,7 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
           <AppThemeProvider>
             <GenericErrorScreen
               title="Something went wrong"
-              message="Zen ran into an unexpected issue. Your practice data remains on this device."
+              message="Moss ran into an unexpected issue. Your practice data remains on this device."
               errorDetails={{ status: error.message }}
               onRetry={retry}
             />

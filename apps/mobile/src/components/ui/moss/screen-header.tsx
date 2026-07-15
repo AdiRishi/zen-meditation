@@ -4,7 +4,7 @@ import { Pressable, View } from "react-native";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
 import { Typography } from "../typography";
-import { ZenIcon } from "./zen-icon";
+import { MossIcon } from "./moss-icon";
 
 type ScreenHeaderProps = {
   title?: string;
@@ -26,7 +26,7 @@ export function ScreenHeader({ title, onBack, backLabel = "Back", trailing }: Sc
         hitSlop={8}
         onPress={onBack ?? router.back}
       >
-        <ZenIcon name="back" size={20} tintColor={colors.foreground} />
+        <MossIcon name="back" size={20} tintColor={colors.foreground} />
       </Pressable>
       {title ? (
         <Typography accessibilityRole="header" variant="h4" align="center" className="flex-1 font-serif font-normal">

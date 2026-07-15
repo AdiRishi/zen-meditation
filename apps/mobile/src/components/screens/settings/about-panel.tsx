@@ -1,8 +1,8 @@
 import { View } from "react-native";
 
+import { EnsoMark } from "@/components/ui/moss/brand-assets";
+import { MossCard } from "@/components/ui/moss/moss-card";
 import { Typography } from "@/components/ui/typography";
-import { EnsoMark } from "@/components/ui/zen/brand-assets";
-import { ZenCard } from "@/components/ui/zen/zen-card";
 
 export function AboutPanel({ version }: { version: string }) {
   return (
@@ -11,7 +11,7 @@ export function AboutPanel({ version }: { version: string }) {
         <EnsoMark size={88} />
         <View className="items-center gap-1">
           <Typography variant="h2" align="center">
-            Zen
+            Moss
           </Typography>
           <Typography variant="reflection" tone="muted" align="center" className="text-base leading-6">
             A quiet rhythm for daily practice.
@@ -19,10 +19,10 @@ export function AboutPanel({ version }: { version: string }) {
         </View>
       </View>
 
-      <ZenCard className="gap-2 px-5 py-5">
+      <MossCard className="gap-2 px-5 py-5">
         <Typography variant="eyebrow">Product promise</Typography>
         <Typography variant="h3">Support the practice without becoming the focus of it.</Typography>
-      </ZenCard>
+      </MossCard>
 
       <Typography variant="small" tone="muted" align="center" selectable>
         Version {version}

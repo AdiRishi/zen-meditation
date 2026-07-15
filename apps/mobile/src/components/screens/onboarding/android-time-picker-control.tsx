@@ -2,8 +2,8 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { View } from "react-native";
 
+import { MossSecondaryButton } from "@/components/ui/moss/moss-button";
 import { Typography } from "@/components/ui/typography";
-import { ZenSecondaryButton } from "@/components/ui/zen/zen-button";
 import { dateForPracticeTime, formatPracticeTime } from "@/domain/date-time";
 import type { PracticeTime } from "@/domain/meditation";
 
@@ -40,7 +40,7 @@ export function AndroidTimePickerControl({ practiceTime, onChange }: AndroidTime
           }}
         />
       ) : (
-        <ZenSecondaryButton onPress={() => setIsOpen(true)}>Change time</ZenSecondaryButton>
+        <MossSecondaryButton onPress={() => setIsOpen(true)}>Change time</MossSecondaryButton>
       )}
     </View>
   );

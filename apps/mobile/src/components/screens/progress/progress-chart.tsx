@@ -1,8 +1,8 @@
 import { Pressable, View } from "react-native";
 
+import { MossCard } from "@/components/ui/moss/moss-card";
+import { MossIcon } from "@/components/ui/moss/moss-icon";
 import { Typography } from "@/components/ui/typography";
-import { ZenCard } from "@/components/ui/zen/zen-card";
-import { ZenIcon } from "@/components/ui/zen/zen-icon";
 import type { ProgressBucket, ProgressMode } from "@/domain/progress";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
@@ -36,14 +36,14 @@ export function ProgressChart({ buckets, mode, onOpenHistory }: ProgressChartPro
       className="rounded-[20px]"
       onPress={onOpenHistory}
     >
-      <ZenCard className="gap-6 p-5">
+      <MossCard className="gap-6 p-5">
         <View className="flex-row items-center justify-between gap-3">
           <Typography variant="smallBold">Minutes this {mode}</Typography>
           <View className="flex-row items-center gap-1">
             <Typography variant="label" tone="muted">
               History
             </Typography>
-            <ZenIcon name="forward" size={14} tintColor={colors.muted} />
+            <MossIcon name="forward" size={14} tintColor={colors.muted} />
           </View>
         </View>
 
@@ -76,7 +76,7 @@ export function ProgressChart({ buckets, mode, onOpenHistory }: ProgressChartPro
             })}
           </View>
         </View>
-      </ZenCard>
+      </MossCard>
     </Pressable>
   );
 }

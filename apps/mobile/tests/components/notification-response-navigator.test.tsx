@@ -25,11 +25,11 @@ function weeklyReminderResponse() {
     notification: {
       date: 1_800_000_000_000,
       request: {
-        identifier: "zen.weekly-practice-reminder.2.0700",
+        identifier: "moss.weekly-practice-reminder.2.0700",
         content: {
-          title: "Zen",
+          title: "Moss",
           body: "Time for a quiet pause.",
-          data: { zenNotificationKind: "weekly-practice-reminder" },
+          data: { mossNotificationKind: "weekly-practice-reminder" },
         },
         trigger: null,
       },
@@ -118,9 +118,9 @@ describe("NotificationResponseNavigator", () => {
       refresh,
     } as unknown as ReturnType<typeof useMeditation>);
     const response = weeklyReminderResponse();
-    response.notification.request.identifier = "zen.session-completion.session-42";
+    response.notification.request.identifier = "moss.session-completion.session-42";
     response.notification.request.content.data = {
-      zenNotificationKind: "session-completion",
+      mossNotificationKind: "session-completion",
       sessionId: "session-42",
     };
     mockedUseLastResponse.mockReturnValue(response);

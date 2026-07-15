@@ -4,11 +4,11 @@ import { cn } from "@/lib/cn";
 
 type ScaleHighlightButtonProps = Extract<ButtonRootProps, { feedbackVariant?: "scale-highlight" }>;
 
-type ZenButtonProps = Omit<ScaleHighlightButtonProps, "children" | "feedbackVariant"> & {
+type MossButtonProps = Omit<ScaleHighlightButtonProps, "children" | "feedbackVariant"> & {
   children: string;
 };
 
-export function ZenPrimaryButton({ children, className, ...props }: ZenButtonProps) {
+export function MossPrimaryButton({ children, className, ...props }: MossButtonProps) {
   return (
     <Button
       variant="primary"
@@ -23,7 +23,7 @@ export function ZenPrimaryButton({ children, className, ...props }: ZenButtonPro
   );
 }
 
-export function ZenSecondaryButton({ children, className, ...props }: ZenButtonProps) {
+export function MossSecondaryButton({ children, className, ...props }: MossButtonProps) {
   return (
     <Button
       variant="outline"
@@ -38,7 +38,7 @@ export function ZenSecondaryButton({ children, className, ...props }: ZenButtonP
   );
 }
 
-export function ZenDangerButton({ children, className, ...props }: ZenButtonProps) {
+export function MossDangerButton({ children, className, ...props }: MossButtonProps) {
   return (
     <Button
       variant="danger-soft"

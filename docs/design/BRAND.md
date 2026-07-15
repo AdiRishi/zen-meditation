@@ -1,4 +1,4 @@
-# Zen Brand System
+# Moss Brand System
 
 > **Current specification.** See the [brand foundation](./brand/01-brand-foundation.png), [visual identity system](./brand/02-visual-identity-system.png), and [motion and sound system](./brand/03-motion-and-sound-system.png) for the canonical visual expression of this system. The written typography specification and `tokens.json` supersede the legacy family labels printed on the visual-identity board.
 
@@ -51,7 +51,7 @@ Dark mode uses Ink as the canvas, Slate-derived surfaces, Mist for primary text,
 
 ## Typography
 
-Zen pairs **Geist** with **Newsreader**. Both families are available through Google Fonts under the SIL Open Font License 1.1 and may be bundled in the product without a commercial font licence.
+Moss pairs **Geist** with **Newsreader**. Both families are available through Google Fonts under the SIL Open Font License 1.1 and may be bundled in the product without a commercial font licence.
 
 ### Primary sans — Geist
 
@@ -65,7 +65,7 @@ Use Newsreader sparingly for emotional headlines, session time, and reflective m
 
 Use Regular for display text and Medium only when a smaller serif title needs additional presence.
 
-**Newsreader Italic is the product's reflective voice.** Use it for at most one line per screen — the line where Zen speaks softly to the person ("A quiet rhythm carries you home.", "Gently returning."). Never use italic for labels, data, or controls.
+**Newsreader Italic is the product's reflective voice.** Use it for at most one line per screen — the line where Moss speaks softly to the person ("A quiet rhythm carries you home.", "Gently returning."). Never use italic for labels, data, or controls.
 
 ### Scale
 

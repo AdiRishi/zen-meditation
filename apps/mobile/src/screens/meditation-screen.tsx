@@ -4,11 +4,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, AppState, BackHandler, Pressable, useWindowDimensions, View } from "react-native";
 
 import { BreathingField } from "@/components/screens/meditation/breathing-field";
+import { MossPrimaryButton, MossSecondaryButton } from "@/components/ui/moss/moss-button";
+import { completionSoundIcon, MossIcon } from "@/components/ui/moss/moss-icon";
+import { SessionRing } from "@/components/ui/moss/session-ring";
 import { StickyFooterScrollView } from "@/components/ui/screen-containers/sticky-footer-scroll-view";
 import { Typography } from "@/components/ui/typography";
-import { SessionRing } from "@/components/ui/zen/session-ring";
-import { ZenPrimaryButton, ZenSecondaryButton } from "@/components/ui/zen/zen-button";
-import { completionSoundIcon, ZenIcon } from "@/components/ui/zen/zen-icon";
 import { getCompletionSoundLabel } from "@/domain/meditation";
 import { formatRemainingTime, projectSession } from "@/domain/session-timer";
 import { useAsyncAction } from "@/hooks/use-async-action";
@@ -173,7 +173,7 @@ export function MeditationScreen() {
       <StickyFooterScrollView.Footer className="gap-6 bg-transparent">
         {!isEnding ? (
           <View className="flex-row items-center justify-center gap-2">
-            <ZenIcon name={completionSoundIcon(activeSession.completionSound)} size={15} tintColor={colors.muted} />
+            <MossIcon name={completionSoundIcon(activeSession.completionSound)} size={15} tintColor={colors.muted} />
             <Typography variant="small" tone="muted">
               Ends with {getCompletionSoundLabel(activeSession.completionSound)}
             </Typography>
@@ -188,8 +188,8 @@ export function MeditationScreen() {
 
         {completionError ? (
           <View className="gap-3">
-            <ZenPrimaryButton onPress={() => setCompletionError(false)}>Try again</ZenPrimaryButton>
-            <ZenSecondaryButton onPress={confirmEnd}>End session</ZenSecondaryButton>
+            <MossPrimaryButton onPress={() => setCompletionError(false)}>Try again</MossPrimaryButton>
+            <MossSecondaryButton onPress={confirmEnd}>End session</MossSecondaryButton>
           </View>
         ) : projection.isComplete ? (
           <Typography variant="small" tone="muted" align="center" accessibilityLiveRegion="polite">
@@ -197,7 +197,7 @@ export function MeditationScreen() {
           </Typography>
         ) : isPaused ? (
           <View className="gap-3">
-            <ZenPrimaryButton
+            <MossPrimaryButton
               isDisabled={transitionPending}
               onPress={() =>
                 void runTransition(async () => {
@@ -206,11 +206,11 @@ export function MeditationScreen() {
               }
             >
               {transitionPending ? "Resuming…" : "Resume"}
-            </ZenPrimaryButton>
-            <ZenSecondaryButton onPress={confirmEnd}>End session</ZenSecondaryButton>
+            </MossPrimaryButton>
+            <MossSecondaryButton onPress={confirmEnd}>End session</MossSecondaryButton>
           </View>
         ) : isEnding ? (
-          <ZenSecondaryButton onPress={confirmEnd}>End session</ZenSecondaryButton>
+          <MossSecondaryButton onPress={confirmEnd}>End session</MossSecondaryButton>
         ) : (
           <Pressable
             accessibilityLabel="Pause session"
@@ -224,7 +224,7 @@ export function MeditationScreen() {
               })
             }
           >
-            <ZenIcon name="pause" size={22} tintColor={colors.foreground} />
+            <MossIcon name="pause" size={22} tintColor={colors.foreground} />
           </Pressable>
         )}
       </StickyFooterScrollView.Footer>

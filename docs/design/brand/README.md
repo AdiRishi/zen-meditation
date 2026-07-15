@@ -1,6 +1,6 @@
 # Brand Boards
 
-These four standalone boards are Zen’s canonical brand reference:
+These four standalone boards are Moss’s canonical brand reference:
 
 - [`01-brand-foundation.png`](./01-brand-foundation.png) — purpose, personality, name, ensō, identity forms, and usage.
 - [`02-visual-identity-system.png`](./02-visual-identity-system.png) — colour, typography, spacing, icons, material, accessibility, and core timer components.

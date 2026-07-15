@@ -9,11 +9,11 @@ import { useThemeColors } from "@/hooks/use-theme-colors";
 import { cn } from "@/lib/cn";
 
 import { Typography } from "../typography";
-import { ZenCard } from "./zen-card";
-import { completionSoundIcon, ZenIcon, type ZenIconName } from "./zen-icon";
+import { MossCard } from "./moss-card";
+import { completionSoundIcon, MossIcon, type MossIconName } from "./moss-icon";
 
-type ZenListRowProps = {
-  icon: ZenIconName;
+type MossListRowProps = {
+  icon: MossIconName;
   label: string;
   detail?: string;
   value?: string;
@@ -26,7 +26,7 @@ type ZenListRowProps = {
   iconSize?: number;
 };
 
-export function ZenListRow({
+export function MossListRow({
   icon,
   label,
   detail,
@@ -38,7 +38,7 @@ export function ZenListRow({
   className,
   iconClassName,
   iconSize = 22,
-}: ZenListRowProps) {
+}: MossListRowProps) {
   const colors = useThemeColors();
 
   return (
@@ -51,7 +51,7 @@ export function ZenListRow({
       onPress={onPress}
     >
       <View className={cn("items-center justify-center", iconClassName)}>
-        <ZenIcon name={icon} size={iconSize} tintColor={colors.muted} />
+        <MossIcon name={icon} size={iconSize} tintColor={colors.muted} />
       </View>
       <View className="flex-1 gap-0.5">
         <Typography variant="body">{label}</Typography>
@@ -67,7 +67,7 @@ export function ZenListRow({
         ) : null}
       </View>
       {trailing}
-      {showChevron ? <ZenIcon name="forward" size={16} tintColor={colors.muted} /> : null}
+      {showChevron ? <MossIcon name="forward" size={16} tintColor={colors.muted} /> : null}
     </Pressable>
   );
 }
@@ -88,7 +88,7 @@ export function PracticeTimeRow({
   prominent?: boolean;
 }) {
   return (
-    <ZenListRow
+    <MossListRow
       icon={time.hour < 12 ? "sun" : "moon"}
       label={time.label}
       detail={detail}
@@ -112,7 +112,7 @@ export function CompletionSoundRow({
   trailing?: React.ReactNode;
 }) {
   return (
-    <ZenListRow
+    <MossListRow
       icon={completionSoundIcon(sound)}
       label="Completion sound"
       value={getCompletionSoundLabel(sound)}
@@ -123,16 +123,16 @@ export function CompletionSoundRow({
   );
 }
 
-export function GroupedList({ children, ...props }: React.ComponentProps<typeof ZenCard>) {
+export function GroupedList({ children, ...props }: React.ComponentProps<typeof MossCard>) {
   const items = Children.toArray(children);
   return (
-    <ZenCard {...props}>
+    <MossCard {...props}>
       {items.map((child, index) => (
         <View key={isValidElement(child) && child.key !== null ? child.key : index}>
           {index > 0 ? <Separator /> : null}
           {child}
         </View>
       ))}
-    </ZenCard>
+    </MossCard>
   );
 }

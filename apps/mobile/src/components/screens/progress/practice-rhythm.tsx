@@ -1,7 +1,7 @@
 import { View } from "react-native";
 
+import { SessionRing } from "@/components/ui/moss/session-ring";
 import { Typography } from "@/components/ui/typography";
-import { SessionRing } from "@/components/ui/zen/session-ring";
 import { fromLocalDateKey } from "@/domain/date-time";
 import type { ProgressBucket, ProgressMode } from "@/domain/progress";
 

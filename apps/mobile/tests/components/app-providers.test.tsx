@@ -62,14 +62,14 @@ describe("<AppProviders />", () => {
       </AppProviders>,
     );
 
-    fireEvent.press(await findByText("Delete All Zen Data"));
+    fireEvent.press(await findByText("Delete All Moss Data"));
     const buttons = alert.mock.calls[0][2];
-    const deleteButton = buttons?.find((button) => button.text === "Delete All Zen Data");
+    const deleteButton = buttons?.find((button) => button.text === "Delete All Moss Data");
     await act(async () => {
       deleteButton?.onPress?.();
     });
 
-    await findByText("Zen couldn’t finish deleting your data. Please try again.");
+    await findByText("Moss couldn’t finish deleting your data. Please try again.");
     expect(mockClearAllManagedNotifications).toHaveBeenCalledTimes(1);
     expect(mockDeleteDatabaseAsync).not.toHaveBeenCalled();
   });

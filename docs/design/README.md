@@ -1,8 +1,8 @@
-# Zen Design
+# Moss Design
 
 > **Status: approved design foundation.** These documents and boards are the current source of truth for app implementation.
 
-This directory translates the product intent in [`VISION.md`](../VISION.md) and [`PRODUCT.md`](../PRODUCT.md) into Zen’s brand system, product surfaces, and implementation tokens.
+This directory translates the product intent in [`VISION.md`](../VISION.md) and [`PRODUCT.md`](../PRODUCT.md) into Moss’s brand system, product surfaces, and implementation tokens.
 
 ## Source of truth
 

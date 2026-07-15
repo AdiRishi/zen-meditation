@@ -4,8 +4,8 @@ import type { Weekday } from "@/domain/meditation";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
 import { Typography } from "../typography";
+import { MossIcon } from "./moss-icon";
 import { SessionRing } from "./session-ring";
-import { ZenIcon } from "./zen-icon";
 
 const WEEKDAYS: readonly { day: Weekday; label: string; accessibilityLabel: string }[] = [
   { day: 1, label: "M", accessibilityLabel: "Monday" },
@@ -62,7 +62,7 @@ export function WeekdaySelector({ selected, onChange, completed = new Set(), com
                 trackColor={isSelected ? undefined : "transparent"}
               >
                 {isCompleted ? (
-                  <ZenIcon name="check" size={15} weight="medium" tintColor={colors.accent} />
+                  <MossIcon name="check" size={15} weight="medium" tintColor={colors.accent} />
                 ) : (
                   <Typography variant="smallBold" className={isSelected ? "text-foreground" : "text-muted opacity-50"}>
                     {label}

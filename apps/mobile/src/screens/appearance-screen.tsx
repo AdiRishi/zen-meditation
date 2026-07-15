@@ -49,7 +49,7 @@ export function AppearanceScreen() {
 
       <SettingsSection
         title="Motion"
-        description="Respects system settings. Zen remains fully usable without animated transitions."
+        description="Respects system settings. Moss remains fully usable without animated transitions."
       >
         <SettingsToggleCard
           disabled={saveAction.isPending}

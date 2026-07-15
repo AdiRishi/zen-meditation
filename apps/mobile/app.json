@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "Zen",
-    "slug": "zen-meditation",
+    "name": "Moss",
+    "slug": "moss-meditation",
     "version": "1.0.0",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "zenmeditation",
+    "scheme": "moss",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.arishi.zenmeditation"
+      "bundleIdentifier": "com.arishi.moss"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
       "softwareKeyboardLayoutMode": "resize",
       "predictiveBackGestureEnabled": false,
       "blockedPermissions": ["com.google.android.gms.permission.AD_ID"],
-      "package": "com.arishi.zenmeditation"
+      "package": "com.arishi.moss"
     },
     "plugins": [
       "expo-router",

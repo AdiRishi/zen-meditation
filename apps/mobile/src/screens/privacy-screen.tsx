@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
 
-import { DeleteZenDataSection } from "@/components/screens/settings/delete-zen-data-section";
+import { DeleteMossDataSection } from "@/components/screens/settings/delete-moss-data-section";
 import { PrivacySummary } from "@/components/screens/settings/privacy-panel";
 import { SettingsScreenLayout, SettingsSection } from "@/components/screens/settings/settings-layout";
 import { useAsyncAction } from "@/hooks/use-async-action";
-import { confirmDeleteZenData } from "@/lib/confirm-delete-zen-data";
+import { confirmDeleteMossData } from "@/lib/confirm-delete-moss-data";
 import { useMeditation } from "@/providers/meditation-provider";
 
 export function PrivacyScreen() {
@@ -20,7 +20,7 @@ export function PrivacyScreen() {
   };
 
   const confirmDeletion = () => {
-    confirmDeleteZenData(() => void deleteAllData());
+    confirmDeleteMossData(() => void deleteAllData());
   };
 
   return (
@@ -28,7 +28,7 @@ export function PrivacyScreen() {
       <SettingsSection title="Privacy by design" description="No accounts. No tracking.">
         <PrivacySummary />
       </SettingsSection>
-      <DeleteZenDataSection
+      <DeleteMossDataSection
         isDeleting={deleteAction.isPending}
         deletionFailed={deleteAction.error !== null}
         onDelete={confirmDeletion}

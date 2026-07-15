@@ -3,8 +3,8 @@ import { Pressable, View } from "react-native";
 import { Typography } from "@/components/ui/typography";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
-import { ZenCard } from "./zen-card";
-import { ZenIcon } from "./zen-icon";
+import { MossCard } from "./moss-card";
+import { MossIcon } from "./moss-icon";
 
 type CounterCardProps = {
   value: number;
@@ -28,7 +28,7 @@ export function CounterCard({
   const cannotIncrease = value >= maximum;
 
   return (
-    <ZenCard className="flex-row items-center justify-between px-4 py-4">
+    <MossCard className="flex-row items-center justify-between px-4 py-4">
       <Pressable
         accessibilityLabel={`Decrease ${accessibilityLabel}`}
         accessibilityRole="button"
@@ -37,7 +37,7 @@ export function CounterCard({
         disabled={cannotDecrease}
         onPress={() => onChange(Math.max(minimum, value - 1))}
       >
-        <ZenIcon name="minus" size={18} tintColor={cannotDecrease ? colors.border : colors.foreground} />
+        <MossIcon name="minus" size={18} tintColor={cannotDecrease ? colors.border : colors.foreground} />
       </Pressable>
       <View className="items-center gap-0.5">
         <Typography variant="h2" align="center" tone="accent" tabularNums>
@@ -55,8 +55,8 @@ export function CounterCard({
         disabled={cannotIncrease}
         onPress={() => onChange(Math.min(maximum, value + 1))}
       >
-        <ZenIcon name="plus" size={18} tintColor={cannotIncrease ? colors.border : colors.foreground} />
+        <MossIcon name="plus" size={18} tintColor={cannotIncrease ? colors.border : colors.foreground} />
       </Pressable>
-    </ZenCard>
+    </MossCard>
   );
 }

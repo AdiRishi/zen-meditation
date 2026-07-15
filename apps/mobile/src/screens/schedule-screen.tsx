@@ -8,8 +8,8 @@ import {
   SettingsSection,
   type SettingsFeedbackState,
 } from "@/components/screens/settings/settings-layout";
-import { CounterCard } from "@/components/ui/zen/counter-card";
-import { WeekdaySelector } from "@/components/ui/zen/weekday-selector";
+import { CounterCard } from "@/components/ui/moss/counter-card";
+import { WeekdaySelector } from "@/components/ui/moss/weekday-selector";
 import { createPracticeTimeId } from "@/domain/identifiers";
 import { MAX_PRACTICE_TIMES, type AppPreferences } from "@/domain/meditation";
 import { useAsyncAction } from "@/hooks/use-async-action";

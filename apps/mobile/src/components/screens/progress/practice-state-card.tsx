@@ -1,8 +1,8 @@
 import { Pressable, View } from "react-native";
 
+import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
+import { MossCard } from "@/components/ui/moss/moss-card";
 import { Typography } from "@/components/ui/typography";
-import { LandscapeArtwork } from "@/components/ui/zen/brand-assets";
-import { ZenCard } from "@/components/ui/zen/zen-card";
 
 type PracticeStateCardProps = {
   title: string;
@@ -38,7 +38,7 @@ export function PracticeStateCard({
   showArtwork = false,
 }: PracticeStateCardProps) {
   return (
-    <ZenCard accessibilityLiveRegion="polite" className="items-center gap-4 px-6 py-6">
+    <MossCard accessibilityLiveRegion="polite" className="items-center gap-4 px-6 py-6">
       {showArtwork ? <LandscapeArtwork className="w-24 rounded-full" height={96} /> : null}
       <View className="items-center gap-1.5">
         <Typography variant="h3" align="center">
@@ -60,6 +60,6 @@ export function PracticeStateCard({
           </Typography>
         </Pressable>
       ) : null}
-    </ZenCard>
+    </MossCard>
   );
 }

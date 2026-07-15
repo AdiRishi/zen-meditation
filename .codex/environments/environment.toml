@@ -1,5 +1,5 @@
 version = 1
-name = "zen-meditation"
+name = "moss-meditation"
 
 [setup]
 script = "pnpm install --frozen-lockfile && pnpm run prebuild"

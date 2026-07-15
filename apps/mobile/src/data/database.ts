@@ -10,7 +10,7 @@ export async function initializeDatabase(db: SQLiteDatabase) {
   const currentVersion = versionRow?.user_version ?? 0;
 
   if (currentVersion > DATABASE_VERSION) {
-    throw new Error("This version of Zen cannot open the local practice database.");
+    throw new Error("This version of Moss cannot open the local practice database.");
   }
 
   if (currentVersion < 1) {

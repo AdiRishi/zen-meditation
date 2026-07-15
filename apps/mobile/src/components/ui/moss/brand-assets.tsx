@@ -13,11 +13,11 @@ export function EnsoMark({ size = 112, className }: EnsoMarkProps) {
   const { theme } = useUniwind();
   return (
     <Image
-      source={require("../../../../assets/brand/zen-enso.png")}
+      source={require("../../../../assets/brand/moss-enso.png")}
       contentFit="contain"
       className={className}
       style={{ height: size, width: size, tintColor: theme === "dark" ? "#F5F2EB" : undefined }}
-      accessibilityLabel="Zen ensō"
+      accessibilityLabel="Moss ensō"
     />
   );
 }

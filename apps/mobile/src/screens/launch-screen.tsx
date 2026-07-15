@@ -9,9 +9,9 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { EnsoMark } from "@/components/ui/moss/brand-assets";
 import { StandardView } from "@/components/ui/screen-containers/standard-view";
 import { Typography } from "@/components/ui/typography";
-import { EnsoMark } from "@/components/ui/zen/brand-assets";
 import { useMeditation } from "@/providers/meditation-provider";
 
 const ONBOARDING_ROUTES = {
@@ -62,7 +62,7 @@ export function LaunchScreen() {
             <EnsoMark size={126} />
           </Animated.View>
           <Typography variant="display" align="center">
-            Zen
+            Moss
           </Typography>
           <Typography variant="reflection" tone="accent" align="center">
             A quiet rhythm{"\n"}for daily practice.

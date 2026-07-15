@@ -8,7 +8,7 @@ import type {
 import { DEFAULT_PREFERENCES, type AppPreferences } from "@/domain/meditation";
 import {
   createLocalNotifications,
-  getZenNotificationKind,
+  getMossNotificationKind,
   type LocalNotificationsNativeApi,
   PRACTICE_REMINDER_BODY,
 } from "@/services/local-notifications";
@@ -121,12 +121,12 @@ function preferences(overrides: Partial<AppPreferences> = {}): AppPreferences {
 }
 
 describe("LocalNotifications", () => {
-  it("recognizes only notification responses owned by Zen", () => {
-    expect(getZenNotificationKind({ zenNotificationKind: "weekly-practice-reminder" })).toBe(
+  it("recognizes only notification responses owned by Moss", () => {
+    expect(getMossNotificationKind({ mossNotificationKind: "weekly-practice-reminder" })).toBe(
       "weekly-practice-reminder",
     );
-    expect(getZenNotificationKind({ zenNotificationKind: "session-completion" })).toBe("session-completion");
-    expect(getZenNotificationKind({ zenNotificationKind: "something-else" })).toBeNull();
+    expect(getMossNotificationKind({ mossNotificationKind: "session-completion" })).toBe("session-completion");
+    expect(getMossNotificationKind({ mossNotificationKind: "something-else" })).toBeNull();
   });
 
   it("reads the current device permission each time, including provisional iOS access", async () => {
@@ -142,7 +142,7 @@ describe("LocalNotifications", () => {
     await expect(notifications.getPermissionStatus()).resolves.toBe("granted");
   });
 
-  it("requests only the alert and sound access used by Zen reminders", async () => {
+  it("requests only the alert and sound access used by Moss reminders", async () => {
     const nativeApi = new FakeNotificationsApi(permission("undetermined"));
     nativeApi.requestedPermission = permission("denied");
     const notifications = createLocalNotifications(nativeApi);
@@ -154,16 +154,16 @@ describe("LocalNotifications", () => {
     });
   });
 
-  it("replaces Zen reminders with deterministic weekly triggers outside quiet hours", async () => {
+  it("replaces Moss reminders with deterministic weekly triggers outside quiet hours", async () => {
     const nativeApi = new FakeNotificationsApi(permission("granted"), [
       {
         identifier: "old-z",
-        content: { data: { zenNotificationKind: "weekly-practice-reminder" } },
+        content: { data: { mossNotificationKind: "weekly-practice-reminder" } },
       },
-      { identifier: "session-alert", content: { data: { zenNotificationKind: "session-completion" } } },
+      { identifier: "session-alert", content: { data: { mossNotificationKind: "session-completion" } } },
       {
         identifier: "old-a",
-        content: { data: { zenNotificationKind: "weekly-practice-reminder" } },
+        content: { data: { mossNotificationKind: "weekly-practice-reminder" } },
       },
       { identifier: "another-app-alert", content: { data: {} } },
     ]);
@@ -207,32 +207,32 @@ describe("LocalNotifications", () => {
     expect(nativeApi.cancelled).toEqual(["old-a", "old-z"]);
     expect(nativeApi.requests).toEqual([
       {
-        identifier: "zen.weekly-practice-reminder.1.2345",
+        identifier: "moss.weekly-practice-reminder.1.2345",
         content: {
-          title: "Zen",
+          title: "Moss",
           body: PRACTICE_REMINDER_BODY,
           sound: "default",
-          data: { zenNotificationKind: "weekly-practice-reminder" },
+          data: { mossNotificationKind: "weekly-practice-reminder" },
         },
         trigger: {
           type: "weekly",
-          channelId: "zen-practice-reminders",
+          channelId: "moss-practice-reminders",
           weekday: 1,
           hour: 23,
           minute: 45,
         },
       },
       {
-        identifier: "zen.weekly-practice-reminder.2.0630",
+        identifier: "moss.weekly-practice-reminder.2.0630",
         content: {
-          title: "Zen",
+          title: "Moss",
           body: PRACTICE_REMINDER_BODY,
           sound: "default",
-          data: { zenNotificationKind: "weekly-practice-reminder" },
+          data: { mossNotificationKind: "weekly-practice-reminder" },
         },
         trigger: {
           type: "weekly",
-          channelId: "zen-practice-reminders",
+          channelId: "moss-practice-reminders",
           weekday: 2,
           hour: 6,
           minute: 30,
@@ -242,8 +242,8 @@ describe("LocalNotifications", () => {
     expect(nativeApi.scheduled.map((notification) => notification.identifier)).toEqual([
       "session-alert",
       "another-app-alert",
-      "zen.weekly-practice-reminder.1.2345",
-      "zen.weekly-practice-reminder.2.0630",
+      "moss.weekly-practice-reminder.1.2345",
+      "moss.weekly-practice-reminder.2.0630",
     ]);
   });
 
@@ -251,7 +251,7 @@ describe("LocalNotifications", () => {
     const nativeApi = new FakeNotificationsApi(permission("denied"), [
       {
         identifier: "old-reminder",
-        content: { data: { zenNotificationKind: "weekly-practice-reminder" } },
+        content: { data: { mossNotificationKind: "weekly-practice-reminder" } },
       },
     ]);
     const notifications = createLocalNotifications(nativeApi);
@@ -268,7 +268,7 @@ describe("LocalNotifications", () => {
     const nativeApi = new FakeNotificationsApi(permission("granted"), [
       {
         identifier: "old-reminder",
-        content: { data: { zenNotificationKind: "weekly-practice-reminder" } },
+        content: { data: { mossNotificationKind: "weekly-practice-reminder" } },
       },
     ]);
     const notifications = createLocalNotifications(nativeApi);
@@ -295,7 +295,7 @@ describe("LocalNotifications", () => {
 
     expect(nativeApi.channels).toEqual([
       {
-        id: "zen-session-completion.low-bowl",
+        id: "moss-session-completion.low-bowl",
         input: {
           name: "Session completion",
           importance: 5,
@@ -306,13 +306,13 @@ describe("LocalNotifications", () => {
     ]);
     expect(nativeApi.requests).toEqual([
       {
-        identifier: "zen.session-completion.session-42",
+        identifier: "moss.session-completion.session-42",
         content: {
-          title: "Zen",
+          title: "Moss",
           body: "Your quiet pause is complete.",
           sound: "low_bowl.wav",
           data: {
-            zenNotificationKind: "session-completion",
+            mossNotificationKind: "session-completion",
             sessionId: "session-42",
             scheduledAtMs: 1_800_000_000_000,
             sound: "low-bowl",
@@ -320,14 +320,14 @@ describe("LocalNotifications", () => {
         },
         trigger: {
           type: "date",
-          channelId: "zen-session-completion.low-bowl",
+          channelId: "moss-session-completion.low-bowl",
           date: 1_800_000_000_000,
         },
       },
     ]);
 
     await notifications.syncSessionCompletion(null);
-    expect(nativeApi.cancelled).toEqual(["zen.session-completion.session-42"]);
+    expect(nativeApi.cancelled).toEqual(["moss.session-completion.session-42"]);
     expect(nativeApi.scheduled).toEqual([]);
   });
 
@@ -335,11 +335,11 @@ describe("LocalNotifications", () => {
     const nativeApi = new FakeNotificationsApi(permission("granted"), [
       {
         identifier: "old-weekly",
-        content: { data: { zenNotificationKind: "weekly-practice-reminder" } },
+        content: { data: { mossNotificationKind: "weekly-practice-reminder" } },
       },
       {
         identifier: "active-session",
-        content: { data: { zenNotificationKind: "session-completion" } },
+        content: { data: { mossNotificationKind: "session-completion" } },
       },
       { identifier: "another-app", content: { data: {} } },
     ]);
@@ -357,7 +357,7 @@ describe("LocalNotifications", () => {
       ),
     ).rejects.toThrow("Scheduling unavailable");
 
-    expect(nativeApi.cancelled).toEqual(["zen.weekly-practice-reminder.2.0650"]);
+    expect(nativeApi.cancelled).toEqual(["moss.weekly-practice-reminder.2.0650"]);
     expect(nativeApi.scheduled.map((notification) => notification.identifier)).toEqual([
       "old-weekly",
       "active-session",
@@ -365,15 +365,15 @@ describe("LocalNotifications", () => {
     ]);
   });
 
-  it("clears every Zen-owned notification while preserving other apps", async () => {
+  it("clears every Moss-owned notification while preserving other apps", async () => {
     const nativeApi = new FakeNotificationsApi(permission("granted"), [
       {
         identifier: "weekly",
-        content: { data: { zenNotificationKind: "weekly-practice-reminder" } },
+        content: { data: { mossNotificationKind: "weekly-practice-reminder" } },
       },
       {
         identifier: "session",
-        content: { data: { zenNotificationKind: "session-completion" } },
+        content: { data: { mossNotificationKind: "session-completion" } },
       },
       { identifier: "another-app", content: { data: {} } },
     ]);
@@ -418,17 +418,17 @@ describe("LocalNotifications", () => {
     await Promise.all([firstUpdate, secondUpdate]);
 
     expect(nativeApi.scheduled.map((notification) => notification.identifier)).toEqual([
-      "zen.weekly-practice-reminder.3.0650",
+      "moss.weekly-practice-reminder.3.0650",
     ]);
   });
 
   it("preserves a matching session alarm when notification services are temporarily unavailable", async () => {
     const nativeApi = new FakeNotificationsApi(permission("granted"), [
       {
-        identifier: "zen.session-completion.session-42",
+        identifier: "moss.session-completion.session-42",
         content: {
           data: {
-            zenNotificationKind: "session-completion",
+            mossNotificationKind: "session-completion",
             sessionId: "session-42",
             scheduledAtMs: 1_800_000_000_000,
             sound: "low-bowl",
@@ -453,10 +453,10 @@ describe("LocalNotifications", () => {
   it("replaces a stale completion alarm when a resumed session moves its deadline", async () => {
     const nativeApi = new FakeNotificationsApi(permission("granted"), [
       {
-        identifier: "zen.session-completion.session-42",
+        identifier: "moss.session-completion.session-42",
         content: {
           data: {
-            zenNotificationKind: "session-completion",
+            mossNotificationKind: "session-completion",
             sessionId: "session-42",
             scheduledAtMs: 1_800_000_000_000,
             sound: "low-bowl",
@@ -476,10 +476,10 @@ describe("LocalNotifications", () => {
     expect(nativeApi.requests).toHaveLength(1);
     expect(nativeApi.scheduled).toEqual([
       {
-        identifier: "zen.session-completion.session-42",
+        identifier: "moss.session-completion.session-42",
         content: {
           data: {
-            zenNotificationKind: "session-completion",
+            mossNotificationKind: "session-completion",
             sessionId: "session-42",
             scheduledAtMs: 1_800_000_300_000,
             sound: "wood-tone",
@@ -492,10 +492,10 @@ describe("LocalNotifications", () => {
   it("removes a stale completion alarm when its replacement cannot be scheduled", async () => {
     const nativeApi = new FakeNotificationsApi(permission("granted"), [
       {
-        identifier: "zen.session-completion.session-42",
+        identifier: "moss.session-completion.session-42",
         content: {
           data: {
-            zenNotificationKind: "session-completion",
+            mossNotificationKind: "session-completion",
             sessionId: "session-42",
             scheduledAtMs: 1_800_000_000_000,
             sound: "low-bowl",
@@ -513,7 +513,7 @@ describe("LocalNotifications", () => {
       }),
     ).rejects.toThrow("Scheduling unavailable");
 
-    expect(nativeApi.cancelled).toEqual(["zen.session-completion.session-42"]);
+    expect(nativeApi.cancelled).toEqual(["moss.session-completion.session-42"]);
     expect(nativeApi.scheduled).toEqual([]);
   });
 });

@@ -1,8 +1,8 @@
-# Zen Product
+# Moss Product
 
 ## Product Description
 
-Zen is a quiet meditation companion designed to make regular practice easier. It replaces abrasive phone timers with a calm, minimally interruptive session and supports commitment through flexible goals, subtle reminders, and encouraging progress.
+Moss is a quiet meditation companion designed to make regular practice easier. It replaces abrasive phone timers with a calm, minimally interruptive session and supports commitment through flexible goals, subtle reminders, and encouraging progress.
 
 ## Core Experience
 
@@ -27,7 +27,7 @@ Zen is a quiet meditation companion designed to make regular practice easier. It
 
 ## Product Character
 
-Zen should feel quiet, elegant, and focused. Each screen should have a clear purpose, strong visual hierarchy, and little competition around the primary action. Motion and sound should be subtle. Language should be warm, concise, and free from urgency.
+Moss should feel quiet, elegant, and focused. Each screen should have a clear purpose, strong visual hierarchy, and little competition around the primary action. Motion and sound should be subtle. Language should be warm, concise, and free from urgency.
 
 The app should recede during meditation and provide gentle structure outside it.
 

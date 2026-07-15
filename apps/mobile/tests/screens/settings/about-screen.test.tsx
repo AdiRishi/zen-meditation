@@ -7,7 +7,7 @@ jest.mock("expo-router", () => ({
 }));
 
 describe("<AboutScreen />", () => {
-  it("states Zen’s product promise and local app version", () => {
+  it("states Moss’s product promise and local app version", () => {
     const { getByText } = renderWithSafeArea(<AboutScreen />);
 
     getByText("A quiet rhythm for daily practice.");

@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 
 import { useMeditation } from "@/providers/meditation-provider";
-import { getZenNotificationKind } from "@/services/local-notifications";
+import { getMossNotificationKind } from "@/services/local-notifications";
 
 export function NotificationResponseNavigator() {
   const router = useRouter();
@@ -31,7 +31,7 @@ export function NotificationResponseNavigator() {
     }
 
     const request = response.notification.request;
-    const kind = getZenNotificationKind(request.content.data);
+    const kind = getMossNotificationKind(request.content.data);
     if (!kind || handledIdentifier.current === request.identifier) {
       return;
     }

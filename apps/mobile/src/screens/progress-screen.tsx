@@ -48,7 +48,7 @@ export function ProgressScreen() {
       ) : error ? (
         <PracticeStateCard
           title="Your rhythm needs a moment."
-          message="Zen could not read your practice history."
+          message="Moss could not read your practice history."
           actionLabel="Try again"
           onAction={() => void refresh()}
         />

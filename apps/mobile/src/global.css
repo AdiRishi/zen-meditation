@@ -6,7 +6,7 @@
 @source "../node_modules/heroui-native/lib";
 
 @theme {
-    /* Zen brand primitives */
+    /* Moss brand primitives */
     --color-mist: #f5f2eb;
     --color-paper: #fbf9f4;
     --color-sand: #e6dfd2;
@@ -32,7 +32,7 @@
     --radius-full: 999px;
     --opacity-disabled: 0.48;
 
-    /* Zen typography: Geist for interface text, Newsreader for reflective moments. */
+    /* Moss typography: Geist for interface text, Newsreader for reflective moments. */
     --font-sans: "Geist";
     --font-display: "Newsreader";
     --font-serif: "Newsreader";
