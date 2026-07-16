@@ -7,15 +7,27 @@
     "development": {
       "node": "24.13.0",
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EAS_GRADLE_CACHE": "1",
+        "EAS_USE_CACHE": "1"
+      }
     },
     "preview": {
       "node": "24.13.0",
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EAS_GRADLE_CACHE": "1",
+        "EAS_USE_CACHE": "1"
+      }
     },
     "production": {
       "node": "24.13.0",
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "EAS_GRADLE_CACHE": "1",
+        "EAS_USE_CACHE": "1"
+      }
     }
   },
   "submit": {
