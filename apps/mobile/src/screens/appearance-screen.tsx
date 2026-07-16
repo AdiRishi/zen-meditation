@@ -49,7 +49,7 @@ export function AppearanceScreen() {
 
       <SettingsSection
         title="Motion"
-        description="Respects system settings. Moss remains fully usable without animated transitions."
+        description="Respects system settings. Moss replaces movement with quieter fades."
       >
         <SettingsToggleCard
           disabled={saveAction.isPending}

@@ -1,6 +1,6 @@
 import { Canvas, Fill, Shader, Skia } from "@shopify/react-native-skia";
 import { useIsFocused } from "expo-router/react-navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View, type LayoutChangeEvent } from "react-native";
 import Animated, { useAnimatedStyle, useDerivedValue, useSharedValue } from "react-native-reanimated";
 import { useUniwind } from "uniwind";
@@ -571,9 +571,7 @@ export function LivingLandscape({
 
   const hour = useFractionalHour(hourOverride);
   const isDark = theme === "dark";
-  // Referentially stable between meaningful changes so the uniforms mapper
-  // below is not torn down on every unrelated re-render.
-  const scene = useMemo(() => sceneAtHour(isDark ? DARK_KEYFRAMES : LIGHT_KEYFRAMES, hour), [isDark, hour]);
+  const scene = sceneAtHour(isDark ? DARK_KEYFRAMES : LIGHT_KEYFRAMES, hour);
   const skyTop = isDark ? DARK_SKY_TOP : LIGHT_SKY_TOP;
   const horizon = contentPosition === "bottom" ? 0.52 : 0.6;
   const fadeTopFraction = Math.min(0.45, fadeTop / height);

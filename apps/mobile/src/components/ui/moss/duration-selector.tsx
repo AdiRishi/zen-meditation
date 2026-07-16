@@ -1,9 +1,8 @@
-import { useEffect } from "react";
 import { View } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 
 import { SESSION_DURATIONS, type SessionDuration } from "@/domain/meditation";
-import { durations, easings } from "@/lib/motion";
+import { useSelectionTransition } from "@/hooks/use-selection-transition";
 
 import { Typography } from "../typography";
 import { MossPressable } from "./moss-pressable";
@@ -22,16 +21,7 @@ function DurationChip({
   isSelected: boolean;
   onSelect: () => void;
 }) {
-  const selected = useSharedValue(isSelected ? 1 : 0);
-
-  useEffect(() => {
-    // Opacity-only fill crossfade: retargets mid-change and stays on under
-    // reduced motion.
-    selected.set(withTiming(isSelected ? 1 : 0, { duration: durations.crossfade, easing: easings.move }));
-  }, [isSelected, selected]);
-
-  const fillStyle = useAnimatedStyle(() => ({ opacity: selected.get() }));
-  const baseTextStyle = useAnimatedStyle(() => ({ opacity: 1 - selected.get() }));
+  const { baseStyle, fillStyle } = useSelectionTransition(isSelected);
 
   return (
     <MossPressable
@@ -48,7 +38,7 @@ function DurationChip({
         style={fillStyle}
         className="absolute inset-0 rounded-full border border-accent bg-accent"
       />
-      <Animated.View style={baseTextStyle} className="items-center">
+      <Animated.View style={baseStyle} className="items-center">
         <Typography variant="h2" align="center" tabularNums>
           {duration}
         </Typography>

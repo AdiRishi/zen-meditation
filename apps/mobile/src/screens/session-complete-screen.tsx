@@ -1,15 +1,7 @@
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { BackHandler, View } from "react-native";
-import Animated, {
-  FadeIn,
-  FadeInUp,
-  runOnJS,
-  useAnimatedReaction,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import Animated, { FadeInUp, runOnJS, useAnimatedReaction, useSharedValue, withTiming } from "react-native-reanimated";
 
 import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
 import { MossPressable } from "@/components/ui/moss/moss-pressable";
@@ -20,8 +12,9 @@ import { formatLocalDateLabel, formatWallClockTime } from "@/domain/date-time";
 import { type Feeling } from "@/domain/meditation";
 import { useAsyncAction } from "@/hooks/use-async-action";
 import { useCompletionSounds } from "@/hooks/use-completion-sounds";
+import { useSelectionTransition } from "@/hooks/use-selection-transition";
 import { impactHaptic } from "@/lib/haptics";
-import { crossfadeIn, durations, easings } from "@/lib/motion";
+import { crossfadeIn, durations, easings, reducedFadeIn } from "@/lib/motion";
 import { useMeditation } from "@/providers/meditation-provider";
 
 const FEELINGS: readonly { id: Feeling; label: string }[] = [
@@ -42,15 +35,7 @@ function FeelingChip({
   disabled: boolean;
   onSelect: () => void;
 }) {
-  const selected = useSharedValue(isSelected ? 1 : 0);
-
-  useEffect(() => {
-    // Opacity-only fill crossfade: retargets mid-change and stays on under
-    // reduced motion.
-    selected.set(withTiming(isSelected ? 1 : 0, { duration: durations.crossfade, easing: easings.move }));
-  }, [isSelected, selected]);
-
-  const fillStyle = useAnimatedStyle(() => ({ opacity: selected.get() }));
+  const { fillStyle } = useSelectionTransition(isSelected);
 
   return (
     <MossPressable
@@ -133,12 +118,10 @@ export function SessionCompleteScreen() {
 
   const dateLabel = formatLocalDateLabel(session.localDate, nowMs);
 
-  // The ceremony unfolds beneath the 1400ms ring draw: each block rises as
-  // the ensō closes, everything settled just before the arc completes.
   const enter = (delayMs: number) =>
     reducedMotion
-      ? FadeIn.duration(250)
-      : FadeInUp.duration(durations.entranceSlow).delay(delayMs).easing(easings.enter);
+      ? reducedFadeIn
+      : FadeInUp.duration(durations.completionEntrance).delay(delayMs).easing(easings.enter);
 
   const done = async () => {
     const completed = await action.run(async () => {
@@ -154,7 +137,7 @@ export function SessionCompleteScreen() {
     <StickyFooterScrollView.Root>
       <StickyFooterScrollView.Body contentContainerClassName="pt-16">
         <View className="items-center gap-12">
-          <Animated.View entering={reducedMotion ? FadeIn.duration(250) : FadeIn.duration(450).easing(easings.enter)}>
+          <Animated.View entering={crossfadeIn}>
             <SessionRing
               size={136}
               strokeWidth={2.5}
@@ -176,7 +159,7 @@ export function SessionCompleteScreen() {
               </View>
             </SessionRing>
           </Animated.View>
-          <Animated.View entering={enter(250)} className="items-center gap-2">
+          <Animated.View entering={enter(100)} className="items-center gap-2">
             <Typography accessibilityRole="header" variant="h2" align="center">
               Session complete.
             </Typography>
@@ -185,7 +168,7 @@ export function SessionCompleteScreen() {
             </Typography>
           </Animated.View>
 
-          <Animated.View entering={enter(450)} className="items-center gap-5">
+          <Animated.View entering={enter(180)} className="items-center gap-5">
             <Typography variant="h3" tone="muted" align="center">
               How do you feel?
             </Typography>
@@ -210,17 +193,15 @@ export function SessionCompleteScreen() {
       </StickyFooterScrollView.Body>
       <StickyFooterScrollView.Footer>
         {action.error ? (
-          <Animated.View entering={crossfadeIn()} className="pb-3">
+          <Animated.View entering={crossfadeIn} className="pb-3">
             <Typography variant="small" tone="danger" accessibilityLiveRegion="polite" align="center">
               That change couldn’t be saved. Please try again.
             </Typography>
           </Animated.View>
         ) : null}
-        <Animated.View entering={enter(650)}>
-          <MossPrimaryButton isDisabled={action.isPending} onPress={() => void done()}>
-            {action.isPending ? "Saving…" : "Done"}
-          </MossPrimaryButton>
-        </Animated.View>
+        <MossPrimaryButton isDisabled={action.isPending} onPress={() => void done()}>
+          {action.isPending ? "Saving…" : "Done"}
+        </MossPrimaryButton>
       </StickyFooterScrollView.Footer>
     </StickyFooterScrollView.Root>
   );

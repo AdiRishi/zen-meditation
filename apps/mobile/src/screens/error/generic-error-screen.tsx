@@ -1,7 +1,8 @@
 import { SymbolView } from "expo-symbols";
-import { Button, Card, useThemeColor } from "heroui-native";
+import { Card, useThemeColor } from "heroui-native";
 import { View } from "react-native";
 
+import { MossPrimaryButton, MossSecondaryButton } from "@/components/ui/moss/moss-button";
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
 
@@ -80,16 +81,13 @@ export function GenericErrorScreen({
       )}
 
       <View className="mt-2 w-full max-w-[320px] gap-3">
-        {onRetry && (
-          <Button variant="primary" size="lg" onPress={onRetry}>
-            <Button.Label className="font-sans">Try again</Button.Label>
-          </Button>
-        )}
-        {onGoHome && (
-          <Button variant={onRetry ? "tertiary" : "primary"} size="lg" onPress={onGoHome}>
-            <Button.Label className="font-sans">Go home</Button.Label>
-          </Button>
-        )}
+        {onRetry && <MossPrimaryButton onPress={onRetry}>Try again</MossPrimaryButton>}
+        {onGoHome &&
+          (onRetry ? (
+            <MossSecondaryButton onPress={onGoHome}>Go home</MossSecondaryButton>
+          ) : (
+            <MossPrimaryButton onPress={onGoHome}>Go home</MossPrimaryButton>
+          ))}
       </View>
     </StandardScrollView>
   );

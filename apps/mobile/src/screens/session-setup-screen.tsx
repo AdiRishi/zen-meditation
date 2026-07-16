@@ -59,7 +59,7 @@ export function SessionSetupScreen() {
       </StickyFooterScrollView.Body>
       <StickyFooterScrollView.Footer>
         {action.error ? (
-          <Animated.View entering={crossfadeIn()} className="pb-3">
+          <Animated.View entering={crossfadeIn} className="pb-3">
             <Typography variant="small" tone="danger" accessibilityLiveRegion="polite">
               Your session couldn’t begin. Please try again.
             </Typography>

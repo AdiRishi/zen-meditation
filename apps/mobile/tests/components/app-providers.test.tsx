@@ -38,6 +38,7 @@ jest.mock("@/components/notification-response-navigator", () => ({
 
 jest.mock("@/providers/meditation-provider", () => ({
   SQLiteMeditationProvider: ({ children }: { children: React.ReactNode }) => children,
+  useReducedMotionPreference: () => false,
 }));
 
 jest.mock("@/services/local-notifications", () => ({

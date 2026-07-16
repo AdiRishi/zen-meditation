@@ -7,6 +7,7 @@ import { useMeditation } from "@/providers/meditation-provider";
 
 jest.mock("@/providers/meditation-provider", () => ({
   useMeditation: jest.fn(),
+  useReducedMotionPreference: () => false,
 }));
 
 const mockedUseMeditation = jest.mocked(useMeditation);

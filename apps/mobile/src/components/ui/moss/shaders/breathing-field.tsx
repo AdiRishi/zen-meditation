@@ -131,7 +131,7 @@ export function BreathingField({ reducedMotion, ending, paused = false, size }: 
   // The Progress tab stays mounted behind other tabs: stop breathing and
   // freeze the clock whenever the field is off-screen.
   const isFocused = useIsFocused();
-  const active = !reducedMotion && isFocused;
+  const active = !reducedMotion && isFocused && !paused;
   const breath = useSharedValue(BREATH_REST);
   const dim = useSharedValue(ending ? 1 : 0);
   const time = useShaderClock({ fps: 30, enabled: active, startAt: 23 });
@@ -146,15 +146,15 @@ export function BreathingField({ reducedMotion, ending, paused = false, size }: 
     if (!isFocused || paused) {
       // Exhale to rest from wherever the breath was — a snap mid-inhale
       // reads as a glitch when the orb is on screen.
-      breath.set(withTiming(BREATH_REST, { duration: durations.settle, easing: easings.move }));
+      breath.set(withTiming(BREATH_REST, { duration: durations.settle, easing: easings.ambient }));
       return;
     }
     // Settle to the loop's floor first so the repeat always swings the full
     // rest-to-full range, even when resuming from a mid-glide value.
     breath.set(
       withSequence(
-        withTiming(BREATH_REST, { duration: 400, easing: easings.move }),
-        withRepeat(withTiming(1, { duration: HALF_BREATH_MS, easing: easings.move }), -1, true),
+        withTiming(BREATH_REST, { duration: 400, easing: easings.ambient }),
+        withRepeat(withTiming(1, { duration: HALF_BREATH_MS, easing: easings.ambient }), -1, true),
       ),
     );
     return () => cancelAnimation(breath);
@@ -164,7 +164,7 @@ export function BreathingField({ reducedMotion, ending, paused = false, size }: 
     // Resting is a shallow dim; the ending is a deep one. Both are mostly an
     // alpha cue, so reduced motion keeps a shortened fade instead of a cut.
     const target = ending ? 1 : paused ? 0.35 : 0;
-    dim.set(withTiming(target, { duration: reducedMotion ? 400 : durations.settle, easing: easings.move }));
+    dim.set(withTiming(target, { duration: reducedMotion ? 400 : durations.settle, easing: easings.ambient }));
   }, [dim, ending, paused, reducedMotion]);
 
   const palette = theme === "dark" ? DARK_FIELD : LIGHT_FIELD;

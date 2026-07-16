@@ -57,7 +57,7 @@ export function ProgressScreen() {
       ) : (
         // Keyed remount fades the new period's data in; no exiting, so the
         // outgoing block never holds layout and double-stacks the page.
-        <Animated.View key={mode} entering={crossfadeIn()} className="gap-12">
+        <Animated.View key={mode} entering={crossfadeIn} className="gap-12">
           <PracticeRhythm buckets={summary.buckets} mode={mode} />
           <ProgressStats sessions={summary.sessions} minutes={summary.minutes} dayRhythm={summary.dayRhythm} />
           {summary.sessions > 0 ? (

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { View } from "react-native";
-import Animated, { useAnimatedProps, useSharedValue, withTiming, Easing } from "react-native-reanimated";
+import Animated, { useAnimatedProps, useSharedValue, withTiming } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 
 import { useThemeColors } from "@/hooks/use-theme-colors";
@@ -19,10 +19,10 @@ type SessionRingProps = {
   /** Animate progress changes (including the initial draw from zero). */
   animated?: boolean;
   /**
-   * After the first draw, glide between steady ticks at constant speed (the
-   * meditation countdown) instead of easing out on every update.
+   * After the first draw, apply live countdown ticks without continuously
+   * repainting the SVG between them.
    */
-  continuous?: boolean;
+  live?: boolean;
   drawDurationMs?: number;
   arcColor?: string;
   trackColor?: string;
@@ -34,7 +34,7 @@ export function SessionRing({
   progress,
   strokeWidth = 2,
   animated = false,
-  continuous = false,
+  live = false,
   drawDurationMs = 450,
   arcColor,
   trackColor,
@@ -52,15 +52,13 @@ export function SessionRing({
       drawn.set(clamped);
       return;
     }
-    if (continuous && !firstDraw.current) {
-      // Steady once-a-second ticks glide linearly so the arc never surges
-      // and stalls; withTiming retargets from the current sweep.
-      drawn.set(withTiming(clamped, { duration: 1_000, easing: Easing.linear }));
+    if (live && !firstDraw.current) {
+      drawn.set(clamped);
     } else {
       drawn.set(withTiming(clamped, { duration: drawDurationMs, easing: easings.draw }));
       firstDraw.current = false;
     }
-  }, [animated, clamped, continuous, drawDurationMs, drawn]);
+  }, [animated, clamped, drawDurationMs, drawn, live]);
 
   const arcProps = useAnimatedProps(() => {
     const arcLength = drawn.get() * MAX_SWEEP * circumference;

@@ -21,7 +21,7 @@ type MossPressableProps = Omit<PressableProps, "style" | "children"> & {
    * - "dim": a quiet opacity dip (icon and text buttons)
    */
   feedback?: "scale" | "highlight" | "dim";
-  /** Pressed scale for the "scale" feedback. Keep subtle: 0.94–0.98. */
+  /** Pressed scale for the "scale" feedback. Keep subtle: 0.95–0.98. */
   pressedScale?: number;
   children?: React.ReactNode;
   className?: string;
@@ -63,7 +63,7 @@ export function MossPressable({
   const surfaceStyle = useAnimatedStyle(() => {
     const value = pressed.get();
     if (mode === "dim") {
-      return { opacity: 1 - 0.5 * value };
+      return { opacity: 1 - 0.24 * value };
     }
     if (mode === "scale") {
       return { transform: [{ scale: 1 - (1 - pressedScale) * value }] };

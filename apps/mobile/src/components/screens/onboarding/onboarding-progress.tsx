@@ -1,9 +1,8 @@
 import { View } from "react-native";
-import Animated, { FadeIn } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 
 import { Typography } from "@/components/ui/typography";
-import { easings } from "@/lib/motion";
-import { useMeditation } from "@/providers/meditation-provider";
+import { crossfadeIn } from "@/lib/motion";
 
 const TOTAL_SETUP_STEPS = 3;
 
@@ -12,7 +11,6 @@ type OnboardingProgressProps = {
 };
 
 export function OnboardingProgress({ step }: OnboardingProgressProps) {
-  const { reducedMotion } = useMeditation();
   const stepLabel = `Step ${step} of ${TOTAL_SETUP_STEPS}`;
 
   return (
@@ -31,12 +29,7 @@ export function OnboardingProgress({ step }: OnboardingProgressProps) {
           <View key={index} className="h-1 flex-1 overflow-hidden rounded-full bg-separator">
             {index < step ? (
               <Animated.View
-                // The newest fill softly arrives once the push transition settles; earlier fills are static.
-                entering={
-                  index === step - 1 && !reducedMotion
-                    ? FadeIn.duration(400).delay(350).easing(easings.enter)
-                    : undefined
-                }
+                entering={index === step - 1 ? crossfadeIn : undefined}
                 className="h-full w-full rounded-full bg-accent"
               />
             ) : null}

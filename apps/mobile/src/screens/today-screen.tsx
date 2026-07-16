@@ -1,7 +1,6 @@
 import { Redirect, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
 import { View } from "react-native";
-import Animated from "react-native-reanimated";
 
 import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
 import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
@@ -20,7 +19,6 @@ import {
 import type { Weekday } from "@/domain/meditation";
 import { completedPracticeDateKeys } from "@/domain/progress";
 import { useThemeColors } from "@/hooks/use-theme-colors";
-import { enterRise } from "@/lib/motion";
 import { useMeditation } from "@/providers/meditation-provider";
 
 const TODAY_DATE_FORMATTER = new Intl.DateTimeFormat(undefined, {
@@ -42,7 +40,7 @@ function greetingForHour(hour: number) {
 export function TodayScreen() {
   const router = useRouter();
   const colors = useThemeColors();
-  const { activeSession, completedSessions, pendingCompletion, preferences, reducedMotion } = useMeditation();
+  const { activeSession, completedSessions, pendingCompletion, preferences } = useMeditation();
   const [nowMs, setNowMs] = useState(() => Date.now());
   useFocusEffect(
     useCallback(() => {
@@ -70,11 +68,9 @@ export function TodayScreen() {
   }
 
   const nextPractice = findNextPractice(preferences.practiceTimes, preferences.selectedWeekdays, nowMs);
-  const enter = (order: number) => enterRise(order, reducedMotion);
-
   return (
     <StandardScrollView contentContainerClassName="gap-8 pb-8 pt-7">
-      <Animated.View entering={enter(0)} className="gap-2">
+      <View className="gap-2">
         <Typography variant="eyebrow">{TODAY_DATE_FORMATTER.format(new Date(nowMs))}</Typography>
         <Typography accessibilityRole="header" variant="h1">
           {greetingForHour(new Date(nowMs).getHours())}
@@ -82,9 +78,9 @@ export function TodayScreen() {
         <Typography variant="reflection" tone="muted">
           A quiet rhythm carries you home.
         </Typography>
-      </Animated.View>
+      </View>
 
-      <Animated.View entering={enter(1)} className="-mx-6">
+      <View className="-mx-6">
         <LandscapeArtwork height={248} fadeTop={64} fadeBottom={72} />
         {nextPractice ? (
           <MossPressable
@@ -109,9 +105,9 @@ export function TodayScreen() {
             </Typography>
           </MossPressable>
         ) : null}
-      </Animated.View>
+      </View>
 
-      <Animated.View entering={enter(2)} className="gap-4">
+      <View className="gap-4">
         <WeekdaySelector selected={preferences.selectedWeekdays} completed={completedWeekdays} compact />
         <View className="flex-row items-center justify-between">
           <Typography variant="small" tone="muted">
@@ -125,11 +121,11 @@ export function TodayScreen() {
                 : `${todaySessions.length} ${todaySessions.length === 1 ? "session" : "sessions"} today`}
           </Typography>
         </View>
-      </Animated.View>
+      </View>
 
-      <Animated.View entering={enter(3)}>
+      <View>
         <MossPrimaryButton onPress={() => router.push("/session-setup")}>Begin</MossPrimaryButton>
-      </Animated.View>
+      </View>
     </StandardScrollView>
   );
 }

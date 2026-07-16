@@ -159,7 +159,7 @@ export function MeditationScreen() {
             strokeWidth={2.5}
             progress={sessionProgress}
             animated={!reducedMotion}
-            continuous
+            live
             drawDurationMs={durations.settle}
           >
             <BreathingField reducedMotion={reducedMotion} ending={isEnding} paused={isPaused} size={ringSize - 44} />
@@ -177,7 +177,7 @@ export function MeditationScreen() {
                 <Animated.View
                   key="ending"
                   entering={FadeIn.duration(600).delay(250).easing(easings.enter)}
-                  exiting={crossfadeOut()}
+                  exiting={crossfadeOut}
                   accessibilityLiveRegion="polite"
                   className="absolute inset-x-0 top-0 items-center gap-1"
                 >
@@ -191,8 +191,8 @@ export function MeditationScreen() {
               ) : (
                 <Animated.View
                   key={isPaused ? "paused" : "counting"}
-                  entering={crossfadeIn()}
-                  exiting={crossfadeOut()}
+                  entering={crossfadeIn}
+                  exiting={crossfadeOut}
                   className="absolute inset-x-0 top-0 items-center"
                 >
                   <Typography tone="muted" align="center">
@@ -207,7 +207,7 @@ export function MeditationScreen() {
 
       <StickyFooterScrollView.Footer className="gap-6 bg-transparent">
         {!isEnding ? (
-          <Animated.View exiting={crossfadeOut()} className="flex-row items-center justify-center gap-2">
+          <Animated.View exiting={crossfadeOut} className="flex-row items-center justify-center gap-2">
             <MossIcon name={completionSoundIcon(activeSession.completionSound)} size={15} tintColor={colors.muted} />
             <Typography variant="small" tone="muted">
               Ends with {getCompletionSoundLabel(activeSession.completionSound)}
@@ -216,7 +216,7 @@ export function MeditationScreen() {
         ) : null}
 
         {transitionError || completionError ? (
-          <Animated.View entering={crossfadeIn()}>
+          <Animated.View entering={crossfadeIn}>
             <Typography variant="small" tone="danger" accessibilityLiveRegion="polite" align="center">
               Your session is safe. Please try that action again.
             </Typography>
@@ -230,8 +230,8 @@ export function MeditationScreen() {
           {completionError ? (
             <Animated.View
               key="completion-error"
-              entering={crossfadeIn()}
-              exiting={crossfadeOut()}
+              entering={crossfadeIn}
+              exiting={crossfadeOut}
               className="absolute inset-x-0 bottom-0 gap-3"
             >
               <MossPrimaryButton onPress={() => setCompletionError(false)}>Try again</MossPrimaryButton>
@@ -240,8 +240,8 @@ export function MeditationScreen() {
           ) : projection.isComplete ? (
             <Animated.View
               key="saving"
-              entering={crossfadeIn()}
-              exiting={crossfadeOut()}
+              entering={crossfadeIn}
+              exiting={crossfadeOut}
               className="absolute inset-x-0 bottom-0 min-h-14 justify-center"
             >
               <Typography variant="small" tone="muted" align="center" accessibilityLiveRegion="polite">
@@ -251,8 +251,8 @@ export function MeditationScreen() {
           ) : isPaused ? (
             <Animated.View
               key="paused"
-              entering={crossfadeIn()}
-              exiting={crossfadeOut()}
+              entering={crossfadeIn}
+              exiting={crossfadeOut}
               className="absolute inset-x-0 bottom-0 gap-3"
             >
               <MossPrimaryButton
@@ -270,8 +270,8 @@ export function MeditationScreen() {
           ) : isEnding ? (
             <Animated.View
               key="ending"
-              entering={crossfadeIn()}
-              exiting={crossfadeOut()}
+              entering={crossfadeIn}
+              exiting={crossfadeOut}
               className="absolute inset-x-0 bottom-0"
             >
               <MossSecondaryButton onPress={confirmEnd}>End session</MossSecondaryButton>
@@ -279,8 +279,8 @@ export function MeditationScreen() {
           ) : (
             <Animated.View
               key="sitting"
-              entering={crossfadeIn()}
-              exiting={crossfadeOut()}
+              entering={crossfadeIn}
+              exiting={crossfadeOut}
               className="absolute inset-x-0 bottom-0 items-center"
             >
               <MossPressable

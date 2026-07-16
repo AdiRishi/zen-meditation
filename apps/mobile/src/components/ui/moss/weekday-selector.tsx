@@ -1,10 +1,9 @@
-import { useEffect } from "react";
 import { View } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 
 import type { Weekday } from "@/domain/meditation";
+import { useSelectionTransition } from "@/hooks/use-selection-transition";
 import { useThemeColors } from "@/hooks/use-theme-colors";
-import { easings } from "@/lib/motion";
 
 import { Typography } from "../typography";
 import { MossIcon } from "./moss-icon";
@@ -41,15 +40,7 @@ function WeekdayChip({
   sizeClass: string;
   onToggle: () => void;
 }) {
-  const selected = useSharedValue(isSelected ? 1 : 0);
-
-  useEffect(() => {
-    // These get tapped rapid-fire; withTiming retargets cleanly mid-change.
-    selected.set(withTiming(isSelected ? 1 : 0, { duration: 160, easing: easings.move }));
-  }, [isSelected, selected]);
-
-  const fillStyle = useAnimatedStyle(() => ({ opacity: selected.get() }));
-  const baseTextStyle = useAnimatedStyle(() => ({ opacity: 1 - selected.get() }));
+  const { baseStyle, fillStyle } = useSelectionTransition(isSelected, 160);
 
   return (
     <MossPressable
@@ -57,7 +48,7 @@ function WeekdayChip({
       accessibilityRole="checkbox"
       accessibilityState={{ checked: isSelected }}
       feedback="scale"
-      pressedScale={0.94}
+      pressedScale={0.96}
       className={`${sizeClass} items-center justify-center rounded-full border border-stone bg-transparent`}
       hitSlop={4}
       onPress={onToggle}
@@ -67,7 +58,7 @@ function WeekdayChip({
         style={fillStyle}
         className="absolute inset-0 rounded-full border border-accent bg-accent"
       />
-      <Animated.View style={baseTextStyle}>
+      <Animated.View style={baseStyle}>
         <Typography variant="smallBold" className="text-foreground">
           {label}
         </Typography>

@@ -35,7 +35,7 @@ export function CounterCard({
         accessibilityRole="button"
         accessibilityState={{ disabled: cannotDecrease }}
         feedback="scale"
-        pressedScale={0.94}
+        pressedScale={0.96}
         className="size-11 items-center justify-center rounded-full border border-stone"
         disabled={cannotDecrease}
         onPress={() => onChange(Math.max(minimum, value - 1))}
@@ -55,7 +55,7 @@ export function CounterCard({
         accessibilityRole="button"
         accessibilityState={{ disabled: cannotIncrease }}
         feedback="scale"
-        pressedScale={0.94}
+        pressedScale={0.96}
         className="size-11 items-center justify-center rounded-full border border-stone"
         disabled={cannotIncrease}
         onPress={() => onChange(Math.min(maximum, value + 1))}

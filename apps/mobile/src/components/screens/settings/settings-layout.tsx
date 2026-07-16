@@ -75,7 +75,7 @@ export function SettingsFormLayout({
       </StickyFooterScrollView.FormBody>
       <StickyFooterScrollView.Footer className="border-t border-border">
         {feedback ? (
-          <Animated.View entering={crossfadeIn()} exiting={crossfadeOut()} className="pb-3">
+          <Animated.View entering={crossfadeIn} exiting={crossfadeOut} className="pb-3">
             {feedback}
           </Animated.View>
         ) : null}

@@ -1,7 +1,7 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useEffect, useState, type ReactNode } from "react";
 import { Switch, useWindowDimensions, View } from "react-native";
-import Animated, { FadeIn, FadeOut, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 import { GroupedList } from "@/components/ui/moss/list-row";
 import { MossCard } from "@/components/ui/moss/moss-card";
@@ -10,6 +10,7 @@ import { MossPressable } from "@/components/ui/moss/moss-pressable";
 import { Typography } from "@/components/ui/typography";
 import { dateForPracticeTime, formatPracticeTime } from "@/domain/date-time";
 import type { Appearance, PracticeTime } from "@/domain/meditation";
+import { useSelectionTransition } from "@/hooks/use-selection-transition";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { crossfadeIn, crossfadeOut, durations, easings, glide } from "@/lib/motion";
 import { useMeditation } from "@/providers/meditation-provider";
@@ -159,7 +160,7 @@ export function PracticeTimeControls({
     <GroupedList>
       {times.map((time) => (
         // Added times fade in, removed times fade out, and the list glides closed.
-        <Animated.View key={time.id} entering={crossfadeIn()} exiting={crossfadeOut()} layout={glide(reducedMotion)}>
+        <Animated.View key={time.id} entering={crossfadeIn} exiting={crossfadeOut} layout={glide(reducedMotion)}>
           <View className="min-h-20 gap-3 px-4 py-3">
             <View className="flex-row items-center gap-3">
               <View className="w-8 items-center justify-center">
@@ -256,15 +257,7 @@ function ReminderLeadChip({
   disabled: boolean;
   onSelect: () => void;
 }) {
-  const selected = useSharedValue(isSelected ? 1 : 0);
-
-  useEffect(() => {
-    // Opacity-only fill crossfade: retargets mid-change and stays on under
-    // reduced motion.
-    selected.set(withTiming(isSelected ? 1 : 0, { duration: durations.crossfade, easing: easings.move }));
-  }, [isSelected, selected]);
-
-  const fillStyle = useAnimatedStyle(() => ({ opacity: selected.get() }));
+  const { fillStyle } = useSelectionTransition(isSelected);
 
   return (
     <MossPressable
@@ -454,15 +447,7 @@ function AppearanceChoiceRow({
   onSelect: () => void;
 }) {
   const colors = useThemeColors();
-  const selected = useSharedValue(isSelected ? 1 : 0);
-
-  useEffect(() => {
-    // The radio disc fills with an opacity-only crossfade; stays on under
-    // reduced motion.
-    selected.set(withTiming(isSelected ? 1 : 0, { duration: durations.crossfade, easing: easings.move }));
-  }, [isSelected, selected]);
-
-  const fillStyle = useAnimatedStyle(() => ({ opacity: selected.get() }));
+  const { fillStyle, indicatorStyle } = useSelectionTransition(isSelected);
 
   return (
     <MossPressable
@@ -486,14 +471,9 @@ function AppearanceChoiceRow({
           style={fillStyle}
           className="absolute inset-0 rounded-full border border-accent bg-accent"
         />
-        {isSelected ? (
-          <Animated.View
-            entering={FadeIn.duration(150).easing(easings.enter)}
-            exiting={FadeOut.duration(120).easing(easings.exit)}
-          >
-            <MossIcon name="check" size={14} tintColor={colors.accentForeground} />
-          </Animated.View>
-        ) : null}
+        <Animated.View pointerEvents="none" style={indicatorStyle}>
+          <MossIcon name="check" size={14} tintColor={colors.accentForeground} />
+        </Animated.View>
       </View>
     </MossPressable>
   );

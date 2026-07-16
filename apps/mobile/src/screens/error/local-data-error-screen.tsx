@@ -1,8 +1,8 @@
 import * as SplashScreen from "expo-splash-screen";
-import { Button } from "heroui-native";
 import { useEffect } from "react";
 import { View } from "react-native";
 
+import { MossPrimaryButton, MossSecondaryButton } from "@/components/ui/moss/moss-button";
 import { StandardScrollView } from "@/components/ui/screen-containers/standard-scroll-view";
 import { Typography } from "@/components/ui/typography";
 import { useAsyncAction } from "@/hooks/use-async-action";
@@ -40,14 +40,12 @@ export function LocalDataErrorScreen({ onRetry, onReset }: LocalDataErrorScreenP
         </Typography>
       </View>
       <View className="gap-3">
-        <Button variant="primary" size="lg" isDisabled={resetAction.isPending} onPress={onRetry}>
-          <Button.Label className="font-sans">Try again</Button.Label>
-        </Button>
-        <Button variant="outline" size="lg" isDisabled={resetAction.isPending} onPress={confirmReset}>
-          <Button.Label className="font-sans">
-            {resetAction.isPending ? "Deleting Moss data…" : "Delete All Moss Data"}
-          </Button.Label>
-        </Button>
+        <MossPrimaryButton isDisabled={resetAction.isPending} onPress={onRetry}>
+          Try again
+        </MossPrimaryButton>
+        <MossSecondaryButton isDisabled={resetAction.isPending} onPress={confirmReset}>
+          {resetAction.isPending ? "Deleting Moss data…" : "Delete All Moss Data"}
+        </MossSecondaryButton>
         {resetAction.error ? (
           <Typography variant="small" tone="danger" align="center">
             Moss couldn’t finish deleting your data. Please try again.
