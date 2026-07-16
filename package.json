@@ -13,14 +13,25 @@
     "lint:app": "turbo run lint --filter=@repo/mobile",
     "test": "turbo run test",
     "test:app": "turbo run test --filter=@repo/mobile",
-    "typecheck": "turbo run typecheck",
+    "typecheck": "turbo run typecheck && tsc --noEmit -p tsconfig.scripts.json",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "check": "pnpm run lint && pnpm run format:check && pnpm run typecheck"
+    "check": "pnpm run lint && pnpm run format:check && pnpm run typecheck",
+    "release:prepare": "tsx scripts/prepare-release.tsx"
   },
   "devDependencies": {
+    "@inkjs/ui": "^2.0.0",
+    "@openai/codex-sdk": "^0.142.3",
+    "@types/node": "^25.9.5",
+    "@types/react": "~19.2.17",
+    "@types/yargs": "^17.0.35",
+    "ink": "^7.1.0",
     "oxfmt": "^0.59.0",
-    "turbo": "^2.10.5"
+    "react": "19.2.3",
+    "tsx": "^4.22.4",
+    "turbo": "^2.10.5",
+    "typescript": "~6.0.3",
+    "yargs": "^18.0.0"
   },
   "packageManager": "pnpm@11.13.0"
 }
