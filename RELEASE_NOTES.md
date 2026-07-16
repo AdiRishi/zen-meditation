@@ -1,5 +1,16 @@
 # Release Notes
 
+## v1.2.1 - 2026-07-16
+
+### Release infrastructure updates
+
+This release updates the app’s public documentation and improves the Android release process. The meditation experience is unchanged.
+
+### Internal Changes
+
+- Migrated the public documentation site to Blume.
+- Automated Android store submissions as part of the release workflow.
+
 ## v1.2.0 - 2026-07-16
 
 ### Clearer onboarding and privacy information
