@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import { Alert, View } from "react-native";
 
+import { OnboardingProgress } from "@/components/screens/onboarding/onboarding-progress";
 import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
 import { MossPrimaryButton, MossSecondaryButton } from "@/components/ui/moss/moss-button";
 import { NotificationPreview } from "@/components/ui/moss/notification-preview";
@@ -34,6 +35,7 @@ export function ReminderPermissionScreen() {
     <StickyFooterScrollView.Root>
       <StickyFooterScrollView.Body contentContainerClassName="justify-between gap-6 pt-12">
         <View className="gap-7">
+          <OnboardingProgress step={3} />
           <Typography accessibilityRole="header" variant="h1">
             A gentle reminder,{"\n"}when you want one.
           </Typography>

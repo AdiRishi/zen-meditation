@@ -5,5 +5,5 @@ import { useMeditation } from "@/providers/meditation-provider";
 export default function OnboardingLayout() {
   const { reducedMotion } = useMeditation();
 
-  return <Stack screenOptions={{ headerShown: false, animation: reducedMotion ? "none" : "fade_from_bottom" }} />;
+  return <Stack screenOptions={{ headerShown: false, animation: reducedMotion ? "none" : "slide_from_right" }} />;
 }

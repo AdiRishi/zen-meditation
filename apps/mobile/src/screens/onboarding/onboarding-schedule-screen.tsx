@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 
+import { OnboardingProgress } from "@/components/screens/onboarding/onboarding-progress";
 import { TimePickerSheet } from "@/components/screens/onboarding/time-picker-sheet";
 import { GroupedList, PracticeTimeRow } from "@/components/ui/moss/list-row";
 import { MossPrimaryButton, MossSecondaryButton } from "@/components/ui/moss/moss-button";
@@ -38,6 +39,7 @@ export function OnboardingScheduleScreen() {
       <StickyFooterScrollView.Root>
         <StickyFooterScrollView.Body contentContainerClassName="gap-8">
           <ScreenHeader onBack={() => router.back()} />
+          <OnboardingProgress step={2} />
           <Typography accessibilityRole="header" variant="h1">
             When would you{"\n"}like to practise?
           </Typography>

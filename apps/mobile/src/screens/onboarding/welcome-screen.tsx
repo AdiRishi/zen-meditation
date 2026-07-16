@@ -1,5 +1,4 @@
 import { useRouter } from "expo-router";
-import { View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 
 import { LandscapeArtwork } from "@/components/ui/moss/brand-assets";
@@ -34,13 +33,6 @@ export function WelcomeScreen() {
         </Animated.View>
 
         <LandscapeArtwork height={296} className="-mx-6" fadeTop={72} fadeBottom={80} />
-
-        <View className="flex-row justify-center gap-2 pb-2" accessibilityLabel="Onboarding step 1 of 4">
-          <View className="size-2 rounded-full bg-accent" />
-          <View className="size-2 rounded-full bg-stone" />
-          <View className="size-2 rounded-full bg-stone" />
-          <View className="size-2 rounded-full bg-stone" />
-        </View>
       </StickyFooterScrollView.Body>
       <StickyFooterScrollView.Footer>
         {action.error ? (

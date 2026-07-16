@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 
+import { OnboardingProgress } from "@/components/screens/onboarding/onboarding-progress";
 import { CounterCard } from "@/components/ui/moss/counter-card";
 import { MossPrimaryButton } from "@/components/ui/moss/moss-button";
 import { ScreenHeader } from "@/components/ui/moss/screen-header";
@@ -52,6 +53,7 @@ export function PracticeGoalScreen() {
     <StickyFooterScrollView.Root>
       <StickyFooterScrollView.Body contentContainerClassName="gap-8">
         <ScreenHeader onBack={() => router.back()} />
+        <OnboardingProgress step={1} />
         <Typography accessibilityRole="header" variant="h1">
           How often would you{"\n"}like to sit?
         </Typography>
