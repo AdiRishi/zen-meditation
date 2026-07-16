@@ -268,10 +268,7 @@ export function LivingLandscape({
     [width, measuredHeight],
   );
 
-  const fallback = useMemo(
-    () => ({ backgroundColor: theme === "dark" ? "#232b23" : "#efe8d9" }),
-    [theme],
-  );
+  const fallback = useMemo(() => ({ backgroundColor: theme === "dark" ? "#232b23" : "#efe8d9" }), [theme]);
 
   if (!LANDSCAPE_EFFECT) {
     return <View className={cn("overflow-hidden", className)} style={[{ height }, fallback]} />;

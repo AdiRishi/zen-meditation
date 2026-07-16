@@ -126,13 +126,7 @@ export function BreathingField({ reducedMotion, ending, size }: BreathingFieldPr
       breath.set(0.5);
       return;
     }
-    breath.set(
-      withRepeat(
-        withTiming(1, { duration: HALF_BREATH_MS, easing: Easing.inOut(Easing.ease) }),
-        -1,
-        true,
-      ),
-    );
+    breath.set(withRepeat(withTiming(1, { duration: HALF_BREATH_MS, easing: Easing.inOut(Easing.ease) }), -1, true));
     return () => cancelAnimation(breath);
   }, [breath, reducedMotion]);
 
@@ -166,11 +160,7 @@ export function BreathingField({ reducedMotion, ending, size }: BreathingFieldPr
   }
 
   return (
-    <View
-      style={{ height: fieldSize, width: fieldSize }}
-      accessibilityElementsHidden
-      accessibilityIgnoresInvertColors
-    >
+    <View style={{ height: fieldSize, width: fieldSize }} accessibilityElementsHidden accessibilityIgnoresInvertColors>
       <View
         style={{
           position: "absolute",

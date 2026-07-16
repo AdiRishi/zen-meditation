@@ -9,7 +9,11 @@ type ShaderClockOptions = {
   startAt?: number;
 };
 
-export function useShaderClock({ fps = 30, enabled = true, startAt = 0 }: ShaderClockOptions = {}): SharedValue<number> {
+export function useShaderClock({
+  fps = 30,
+  enabled = true,
+  startAt = 0,
+}: ShaderClockOptions = {}): SharedValue<number> {
   const time = useSharedValue(startAt);
   const accumulatedMs = useSharedValue(0);
 

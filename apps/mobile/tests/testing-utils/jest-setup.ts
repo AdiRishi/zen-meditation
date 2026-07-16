@@ -9,8 +9,7 @@ jest.mock("@shopify/react-native-skia", () => {
   const React = require("react");
   const { View } = require("react-native");
 
-  const Canvas = ({ children, ...props }: { children?: React.ReactNode }) =>
-    React.createElement(View, props, children);
+  const Canvas = ({ children, ...props }: { children?: React.ReactNode }) => React.createElement(View, props, children);
   const Noop = () => null;
 
   return {
