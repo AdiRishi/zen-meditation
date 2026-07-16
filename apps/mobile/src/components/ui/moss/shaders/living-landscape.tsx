@@ -1,5 +1,6 @@
 import { Canvas, Fill, Shader, Skia } from "@shopify/react-native-skia";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useIsFocused } from "expo-router/react-navigation";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { StyleSheet, View, type LayoutChangeEvent } from "react-native";
 import Animated, { useAnimatedStyle, useDerivedValue, useSharedValue } from "react-native-reanimated";
 import { useUniwind } from "uniwind";
@@ -65,6 +66,19 @@ float fbm(float2 p) {
   return value;
 }
 
+// Three octaves are indistinguishable from four on soft fog, and the fog
+// terms run once per ridge layer per pixel — the cheapest place to save.
+float fbm3(float2 p) {
+  float value = 0.0;
+  float amplitude = 0.5;
+  for (int i = 0; i < 3; i++) {
+    value += amplitude * vnoise(p);
+    p *= 2.0;
+    amplitude *= 0.5;
+  }
+  return value;
+}
+
 // Height of ridge layer fi above the horizon at x. Layers descend from the
 // frame edges into a central valley, like the brand watercolor.
 float ridgeHeight(float x, float fi) {
@@ -100,7 +114,7 @@ half4 main(float2 fragCoord) {
   col = mix(col, uGlow, clamp(glow * uGlowStrength * (0.82 + 0.18 * breath), 0.0, 1.0));
 
   // A thin lit veil drifting through the sky, densest near the horizon.
-  float veil = smoothstep(0.4, 0.85, fbm(float2(p.x * 1.1 - t * 0.03, uv.y * 2.6 + t * 0.004)));
+  float veil = smoothstep(0.4, 0.85, fbm3(float2(p.x * 1.1 - t * 0.03, uv.y * 2.6 + t * 0.004)));
   float veilBand = (1.0 - smoothstep(uHorizon * 0.35, uHorizon, uv.y)) * step(uv.y, uHorizon);
   col = mix(col, mix(uMistColor, uGlow, 0.4), veil * veilBand * 0.14);
 
@@ -136,7 +150,7 @@ half4 main(float2 fragCoord) {
 
       // A bank of mist hugging this ridgeline, crawling through the valley.
       // Nearer banks drift faster: parallax in the atmosphere, not the land.
-      float wisp = fbm(float2(
+      float wisp = fbm3(float2(
         uv.x * mix(2.2, 3.6, depth) + seed + t * (0.05 + 0.045 * depth),
         (uv.y - top) * 7.0 + seed
       ));
@@ -535,7 +549,7 @@ type LivingLandscapeProps = {
   hourOverride?: number;
 };
 
-export function LivingLandscape({
+export const LivingLandscape = memo(function LivingLandscape({
   height = 260,
   className,
   contentPosition = "bottom",
@@ -545,11 +559,14 @@ export function LivingLandscape({
 }: LivingLandscapeProps) {
   const { theme } = useUniwind();
   const { reducedMotion } = useMeditation();
+  // Tab screens stay mounted while other tabs are open: freeze the clock the
+  // moment the scene is off-screen, so a hidden landscape costs nothing.
+  const isFocused = useIsFocused();
   const width = useSharedValue(1);
   const measuredHeight = useSharedValue(height);
   const time = useShaderClock({
     fps: CLOCK_FPS,
-    enabled: !reducedMotion,
+    enabled: !reducedMotion && isFocused,
     startAt: STILL_FRAME_SECONDS,
   });
 
@@ -631,4 +648,4 @@ export function LivingLandscape({
       </Animated.View>
     </View>
   );
-}
+});

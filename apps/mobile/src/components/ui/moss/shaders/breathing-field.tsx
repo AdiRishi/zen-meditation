@@ -1,5 +1,6 @@
 import { Canvas, Fill, Shader, Skia } from "@shopify/react-native-skia";
-import { useEffect } from "react";
+import { useIsFocused } from "expo-router/react-navigation";
+import { memo, useEffect } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
 import {
   Easing,
@@ -67,6 +68,12 @@ half4 main(float2 fragCoord) {
   float t = uTime;
   float r = length(uv);
 
+  // Beyond the widest possible halo nothing can render: bail before any
+  // noise work so corner pixels cost a length() and a compare.
+  if (r > 1.25) {
+    return half4(0.0);
+  }
+
   float radius = mix(0.58, 0.74, uBreath) * mix(1.0, 0.74, uDim);
 
   float2 dir = r > 0.001 ? uv / r : float2(0.0, 1.0);
@@ -112,23 +119,27 @@ const MAX_FIELD_SIZE = 330;
 const HALF_BREATH_MS = 1_400;
 const RESOLUTION_SCALE = 0.6;
 
-export function BreathingField({ reducedMotion, ending, size }: BreathingFieldProps) {
+export const BreathingField = memo(function BreathingField({ reducedMotion, ending, size }: BreathingFieldProps) {
   const { theme } = useUniwind();
   const { width } = useWindowDimensions();
+  // The Progress tab stays mounted behind other tabs: stop breathing and
+  // freeze the clock whenever the field is off-screen.
+  const isFocused = useIsFocused();
+  const active = !reducedMotion && isFocused;
   const breath = useSharedValue(0.5);
   const dim = useSharedValue(ending ? 1 : 0);
-  const time = useShaderClock({ fps: 30, enabled: !reducedMotion, startAt: 23 });
+  const time = useShaderClock({ fps: 30, enabled: active, startAt: 23 });
   const fieldSize = size ?? Math.min(MAX_FIELD_SIZE, width - 48);
 
   useEffect(() => {
     cancelAnimation(breath);
-    if (reducedMotion) {
+    if (!active) {
       breath.set(0.5);
       return;
     }
     breath.set(withRepeat(withTiming(1, { duration: HALF_BREATH_MS, easing: Easing.inOut(Easing.ease) }), -1, true));
     return () => cancelAnimation(breath);
-  }, [breath, reducedMotion]);
+  }, [breath, active]);
 
   useEffect(() => {
     dim.set(
@@ -180,4 +191,4 @@ export function BreathingField({ reducedMotion, ending, size }: BreathingFieldPr
       </View>
     </View>
   );
-}
+});
