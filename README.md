@@ -41,7 +41,7 @@ The complete foundation lives in the repository:
 ## Project status
 
 > [!NOTE]
-> Moss is in active development. The complete local-first product flow is implemented; release packaging and store distribution remain future work.
+> Moss is in active development. The complete local-first product flow is implemented, and iOS releases are packaged and submitted through EAS.
 
 ## Engineering
 
@@ -77,13 +77,28 @@ pnpm android
 
 ## Everyday commands
 
-| Command             | Purpose                                        |
-| ------------------- | ---------------------------------------------- |
-| `pnpm run compile`  | Compile shared internal packages through Turbo |
-| `pnpm run check`    | Run lint, formatting checks, and TypeScript    |
-| `pnpm run test`     | Run workspace tests through Turbo              |
-| `pnpm run format`   | Format the repository with Oxfmt               |
-| `pnpm run prebuild` | Regenerate the native iOS and Android projects |
+| Command                          | Purpose                                        |
+| -------------------------------- | ---------------------------------------------- |
+| `pnpm run compile`               | Compile shared internal packages through Turbo |
+| `pnpm run check`                 | Run lint, formatting checks, and TypeScript    |
+| `pnpm run test`                  | Run workspace tests through Turbo              |
+| `pnpm run format`                | Format the repository with Oxfmt               |
+| `pnpm run prebuild`              | Regenerate the native iOS and Android projects |
+| `pnpm release:prepare --dry-run` | Preview the next version and release notes     |
+
+## Releasing iOS
+
+Moss uses an annotated `v*` tag and `RELEASE_NOTES.md` as its release history. The interactive release command analyzes commits since the latest tag, recommends the smallest safe semantic version bump, generates user-facing notes, synchronizes the root package, mobile package, and Expo app versions, runs repository checks, and creates the release commit and tag.
+
+Prepare and review a release from a clean `release` branch:
+
+```bash
+pnpm release:prepare --dry-run
+pnpm release:prepare
+git push origin release --follow-tags
+```
+
+Pushing the release commit triggers the EAS workflow in `apps/mobile/.eas/workflows/release.yml`, which builds the production iOS app and submits it to App Store Connect. EAS owns the native iOS build number through the remote app-version source and increments it for every production build.
 
 ## Repository guide
 
