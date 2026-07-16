@@ -1,5 +1,24 @@
 # Release Notes
 
+## v1.1.0 - 2026-07-16
+
+### App version in Settings
+
+You can now find the installed app version in Settings and on the About screen.
+
+### Highlights
+
+- View the installed app version from Settings and About.
+
+### Internal Changes
+
+- Added shared app-version handling and updated the mobile app configuration.
+- Updated Settings and About screen tests to cover the version label.
+
+### Testing Notes
+
+- Automated screen tests were updated to verify the app version appears in Settings and About.
+
 ## v1.0.1 - 2026-07-16
 
 ### Maintenance and release improvements
