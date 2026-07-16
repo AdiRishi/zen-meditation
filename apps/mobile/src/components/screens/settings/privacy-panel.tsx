@@ -9,12 +9,13 @@ const PRIVACY_POINTS = [
     description: "Your practice history, schedule, and preferences stay on this device.",
   },
   {
-    title: "No account",
-    description: "Moss does not ask you to sign in or create a profile.",
+    title: "No account or ads",
+    description: "Moss does not ask you to sign in, create a profile, or view advertising.",
   },
   {
-    title: "No tracking",
-    description: "Moss does not track your activity or send analytics about your practice.",
+    title: "Anonymous performance data",
+    description:
+      "Moss sends technical logs, crash reports, diagnostics, and performance data, never details about your practice.",
   },
 ] as const;
 
