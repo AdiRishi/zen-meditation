@@ -76,12 +76,16 @@
   },
   "jest": {
     "preset": "jest-expo",
+    "testEnvironment": "@shopify/react-native-skia/jestEnv.js",
     "roots": [
       "<rootDir>/src",
       "<rootDir>/tests"
     ],
     "setupFiles": [
       "<rootDir>/tests/testing-utils/jest-setup.ts"
+    ],
+    "setupFilesAfterEnv": [
+      "@shopify/react-native-skia/jestSetup.js"
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [

@@ -5,25 +5,6 @@
 // Feature-specific behavior, such as Expo Router navigation or native tabs, belongs
 // in the test or harness that needs it so each test keeps its assumptions visible.
 
-jest.mock("@shopify/react-native-skia", () => {
-  const React = require("react");
-  const { View } = require("react-native");
-
-  const Canvas = ({ children, ...props }: { children?: React.ReactNode }) => React.createElement(View, props, children);
-  const Noop = () => null;
-
-  return {
-    Canvas,
-    Fill: Noop,
-    Shader: Noop,
-    Skia: {
-      RuntimeEffect: {
-        Make: jest.fn(() => ({})),
-      },
-    },
-  };
-});
-
 jest.mock("react-native-reanimated", () => {
   const Reanimated = require("react-native-reanimated/mock");
 
