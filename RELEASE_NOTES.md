@@ -1,5 +1,29 @@
 # Release Notes
 
+## v1.2.0 - 2026-07-16
+
+### Clearer onboarding and privacy information
+
+Onboarding now makes your progress through setup clearer. Privacy information has also been updated to explain diagnostic telemetry.
+
+### Highlights
+
+- See clearer progression while setting up your practice, schedule, and reminders.
+- Review updated privacy information, including a published privacy policy.
+
+### Fixes
+
+- Diagnostic telemetry is now clearly disclosed in the app’s privacy information.
+
+### Internal Changes
+
+- Published the Moss privacy policy documentation.
+
+### Testing Notes
+
+- Added coverage for onboarding flow progress.
+- Updated privacy screen tests for the diagnostic telemetry disclosure.
+
 ## v1.1.0 - 2026-07-16
 
 ### App version in Settings
