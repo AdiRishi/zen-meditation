@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "pnpm --filter @repo/mobile start",
+    "docs:dev": "pnpm --filter @repo/docs dev",
+    "docs:build": "pnpm --filter @repo/docs build",
     "prebuild": "pnpm --filter @repo/mobile exec expo prebuild --clean",
     "android": "pnpm --filter @repo/mobile android",
     "ios": "pnpm --filter @repo/mobile ios",

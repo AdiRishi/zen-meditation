@@ -82,6 +82,8 @@ pnpm android
 | `pnpm run compile`               | Compile shared internal packages through Turbo |
 | `pnpm run check`                 | Run lint, formatting checks, and TypeScript    |
 | `pnpm run test`                  | Run workspace tests through Turbo              |
+| `pnpm run docs:dev`              | Start the public Blume site locally            |
+| `pnpm run docs:build`            | Build the public Blume site                    |
 | `pnpm run format`                | Format the repository with Oxfmt               |
 | `pnpm run prebuild`              | Regenerate the native iOS and Android projects |
 | `pnpm release:prepare --dry-run` | Preview the next version and release notes     |
@@ -104,6 +106,7 @@ Pushing the release commit triggers the EAS workflow in `apps/mobile/.eas/workfl
 
 ```text
 apps/mobile/     Expo app, routes, screens, and interface components
+apps/docs/       Public website and documentation built with Blume
 docs/            Product vision, design system, and architecture decisions
 ```
 

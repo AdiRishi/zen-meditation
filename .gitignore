@@ -57,3 +57,7 @@ servers/*/.cache/
 
 # AI
 .claude/settings.local.json
+
+# Blume
+.blume/
+.blume-verify/
