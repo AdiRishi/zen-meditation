@@ -77,7 +77,7 @@ function renderProgress(sessions: CompletedSession[]) {
 describe("<ProgressScreen />", () => {
   beforeEach(() => {
     jest.useFakeTimers();
-    jest.setSystemTime(new Date(2026, 6, 1, 12, 0));
+    jest.setSystemTime(new Date(2026, 6, 17, 12, 0));
     mockPush.mockClear();
   });
 
@@ -87,9 +87,9 @@ describe("<ProgressScreen />", () => {
 
   test("shows exact persisted totals and changes the aggregation period", async () => {
     const sessions = [
-      createCompletedSession("monday", 2026, 5, 29, 5),
-      createCompletedSession("tuesday", 2026, 5, 30, 10),
-      createCompletedSession("wednesday", 2026, 6, 1, 15),
+      createCompletedSession("monday", 2026, 6, 13, 5),
+      createCompletedSession("tuesday", 2026, 6, 14, 10),
+      createCompletedSession("wednesday", 2026, 6, 15, 15),
     ];
     const { getByLabelText, getByRole, getByText } = renderProgress(sessions);
 
@@ -97,19 +97,22 @@ describe("<ProgressScreen />", () => {
       expect(getByLabelText("Sessions, 3")).toBeOnTheScreen();
     });
     expect(getByLabelText("Minutes, 30")).toBeOnTheScreen();
-    expect(getByLabelText("Day rhythm, 3")).toBeOnTheScreen();
+    expect(getByLabelText("Day rhythm, 0")).toBeOnTheScreen();
     expect(getByLabelText("Monday, 5 minutes practiced")).toBeOnTheScreen();
 
-    fireEvent.press(getByRole("radio", { name: "Month" }));
+    fireEvent.press(getByRole("radio", { name: "July" }));
 
-    expect(getByLabelText("Sessions, 1")).toBeOnTheScreen();
-    expect(getByLabelText("Minutes, 15")).toBeOnTheScreen();
-    expect(getByLabelText("Day rhythm, 3")).toBeOnTheScreen();
-    expect(getByText("Minutes this month")).toBeOnTheScreen();
+    expect(getByLabelText("3 sessions, 30 min, across 3 practice days")).toBeOnTheScreen();
+    expect(getByText("Minutes by week")).toBeOnTheScreen();
+    expect(
+      getByRole("button", {
+        name: "Minutes by week. Jul 1–7, 0 minutes; Jul 8–14, 15 minutes; Jul 15–17, 15 minutes",
+      }),
+    ).toBeOnTheScreen();
   });
 
   test("opens practice history from the trend", async () => {
-    const { getByRole, getByText } = renderProgress([createCompletedSession("wednesday", 2026, 6, 1, 15)]);
+    const { getByRole, getByText } = renderProgress([createCompletedSession("wednesday", 2026, 6, 15, 15)]);
 
     await waitFor(() => {
       expect(getByText("Minutes this week")).toBeOnTheScreen();

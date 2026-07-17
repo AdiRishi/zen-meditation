@@ -4,13 +4,14 @@ import type { ProgressMode } from "@/domain/progress";
 
 type ProgressPeriodControlProps = {
   mode: ProgressMode;
+  monthLabel: string;
   onChange(mode: ProgressMode): void;
 };
 
-export function ProgressPeriodControl({ mode, onChange }: ProgressPeriodControlProps) {
+export function ProgressPeriodControl({ mode, monthLabel, onChange }: ProgressPeriodControlProps) {
   return (
     <SegmentedControl
-      values={["Week", "Month"]}
+      values={["Week", monthLabel]}
       selectedIndex={mode === "week" ? 0 : 1}
       onChange={({ nativeEvent }) => onChange(nativeEvent.selectedSegmentIndex === 0 ? "week" : "month")}
       accessibilityLabel="Progress period"

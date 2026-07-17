@@ -23,7 +23,7 @@ describe("progress summary", () => {
 
     const summary = buildProgressSummary(sessions, [1, 2, 3, 4, 5], nowMs, "week");
 
-    expect(summary).toMatchObject({ sessions: 4, minutes: 50, dayRhythm: 4 });
+    expect(summary).toMatchObject({ sessions: 4, minutes: 50, dayRhythm: 4, practiceDays: 4 });
     expect(summary.buckets.map((bucket) => bucket.minutes)).toEqual([5, 10, 15, 20, 0, 0, 0]);
   });
 
@@ -61,5 +61,19 @@ describe("progress summary", () => {
 
     expect(summary.sessions).toBe(1);
     expect(summary.buckets[0].minutes).toBe(10);
+  });
+
+  it("groups only elapsed monthly ranges and excludes future sessions", () => {
+    const sessions = [buildSession(1, 5), buildSession(8, 10), buildSession(15, 15), buildSession(22, 20)];
+    const nowMs = new Date(2026, 6, 17, 12, 0).getTime();
+
+    const summary = buildProgressSummary(sessions, [1, 2, 3, 4, 5], nowMs, "month");
+
+    expect(summary).toMatchObject({ sessions: 3, minutes: 30, practiceDays: 3 });
+    expect(summary.buckets.map(({ dateKey, endDateKey, minutes }) => ({ dateKey, endDateKey, minutes }))).toEqual([
+      { dateKey: "2026-07-01", endDateKey: "2026-07-07", minutes: 5 },
+      { dateKey: "2026-07-08", endDateKey: "2026-07-14", minutes: 10 },
+      { dateKey: "2026-07-15", endDateKey: "2026-07-17", minutes: 15 },
+    ]);
   });
 });

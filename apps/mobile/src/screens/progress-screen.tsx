@@ -3,6 +3,8 @@ import { useCallback, useState } from "react";
 import { View } from "react-native";
 import Animated from "react-native-reanimated";
 
+import { MonthlyPracticeSummary } from "@/components/screens/progress/monthly-practice-summary";
+import { MonthlyProgressBreakdown } from "@/components/screens/progress/monthly-progress-breakdown";
 import { PracticeRhythm } from "@/components/screens/progress/practice-rhythm";
 import { PracticeStateCard } from "@/components/screens/progress/practice-state-card";
 import { ProgressChart } from "@/components/screens/progress/progress-chart";
@@ -13,6 +15,8 @@ import { Typography } from "@/components/ui/typography";
 import { buildProgressSummary, type ProgressMode } from "@/domain/progress";
 import { crossfadeIn } from "@/lib/motion";
 import { useMeditation } from "@/providers/meditation-provider";
+
+const MONTH_FORMATTER = new Intl.DateTimeFormat(undefined, { month: "long" });
 
 export function ProgressScreen() {
   const router = useRouter();
@@ -37,6 +41,7 @@ export function ProgressScreen() {
     preferences.sessionsPerDay,
   );
   const periodLabel = mode === "week" ? "this week" : "this month";
+  const monthLabel = MONTH_FORMATTER.format(new Date(nowMs));
   const hasPracticeHistory = completedSessions.length > 0;
 
   return (
@@ -48,7 +53,7 @@ export function ProgressScreen() {
         </Typography>
       </View>
 
-      <ProgressPeriodControl mode={mode} onChange={changeMode} />
+      <ProgressPeriodControl mode={mode} monthLabel={monthLabel} onChange={changeMode} />
 
       {!isReady ? (
         <PracticeStateCard title="Preparing your rhythm…" message="Just a moment." />
@@ -61,14 +66,31 @@ export function ProgressScreen() {
         />
       ) : (
         <Animated.View key={mode} entering={animatePeriodChanges ? crossfadeIn : undefined} className="gap-12">
-          <PracticeRhythm buckets={summary.buckets} mode={mode} />
-          <ProgressStats sessions={summary.sessions} minutes={summary.minutes} dayRhythm={summary.dayRhythm} />
-          {summary.sessions > 0 ? (
-            <ProgressChart
-              buckets={summary.buckets}
-              mode={mode}
-              onOpenHistory={() => router.push("/(tabs)/progress/history")}
+          {mode === "week" ? (
+            <>
+              <PracticeRhythm buckets={summary.buckets} mode={mode} />
+              <ProgressStats sessions={summary.sessions} minutes={summary.minutes} dayRhythm={summary.dayRhythm} />
+            </>
+          ) : (
+            <MonthlyPracticeSummary
+              sessions={summary.sessions}
+              minutes={summary.minutes}
+              practiceDays={summary.practiceDays}
             />
+          )}
+          {summary.sessions > 0 ? (
+            mode === "week" ? (
+              <ProgressChart
+                buckets={summary.buckets}
+                mode={mode}
+                onOpenHistory={() => router.push("/(tabs)/progress/history")}
+              />
+            ) : (
+              <MonthlyProgressBreakdown
+                buckets={summary.buckets}
+                onOpenHistory={() => router.push("/(tabs)/progress/history")}
+              />
+            )
           ) : (
             <PracticeStateCard
               title={hasPracticeHistory ? `No sessions ${periodLabel}` : "No sessions yet"}
