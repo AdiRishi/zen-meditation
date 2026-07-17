@@ -45,6 +45,7 @@ function FadeToDisabled({
 type TimePickerControlProps = {
   accessibilityLabel: string;
   disabled: boolean;
+  dimWhenDisabled?: boolean;
   hour: number;
   minute: number;
   onChange: (date: Date) => void;
@@ -55,6 +56,7 @@ type TimePickerControlProps = {
 function TimePickerControl({
   accessibilityLabel,
   disabled,
+  dimWhenDisabled = true,
   hour,
   minute,
   onChange,
@@ -67,7 +69,7 @@ function TimePickerControl({
 
   if (process.env.EXPO_OS !== "android") {
     return (
-      <FadeToDisabled dimmed={disabled} dimmedOpacity={0.5}>
+      <FadeToDisabled dimmed={disabled && dimWhenDisabled} dimmedOpacity={0.5}>
         <DateTimePicker
           accessibilityLabel={accessibilityLabel}
           accentColor={colors.accent}
@@ -364,6 +366,7 @@ export function QuietHoursControl({
             <TimePickerControl
               accessibilityLabel={`Quiet hours ${row.label.toLowerCase()}`}
               disabled={!enabled}
+              dimWhenDisabled={false}
               hour={Math.floor(row.value / 60)}
               minute={row.value % 60}
               onChange={(date) => {
