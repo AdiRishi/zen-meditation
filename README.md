@@ -100,6 +100,8 @@ pnpm release:prepare
 git push origin release --follow-tags
 ```
 
+Use `pnpm release:prepare --offline` to prepare from conventional commits when Codex analysis is unavailable.
+
 Pushing the release commit triggers the EAS workflow in `apps/mobile/.eas/workflows/release.yml`, which builds the production iOS app and submits it to App Store Connect. EAS owns the native iOS build number through the remote app-version source and increments it for every production build.
 
 ## Repository guide
