@@ -28,7 +28,6 @@ describe("<SettingsScreen />", () => {
       "Notifications",
       "Completion sound",
       "Appearance",
-      "Reduced motion",
       "Privacy & Data",
       "About",
     ]);
@@ -37,7 +36,6 @@ describe("<SettingsScreen />", () => {
     fireEvent.press(getByLabelText("Notifications"));
     fireEvent.press(getByLabelText("Completion sound"));
     fireEvent.press(getByLabelText("Appearance"));
-    fireEvent.press(getByLabelText("Reduced motion"));
     fireEvent.press(getByLabelText("Privacy & Data"));
     fireEvent.press(getByLabelText("About"));
 
@@ -45,7 +43,6 @@ describe("<SettingsScreen />", () => {
       "/schedule",
       "/reminders",
       "/completion-sound?source=settings",
-      "/appearance",
       "/appearance",
       "/privacy",
       "/about",

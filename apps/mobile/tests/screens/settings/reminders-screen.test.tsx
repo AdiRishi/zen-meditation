@@ -63,10 +63,10 @@ describe("<RemindersScreen />", () => {
       store: new InMemoryMeditationStore({ preferences }),
     });
 
-    await findByText("Notifications are off in device settings. Moss will keep your choices until you allow them.");
+    await findByText("Notifications are off in your device settings. Your choices here will apply once you allow them.");
     fireEvent.press(getByText("Save"));
 
-    await findByText("Your choices are saved. Allow notifications in device settings when you want Moss to use them.");
+    await findByText("Saved. To get notifications, allow them for Moss in your device settings.");
     expect(notifications.requestPermission).not.toHaveBeenCalled();
     await expect(store.loadPreferences()).resolves.toMatchObject({
       backgroundCompletionAlertsEnabled: true,
@@ -101,7 +101,7 @@ describe("<RemindersScreen />", () => {
     fireEvent(getByLabelText("Practice reminders"), "valueChange", true);
     fireEvent.press(getByText("Save"));
 
-    await findByText("Your choices are saved, but notifications couldn’t be updated. Please try again.");
+    await findByText("Your choices are saved, but notifications couldn’t be updated. Try saving again.");
     await expect(store.loadPreferences()).resolves.toMatchObject({ remindersEnabled: true });
   });
 
@@ -109,9 +109,9 @@ describe("<RemindersScreen />", () => {
     const notifications = createNotifications(notificationPermission("granted", { allowsSound: false }));
     const { findByText, getByText } = renderMeditationScreen(<RemindersScreen />, { notifications });
 
-    await findByText("Notification sounds are off in device settings, so background session endings will be silent.");
+    await findByText("Notification sounds are off in your device settings, so session endings will be silent.");
     fireEvent.press(getByText("Save"));
 
-    await findByText("Your choices are saved. Turn on notification sounds in device settings to hear session endings.");
+    await findByText("Saved. Notification sounds are off in your device settings, so session endings will be silent.");
   });
 });

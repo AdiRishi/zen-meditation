@@ -106,7 +106,7 @@ export function CompletionSoundScreen() {
             Completion sound
           </Typography>
           <Typography variant="reflection" tone="accent">
-            Played once, when your time is complete.
+            Plays once when your session ends.
           </Typography>
         </View>
         <View accessibilityRole="radiogroup" className="gap-4">

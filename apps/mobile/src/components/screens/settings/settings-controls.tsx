@@ -386,9 +386,9 @@ export function QuietHoursControl({
 }
 
 const APPEARANCE_OPTIONS: readonly { value: Appearance; label: string; description: string }[] = [
-  { value: "system", label: "System", description: "Follow your device setting" },
-  { value: "light", label: "Light", description: "Warm, quiet tones" },
-  { value: "dark", label: "Dark", description: "A softer low-light canvas" },
+  { value: "system", label: "System", description: "Match your device setting" },
+  { value: "light", label: "Light", description: "Always use the light theme" },
+  { value: "dark", label: "Dark", description: "Always use the dark theme" },
 ];
 
 function AppearanceChoiceRow({

@@ -1,7 +1,6 @@
 import { View } from "react-native";
 
 import { EnsoMark } from "@/components/ui/moss/brand-assets";
-import { MossCard } from "@/components/ui/moss/moss-card";
 import { Typography } from "@/components/ui/typography";
 
 import { AppVersionLabel } from "./app-version-label";
@@ -21,10 +20,10 @@ export function AboutPanel({ version }: { version: string }) {
         </View>
       </View>
 
-      <MossCard className="gap-2 px-5 py-5">
-        <Typography variant="eyebrow">Product promise</Typography>
-        <Typography variant="h3">Support the practice without becoming the focus of it.</Typography>
-      </MossCard>
+      <Typography variant="small" tone="muted" align="center" className="px-4">
+        Moss is a small meditation timer for keeping a steady daily practice. There are no accounts, streaks, or
+        feeds. Just your schedule, a timer, and a bell.
+      </Typography>
 
       <AppVersionLabel version={version} />
     </View>

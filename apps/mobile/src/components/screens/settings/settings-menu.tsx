@@ -6,7 +6,6 @@ export const SETTINGS_ROUTES = [
   { label: "Notifications", icon: "bell", href: "/reminders" },
   { label: "Completion sound", icon: "sound", href: "/completion-sound?source=settings" },
   { label: "Appearance", icon: "palette", href: "/appearance" },
-  { label: "Reduced motion", icon: "motion", href: "/appearance" },
   { label: "Privacy & Data", icon: "lock", href: "/privacy" },
   { label: "About", icon: "info", href: "/about" },
 ] as const satisfies readonly { label: string; icon: MossIconName; href: string }[];

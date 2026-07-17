@@ -25,7 +25,7 @@ describe("<ScheduleScreen />", () => {
       notifications,
     });
 
-    await findByText("Weekly intention");
+    await findByText("Practice days");
     fireEvent.press(getByLabelText("Saturday"));
     fireEvent.press(getByLabelText("Increase sessions per day"));
     fireEvent(

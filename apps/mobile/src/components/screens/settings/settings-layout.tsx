@@ -139,7 +139,7 @@ export function SettingsLoading({ title }: { title: string }) {
     <SettingsScreenLayout title={title}>
       <View className="min-h-48 items-center justify-center">
         <Typography variant="small" tone="muted" accessibilityLiveRegion="polite">
-          Preparing your settings…
+          Loading…
         </Typography>
       </View>
     </SettingsScreenLayout>

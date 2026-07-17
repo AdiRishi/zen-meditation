@@ -38,8 +38,8 @@ function ScheduleEditor() {
       setDraft(result.preferences);
       if (result.status === "sync-failed") {
         setFeedback({
-          message: "Schedule saved. Reminders couldn’t be updated, so please save once more.",
-          tone: "muted",
+          message: "Your schedule is saved, but reminders couldn’t be updated. Try saving again.",
+          tone: "danger",
         });
         return;
       }
@@ -51,7 +51,7 @@ function ScheduleEditor() {
     (saveAction.error
       ? { message: "Your schedule couldn’t be saved. Please try again.", tone: "danger" as const }
       : feedback) ??
-    (error ? { message: "Your local settings are unavailable right now.", tone: "danger" as const } : null);
+    (error ? { message: "Your settings couldn’t be loaded right now.", tone: "danger" as const } : null);
 
   return (
     <SettingsFormLayout
@@ -64,17 +64,14 @@ function ScheduleEditor() {
         ) : null
       }
     >
-      <SettingsSection title="Weekly intention" description="Choose the days that fit your week.">
+      <SettingsSection title="Practice days">
         <WeekdaySelector
           selected={draft.selectedWeekdays}
           onChange={(selectedWeekdays) => setDraft((current) => ({ ...current, selectedWeekdays }))}
         />
       </SettingsSection>
 
-      <SettingsSection
-        title="Sessions per chosen day"
-        description="Keep the intention realistic and easy to return to."
-      >
+      <SettingsSection title="Sessions per day">
         <CounterCard
           value={draft.sessionsPerDay}
           label={draft.sessionsPerDay === 1 ? "session each day" : "sessions each day"}
@@ -85,7 +82,7 @@ function ScheduleEditor() {
         />
       </SettingsSection>
 
-      <SettingsSection title="Practice times" description="Each time is optional and can be changed at any time.">
+      <SettingsSection title="Practice times">
         <PracticeTimeControls
           times={draft.practiceTimes}
           onChange={(practiceTimes) => setDraft((current) => ({ ...current, practiceTimes }))}

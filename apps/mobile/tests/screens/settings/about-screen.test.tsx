@@ -11,11 +11,11 @@ jest.mock("expo-router", () => ({
 }));
 
 describe("<AboutScreen />", () => {
-  it("states Moss’s product promise and local app version", () => {
+  it("describes the app plainly and shows the local app version", () => {
     const { getByText } = renderWithSafeArea(<AboutScreen />);
 
     getByText("A quiet rhythm for daily practice.");
-    getByText("Support the practice without becoming the focus of it.");
+    getByText(/Moss is a small meditation timer/);
     getByText("Version 9.9.9");
   });
 });

@@ -32,10 +32,8 @@ describe("<PrivacyScreen />", () => {
     const { findByText, getByText } = renderMeditationScreen(<PrivacyScreen />, { notifications, store });
 
     await findByText("Your practice history, schedule, and preferences stay on this device.");
-    getByText("Moss does not ask you to sign in, create a profile, or view advertising.");
-    getByText(
-      "Moss sends technical logs, crash reports, diagnostics, and performance data, never details about your practice.",
-    );
+    getByText("You don’t need to sign in, and Moss doesn’t show advertising.");
+    getByText("Moss sends anonymous technical reports to help fix bugs. They never include your practice history.");
     fireEvent.press(getByText("Delete All Moss Data"));
 
     expect(alert).toHaveBeenCalledWith(

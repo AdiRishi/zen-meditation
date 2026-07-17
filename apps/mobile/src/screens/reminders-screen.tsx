@@ -52,27 +52,27 @@ function RemindersEditor() {
 
       if (result.status === "sync-failed") {
         setFeedback({
-          message: "Your choices are saved, but notifications couldn’t be updated. Please try again.",
+          message: "Your choices are saved, but notifications couldn’t be updated. Try saving again.",
           tone: "danger",
         });
         return;
       }
 
       if (result.status === "disabled") {
-        setFeedback({ message: "Notifications are off. Your timing choices are saved.", tone: "success" });
+        setFeedback({ message: "Saved. Notifications are turned off.", tone: "success" });
       } else if (result.status === "permission-denied") {
         setFeedback({
-          message: "Your choices are saved. Allow notifications in device settings when you want Moss to use them.",
+          message: "Saved. To get notifications, allow them for Moss in your device settings.",
           tone: "muted",
         });
       } else if (result.status === "sound-disabled") {
         setFeedback({
-          message: "Your choices are saved. Turn on notification sounds in device settings to hear session endings.",
+          message: "Saved. Notification sounds are off in your device settings, so session endings will be silent.",
           tone: "muted",
         });
       } else if (result.status === "no-scheduled-times") {
         setFeedback({
-          message: "Your choices are saved. No reminders currently fall outside quiet hours.",
+          message: "Saved. All of your reminders currently fall within quiet hours, so none are scheduled.",
           tone: "muted",
         });
       } else {
@@ -85,7 +85,7 @@ function RemindersEditor() {
     (saveAction.error
       ? { message: "Your notification settings couldn’t be saved. Please try again.", tone: "danger" as const }
       : feedback) ??
-    (error ? { message: "Your local settings are unavailable right now.", tone: "danger" as const } : null);
+    (error ? { message: "Your settings couldn’t be loaded right now.", tone: "danger" as const } : null);
 
   return (
     <SettingsFormLayout
@@ -98,10 +98,7 @@ function RemindersEditor() {
         ) : null
       }
     >
-      <SettingsSection
-        title="Session completion"
-        description="Use a local notification when Moss is in the background."
-      >
+      <SettingsSection title="Session completion">
         <MossToggleCard
           enabled={draft.backgroundCompletionAlertsEnabled}
           icon="sound"
@@ -109,17 +106,17 @@ function RemindersEditor() {
           onChange={(backgroundCompletionAlertsEnabled) =>
             setDraft((current) => ({ ...current, backgroundCompletionAlertsEnabled }))
           }
-          value="Hear the selected sound when a session ends"
+          value="Plays your completion sound when Moss is in the background"
         />
       </SettingsSection>
 
-      <SettingsSection title="Practice reminders" description="A gentle prompt before your planned practice.">
+      <SettingsSection title="Practice reminders">
         <MossToggleCard
           enabled={draft.remindersEnabled}
           icon="bell"
           label="Practice reminders"
           onChange={(remindersEnabled) => setDraft((current) => ({ ...current, remindersEnabled }))}
-          value="Gentle and optional"
+          value="A notification before each practice time"
         />
       </SettingsSection>
 
@@ -127,7 +124,7 @@ function RemindersEditor() {
       (draft.backgroundCompletionAlertsEnabled || draft.remindersEnabled) ? (
         <View className="gap-3">
           <SettingsFeedback>
-            Notifications are off in device settings. Moss will keep your choices until you allow them.
+            Notifications are off in your device settings. Your choices here will apply once you allow them.
           </SettingsFeedback>
           {notificationPermission.canAskAgain ? null : (
             <MossSecondaryButton onPress={() => void openDeviceSettings()}>Open device settings</MossSecondaryButton>
@@ -140,13 +137,13 @@ function RemindersEditor() {
       draft.backgroundCompletionAlertsEnabled ? (
         <View className="gap-3">
           <SettingsFeedback>
-            Notification sounds are off in device settings, so background session endings will be silent.
+            Notification sounds are off in your device settings, so session endings will be silent.
           </SettingsFeedback>
           <MossSecondaryButton onPress={() => void openDeviceSettings()}>Open device settings</MossSecondaryButton>
         </View>
       ) : null}
 
-      <SettingsSection title="Reminder timing" description="Choose how early each planned pause should arrive.">
+      <SettingsSection title="Reminder timing" description="How long before each practice time the reminder arrives.">
         <ReminderTimeControls
           enabled={draft.remindersEnabled}
           times={draft.practiceTimes}
@@ -154,7 +151,7 @@ function RemindersEditor() {
         />
       </SettingsSection>
 
-      <SettingsSection title="Quiet hours" description="No practice reminders arrive during this window.">
+      <SettingsSection title="Quiet hours" description="Reminders won’t arrive between these times.">
         <QuietHoursControl
           enabled={draft.remindersEnabled}
           startMinute={draft.quietHours.startMinute}

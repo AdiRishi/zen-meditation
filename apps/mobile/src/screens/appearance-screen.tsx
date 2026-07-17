@@ -36,11 +36,11 @@ export function AppearanceScreen() {
     (saveAction.error
       ? { message: "Your appearance setting couldn’t be saved. Please try again.", tone: "danger" as const }
       : feedback) ??
-    (error ? { message: "Your local settings are unavailable right now.", tone: "danger" as const } : null);
+    (error ? { message: "Your settings couldn’t be loaded right now.", tone: "danger" as const } : null);
 
   return (
     <SettingsScreenLayout title="Appearance">
-      <SettingsSection title="Colour theme" description="System follows the appearance chosen for your device.">
+      <SettingsSection title="Colour theme">
         <AppearanceChoiceList
           disabled={saveAction.isPending}
           value={preferences.appearance}
@@ -48,10 +48,7 @@ export function AppearanceScreen() {
         />
       </SettingsSection>
 
-      <SettingsSection
-        title="Motion"
-        description="Respects system settings. Moss replaces movement with quieter fades."
-      >
+      <SettingsSection title="Motion">
         <MossToggleCard
           disabled={saveAction.isPending}
           enabled={preferences.reducedMotion}
@@ -60,10 +57,10 @@ export function AppearanceScreen() {
           onChange={(reducedMotion) => void apply({ ...preferences, reducedMotion })}
           value={
             preferences.reducedMotion
-              ? "Always use quieter transitions"
+              ? "Uses fades instead of movement"
               : reducedMotion
-                ? "On through your system setting"
-                : "Follows your system setting"
+                ? "On through your device setting"
+                : "Following your device setting"
           }
         />
       </SettingsSection>

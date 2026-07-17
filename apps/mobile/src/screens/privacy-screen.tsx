@@ -25,7 +25,7 @@ export function PrivacyScreen() {
 
   return (
     <SettingsScreenLayout title="Privacy & Data">
-      <SettingsSection title="Privacy by design" description="Your practice stays private.">
+      <SettingsSection title="Your data">
         <PrivacySummary />
       </SettingsSection>
       <DeleteMossDataSection
