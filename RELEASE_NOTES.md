@@ -1,5 +1,25 @@
 # Release Notes
 
+## v1.3.1 - 2026-07-17
+
+### A smoother Moss launch
+
+This update restores the branded launch experience and corrects update integration behavior.
+
+### Fixes
+
+- Restored the branded launch moment when opening the app.
+- Corrected the app’s integration with the updates interface.
+
+### Internal Changes
+
+- Updated the documentation site to use the Moss favicon.
+- Adjusted workspace configuration and dependency lock data.
+
+### Testing Notes
+
+- Updated launch-screen tests to cover the restored launch experience.
+
 ## v1.3.0 - 2026-07-17
 
 ### Smoother motion throughout your practice
