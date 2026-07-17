@@ -49,7 +49,7 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
 }
 
 function RootNavigator() {
-  const { isReady, reducedMotion } = useMeditation();
+  const { isReady } = useMeditation();
 
   useEffect(() => {
     if (isReady) {
@@ -59,7 +59,7 @@ function RootNavigator() {
 
   return (
     <MeditationDataBoundary>
-      <Stack screenOptions={{ headerShown: false, animation: reducedMotion ? "fade" : "default" }}>
+      <Stack screenOptions={{ headerShown: false, animation: "fade" }}>
         <Stack.Screen name="meditation" options={{ animation: "fade", gestureEnabled: false }} />
         <Stack.Screen name="session-complete" options={{ animation: "fade", gestureEnabled: false }} />
       </Stack>

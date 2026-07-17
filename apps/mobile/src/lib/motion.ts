@@ -21,6 +21,8 @@ export const durations = {
   crossfadeOut: 150,
   /** Entrance on rare, unhurried surfaces such as first-run welcome. */
   entranceSlow: 450,
+  /** Branded launch moment shown after local data is ready. */
+  brandMoment: 1100,
   /** Completion content that should settle without withholding controls. */
   completionEntrance: 280,
   /** Reduced-motion fades retain state continuity without spatial movement. */
