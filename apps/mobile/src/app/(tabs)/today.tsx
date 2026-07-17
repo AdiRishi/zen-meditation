@@ -1,5 +1,10 @@
+import { ObservedRoute } from "@/components/observed-route";
 import { TodayScreen } from "@/screens/today-screen";
 
 export default function Today() {
-  return <TodayScreen />;
+  return (
+    <ObservedRoute>
+      <TodayScreen />
+    </ObservedRoute>
+  );
 }

@@ -14,6 +14,10 @@ jest.mock("expo-router", () => ({
   useRouter: () => mockRouter,
 }));
 
+jest.mock("expo-observe", () => ({
+  useObserve: () => ({ markInteractive: jest.fn() }),
+}));
+
 describe("app/+not-found", () => {
   beforeEach(() => {
     mockRouter.replace.mockClear();

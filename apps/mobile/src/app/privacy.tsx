@@ -1,5 +1,10 @@
+import { ObservedRoute } from "@/components/observed-route";
 import { PrivacyScreen } from "@/screens/privacy-screen";
 
 export default function Privacy() {
-  return <PrivacyScreen />;
+  return (
+    <ObservedRoute>
+      <PrivacyScreen />
+    </ObservedRoute>
+  );
 }

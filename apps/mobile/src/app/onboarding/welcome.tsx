@@ -1,5 +1,10 @@
+import { ObservedRoute } from "@/components/observed-route";
 import { WelcomeScreen } from "@/screens/onboarding/welcome-screen";
 
 export default function Welcome() {
-  return <WelcomeScreen />;
+  return (
+    <ObservedRoute>
+      <WelcomeScreen />
+    </ObservedRoute>
+  );
 }

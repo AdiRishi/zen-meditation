@@ -1,4 +1,4 @@
-import { ObserveRoot, useObserve } from "expo-observe";
+import { Observe, ObserveRoot } from "expo-observe";
 import type { ErrorBoundaryProps } from "expo-router";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -15,6 +15,13 @@ import { useMeditation } from "@/providers/meditation-provider";
 import { GenericErrorScreen } from "@/screens/error/generic-error-screen";
 import { configureForegroundNotificationHandling } from "@/services/local-notifications";
 
+Observe.configure({
+  integrations: {
+    "expo-router": {
+      filteredParams: ["id"],
+    },
+  },
+});
 void SplashScreen.preventAutoHideAsync();
 configureForegroundNotificationHandling();
 
@@ -43,14 +50,12 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
 
 function RootNavigator() {
   const { isReady, reducedMotion } = useMeditation();
-  const { markInteractive } = useObserve();
 
   useEffect(() => {
     if (isReady) {
-      void SplashScreen.hideAsync();
-      markInteractive();
+      SplashScreen.hide();
     }
-  }, [isReady, markInteractive]);
+  }, [isReady]);
 
   return (
     <MeditationDataBoundary>

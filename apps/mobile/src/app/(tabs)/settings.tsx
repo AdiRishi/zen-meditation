@@ -1,5 +1,10 @@
+import { ObservedRoute } from "@/components/observed-route";
 import { SettingsScreen } from "@/screens/settings-screen";
 
 export default function Settings() {
-  return <SettingsScreen />;
+  return (
+    <ObservedRoute>
+      <SettingsScreen />
+    </ObservedRoute>
+  );
 }
